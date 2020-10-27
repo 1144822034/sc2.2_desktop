@@ -89,10 +89,6 @@ namespace Game
 		{
 			base.Load(valuesDictionary, idToEntityMap);
 			m_craftingGridSize = (int)MathUtils.Sqrt(SlotsCount - 2);
-			if (m_craftingGridSize < 1 || m_craftingGridSize > 3)
-			{
-				throw new InvalidOperationException("Invalid crafting grid size.");
-			}
 			UpdateCraftingResult();
 		}
 
