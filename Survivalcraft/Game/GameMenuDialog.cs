@@ -11,15 +11,15 @@ namespace Game
 {
 	public class GameMenuDialog : Dialog
 	{
-		private static bool m_increaseDetailDialogShown;
+		public static bool m_increaseDetailDialogShown;
 
-		private static bool m_decreaseDetailDialogShown;
+		public static bool m_decreaseDetailDialogShown;
 
-		private bool m_adventureRestartExists;
+		public bool m_adventureRestartExists;
 
-		private StackPanelWidget m_statsPanel;
+		public StackPanelWidget m_statsPanel;
 
-		private ComponentPlayer m_componentPlayer;
+		public ComponentPlayer m_componentPlayer;
 
 		public GameMenuDialog(ComponentPlayer componentPlayer)
 		{
@@ -31,13 +31,13 @@ namespace Game
 			if (!m_increaseDetailDialogShown && PerformanceManager.LongTermAverageFrameTime.HasValue && PerformanceManager.LongTermAverageFrameTime.Value * 1000f < 25f && (SettingsManager.VisibilityRange <= 64 || SettingsManager.ResolutionMode == ResolutionMode.Low))
 			{
 				m_increaseDetailDialogShown = true;
-				DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("Your device is fast", "Consider increasing visibility range or resolution for better graphics. To do so, go to performance settings.", "OK", null, null));
+				DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("你的设备性能充足", "考虑增加可视范围或分辨率以获得更好的图形效果。为此，请转到性能设置。", "确定", null, null));
 				AnalyticsManager.LogEvent("[GameMenuScreen] IncreaseDetailDialog Shown");
 			}
 			if (!m_decreaseDetailDialogShown && PerformanceManager.LongTermAverageFrameTime.HasValue && PerformanceManager.LongTermAverageFrameTime.Value * 1000f > 50f && (SettingsManager.VisibilityRange >= 64 || SettingsManager.ResolutionMode == ResolutionMode.High))
 			{
 				m_decreaseDetailDialogShown = true;
-				DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("Your device is not fast enough", "Consider decreasing visibility range or resolution. To do so, go to performance settings.", "OK", null, null));
+				DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("你的设备性能充足", "考虑增加可视范围或分辨率以获得更好的图形效果。为此，请转到性能设置。", "确定", null, null));
 				AnalyticsManager.LogEvent("[GameMenuScreen] DecreaseDetailDialog Shown");
 			}
 			m_statsPanel.Children.Clear();
@@ -57,20 +57,20 @@ namespace Game
 			m_statsPanel.Children.Add(stackPanelWidget);
 			stackPanelWidget.Children.Add(new LabelWidget
 			{
-				Text = "Game Statistics",
+				Text = "游戏统计",
 				Font = font,
 				HorizontalAlignment = WidgetAlignment.Center,
 				Margin = new Vector2(0f, 10f),
 				Color = white
 			});
-			AddStat(stackPanelWidget, "Game Mode", subsystemGameInfo.WorldSettings.GameMode.ToString() + ", " + subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode.ToString());
-			AddStat(stackPanelWidget, "Terrain Type", StringsManager.GetString("TerrainGenerationMode." + subsystemGameInfo.WorldSettings.TerrainGenerationMode.ToString() + ".Name"));
+			AddStat(stackPanelWidget, "游戏模式", subsystemGameInfo.WorldSettings.GameMode.ToString() + ", " + subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode.ToString());
+			AddStat(stackPanelWidget, "地形类型", StringsManager.GetString("TerrainGenerationMode." + subsystemGameInfo.WorldSettings.TerrainGenerationMode.ToString() + ".Name"));
 			string seed = subsystemGameInfo.WorldSettings.Seed;
-			AddStat(stackPanelWidget, "World Seed", (!string.IsNullOrEmpty(seed)) ? seed : "(none)");
-			AddStat(stackPanelWidget, "Sea Level", WorldOptionsScreen.FormatOffset(subsystemGameInfo.WorldSettings.SeaLevelOffset));
-			AddStat(stackPanelWidget, "Temperature", WorldOptionsScreen.FormatOffset(subsystemGameInfo.WorldSettings.TemperatureOffset));
-			AddStat(stackPanelWidget, "Humidity", WorldOptionsScreen.FormatOffset(subsystemGameInfo.WorldSettings.HumidityOffset));
-			AddStat(stackPanelWidget, "Biome Size", subsystemGameInfo.WorldSettings.BiomeSize.ToString() + "x");
+			AddStat(stackPanelWidget, "世界种子", (!string.IsNullOrEmpty(seed)) ? seed : "(没有)");
+			AddStat(stackPanelWidget, "海平面", WorldOptionsScreen.FormatOffset(subsystemGameInfo.WorldSettings.SeaLevelOffset));
+			AddStat(stackPanelWidget, "温度", WorldOptionsScreen.FormatOffset(subsystemGameInfo.WorldSettings.TemperatureOffset));
+			AddStat(stackPanelWidget, "湿度", WorldOptionsScreen.FormatOffset(subsystemGameInfo.WorldSettings.HumidityOffset));
+			AddStat(stackPanelWidget, "生物群落大小", subsystemGameInfo.WorldSettings.BiomeSize.ToString() + "x");
 			int num = 0;
 			for (int i = 0; i < 1024; i++)
 			{
@@ -79,118 +79,118 @@ namespace Game
 					num++;
 				}
 			}
-			AddStat(stackPanelWidget, "Furniture Designs In Use", $"{num}/{1024}");
-			AddStat(stackPanelWidget, "World Created In Version", string.IsNullOrEmpty(subsystemGameInfo.WorldSettings.OriginalSerializationVersion) ? "before 1.22" : subsystemGameInfo.WorldSettings.OriginalSerializationVersion);
+			AddStat(stackPanelWidget, "家具使用数", $"{num}/{1024}");
+			AddStat(stackPanelWidget, "创建的世界版本", string.IsNullOrEmpty(subsystemGameInfo.WorldSettings.OriginalSerializationVersion) ? "在1.22前" : subsystemGameInfo.WorldSettings.OriginalSerializationVersion);
 			stackPanelWidget.Children.Add(new LabelWidget
 			{
-				Text = "Player Statistics",
+				Text = "玩家统计",
 				Font = font,
 				HorizontalAlignment = WidgetAlignment.Center,
 				Margin = new Vector2(0f, 10f),
 				Color = white
 			});
-			AddStat(stackPanelWidget, "Name", playerData.Name);
-			AddStat(stackPanelWidget, "Sex", playerData.PlayerClass.ToString());
-			string value = (playerData.FirstSpawnTime >= 0.0) ? (((subsystemGameInfo.TotalElapsedGameTime - playerData.FirstSpawnTime) / 1200.0).ToString("N1") + " days ago") : "Never spawned yet";
-			AddStat(stackPanelWidget, "First Spawned", value);
-			string value2 = (playerData.LastSpawnTime >= 0.0) ? (((subsystemGameInfo.TotalElapsedGameTime - playerData.LastSpawnTime) / 1200.0).ToString("N1") + " days") : "Never spawned yet";
-			AddStat(stackPanelWidget, "Stayed Alive", value2);
-			AddStat(stackPanelWidget, "Respawned", MathUtils.Max(playerData.SpawnsCount - 1, 0).ToString("N0") + " times");
-			AddStat(stackPanelWidget, "Highest Level Attained", "Level " + ((int)MathUtils.Floor(playerStats.HighestLevel)).ToString("N0"));
+			AddStat(stackPanelWidget, "名字", playerData.Name);
+			AddStat(stackPanelWidget, "性别", playerData.PlayerClass.ToString());
+			string value = (playerData.FirstSpawnTime >= 0.0) ? (((subsystemGameInfo.TotalElapsedGameTime - playerData.FirstSpawnTime) / 1200.0).ToString("N1") + " 天前") : "从未生成";
+			AddStat(stackPanelWidget, "首次创建", value);
+			string value2 = (playerData.LastSpawnTime >= 0.0) ? (((subsystemGameInfo.TotalElapsedGameTime - playerData.LastSpawnTime) / 1200.0).ToString("N1") + " 天") : "从未生成";
+			AddStat(stackPanelWidget, "存活", value2);
+			AddStat(stackPanelWidget, "重生", MathUtils.Max(playerData.SpawnsCount - 1, 0).ToString("N0") + " 次");
+			AddStat(stackPanelWidget, "最高达到等级", "等级 " + ((int)MathUtils.Floor(playerStats.HighestLevel)).ToString("N0"));
 			if (componentPlayer != null)
 			{
 				Vector3 position = componentPlayer.ComponentBody.Position;
 				if (subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative)
 				{
-					AddStat(stackPanelWidget, "Location", $"{position.X:0}, {position.Z:0} at altitude {position.Y:0}");
+					AddStat(stackPanelWidget, "位置", $"{position.X:0}, {position.Z:0} 海拔: {position.Y:0}");
 				}
 				else
 				{
-					AddStat(stackPanelWidget, "Location", "(unavailable in " + subsystemGameInfo.WorldSettings.GameMode.ToString() + ")");
+					AddStat(stackPanelWidget, "位置", "(在" + subsystemGameInfo.WorldSettings.GameMode.ToString() + "模式下不可用)");
 				}
 			}
 			if (string.CompareOrdinal(subsystemGameInfo.WorldSettings.OriginalSerializationVersion, "1.29") > 0)
 			{
 				stackPanelWidget.Children.Add(new LabelWidget
 				{
-					Text = "Combat Statistics",
+					Text = "战斗统计",
 					Font = font,
 					HorizontalAlignment = WidgetAlignment.Center,
 					Margin = new Vector2(0f, 10f),
 					Color = white
 				});
-				AddStat(stackPanelWidget, "Players Killed", playerStats.PlayerKills.ToString("N0"));
-				AddStat(stackPanelWidget, "Land Creatures Killed", playerStats.LandCreatureKills.ToString("N0"));
-				AddStat(stackPanelWidget, "Water Creatures Killed", playerStats.WaterCreatureKills.ToString("N0"));
-				AddStat(stackPanelWidget, "Air Creatures Killed", playerStats.AirCreatureKills.ToString("N0"));
-				AddStat(stackPanelWidget, "Melee Attacks", playerStats.MeleeAttacks.ToString("N0"));
-				AddStat(stackPanelWidget, "Melee Hits", playerStats.MeleeHits.ToString("N0"), $"({((playerStats.MeleeHits == 0L) ? 0.0 : ((double)playerStats.MeleeHits / (double)playerStats.MeleeAttacks * 100.0)):0}%)");
-				AddStat(stackPanelWidget, "Ranged Attacks", playerStats.RangedAttacks.ToString("N0"));
-				AddStat(stackPanelWidget, "Ranged Hits", playerStats.RangedHits.ToString("N0"), $"({((playerStats.RangedHits == 0L) ? 0.0 : ((double)playerStats.RangedHits / (double)playerStats.RangedAttacks * 100.0)):0}%)");
-				AddStat(stackPanelWidget, "Hits Received", playerStats.HitsReceived.ToString("N0"));
+				AddStat(stackPanelWidget, "被玩家击杀", playerStats.PlayerKills.ToString("N0"));
+				AddStat(stackPanelWidget, "被陆地生物击杀", playerStats.LandCreatureKills.ToString("N0"));
+				AddStat(stackPanelWidget, "被水生生物击杀", playerStats.WaterCreatureKills.ToString("N0"));
+				AddStat(stackPanelWidget, "被空中生物击杀", playerStats.AirCreatureKills.ToString("N0"));
+				AddStat(stackPanelWidget, "近战攻击次数", playerStats.MeleeAttacks.ToString("N0"));
+				AddStat(stackPanelWidget, "近战命中次数", playerStats.MeleeHits.ToString("N0"), $"({((playerStats.MeleeHits == 0L) ? 0.0 : ((double)playerStats.MeleeHits / (double)playerStats.MeleeAttacks * 100.0)):0}%)");
+				AddStat(stackPanelWidget, "远程攻击次数", playerStats.RangedAttacks.ToString("N0"));
+				AddStat(stackPanelWidget, "远程命中次数", playerStats.RangedHits.ToString("N0"), $"({((playerStats.RangedHits == 0L) ? 0.0 : ((double)playerStats.RangedHits / (double)playerStats.RangedAttacks * 100.0)):0}%)");
+				AddStat(stackPanelWidget, "收到击中数", playerStats.HitsReceived.ToString("N0"));
 				stackPanelWidget.Children.Add(new LabelWidget
 				{
-					Text = "Work Statistics",
+					Text = "工作统计",
 					Font = font,
 					HorizontalAlignment = WidgetAlignment.Center,
 					Margin = new Vector2(0f, 10f),
 					Color = white
 				});
-				AddStat(stackPanelWidget, "Blocks Dug", playerStats.BlocksDug.ToString("N0"));
-				AddStat(stackPanelWidget, "Blocks Placed", playerStats.BlocksPlaced.ToString("N0"));
-				AddStat(stackPanelWidget, "Blocks Interacted With", playerStats.BlocksInteracted.ToString("N0"));
-				AddStat(stackPanelWidget, "Items Crafted/Smelted", playerStats.ItemsCrafted.ToString("N0"));
-				AddStat(stackPanelWidget, "Furniture Made", playerStats.FurnitureItemsMade.ToString("N0"));
+				AddStat(stackPanelWidget, "挖掘次数", playerStats.BlocksDug.ToString("N0"));
+				AddStat(stackPanelWidget, "放置次数", playerStats.BlocksPlaced.ToString("N0"));
+				AddStat(stackPanelWidget, "交互次数", playerStats.BlocksInteracted.ToString("N0"));
+				AddStat(stackPanelWidget, "制造次数", playerStats.ItemsCrafted.ToString("N0"));
+				AddStat(stackPanelWidget, "制造家具个数", playerStats.FurnitureItemsMade.ToString("N0"));
 				stackPanelWidget.Children.Add(new LabelWidget
 				{
-					Text = "Movement Statistics",
+					Text = "移动统计",
 					Font = font,
 					HorizontalAlignment = WidgetAlignment.Center,
 					Margin = new Vector2(0f, 10f),
 					Color = white
 				});
-				AddStat(stackPanelWidget, "Total Distance Travelled", FormatDistance(playerStats.DistanceTravelled));
-				AddStat(stackPanelWidget, "Distance Walked", FormatDistance(playerStats.DistanceWalked), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceWalked / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
-				AddStat(stackPanelWidget, "Distance Fallen", FormatDistance(playerStats.DistanceFallen), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceFallen / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
-				AddStat(stackPanelWidget, "Distance Climbed", FormatDistance(playerStats.DistanceClimbed), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceClimbed / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
-				AddStat(stackPanelWidget, "Distance Flown", FormatDistance(playerStats.DistanceFlown), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceFlown / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
-				AddStat(stackPanelWidget, "Distance Swum", FormatDistance(playerStats.DistanceSwam), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceSwam / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
-				AddStat(stackPanelWidget, "Distance Ridden", FormatDistance(playerStats.DistanceRidden), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceRidden / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
-				AddStat(stackPanelWidget, "Lowest Altitude", FormatDistance(playerStats.LowestAltitude));
-				AddStat(stackPanelWidget, "Highest Altitude", FormatDistance(playerStats.HighestAltitude));
-				AddStat(stackPanelWidget, "Deepest Dive", playerStats.DeepestDive.ToString("N1") + "m");
-				AddStat(stackPanelWidget, "Jumps", playerStats.Jumps.ToString("N0"));
+				AddStat(stackPanelWidget, "总旅行距离", FormatDistance(playerStats.DistanceTravelled));
+				AddStat(stackPanelWidget, "步行距离", FormatDistance(playerStats.DistanceWalked), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceWalked / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
+				AddStat(stackPanelWidget, "掉落距离", FormatDistance(playerStats.DistanceFallen), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceFallen / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
+				AddStat(stackPanelWidget, "爬行距离", FormatDistance(playerStats.DistanceClimbed), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceClimbed / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
+				AddStat(stackPanelWidget, "飞行距离", FormatDistance(playerStats.DistanceFlown), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceFlown / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
+				AddStat(stackPanelWidget, "游泳距离", FormatDistance(playerStats.DistanceSwam), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceSwam / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
+				AddStat(stackPanelWidget, "长途旅行距离", FormatDistance(playerStats.DistanceRidden), $"({((playerStats.DistanceTravelled > 0.0) ? (playerStats.DistanceRidden / playerStats.DistanceTravelled * 100.0) : 0.0):0.0}%)");
+				AddStat(stackPanelWidget, "最低海拔", FormatDistance(playerStats.LowestAltitude));
+				AddStat(stackPanelWidget, "最高海拔", FormatDistance(playerStats.HighestAltitude));
+				AddStat(stackPanelWidget, "最深潜水", playerStats.DeepestDive.ToString("N1") + "m");
+				AddStat(stackPanelWidget, "跳跃次数", playerStats.Jumps.ToString("N0"));
 				stackPanelWidget.Children.Add(new LabelWidget
 				{
-					Text = "Body Statistics",
+					Text = "身体统计",
 					Font = font,
 					HorizontalAlignment = WidgetAlignment.Center,
 					Margin = new Vector2(0f, 10f),
 					Color = white
 				});
-				AddStat(stackPanelWidget, "Total Health Lost", (playerStats.TotalHealthLost * 100.0).ToString("N0") + "%");
-				AddStat(stackPanelWidget, "Food Eaten", playerStats.FoodItemsEaten.ToString("N0") + " items");
-				AddStat(stackPanelWidget, "Went To Sleep", playerStats.TimesWentToSleep.ToString("N0") + " times");
-				AddStat(stackPanelWidget, "Total Time Slept", (playerStats.TimeSlept / 1200.0).ToString("N1") + " days");
-				AddStat(stackPanelWidget, "Became Sick", playerStats.TimesWasSick.ToString("N0") + " times");
-				AddStat(stackPanelWidget, "Vomited", playerStats.TimesPuked.ToString("N0") + " times");
-				AddStat(stackPanelWidget, "Contracted Flu", playerStats.TimesHadFlu.ToString("N0") + " times");
+				AddStat(stackPanelWidget, "总损失生命值", (playerStats.TotalHealthLost * 100.0).ToString("N0") + "%");
+				AddStat(stackPanelWidget, "吃掉食物数", playerStats.FoodItemsEaten.ToString("N0") + " 次");
+				AddStat(stackPanelWidget, "睡觉次数", playerStats.TimesWentToSleep.ToString("N0") + " 次");
+				AddStat(stackPanelWidget, "睡觉累计时间", (playerStats.TimeSlept / 1200.0).ToString("N1") + " 天");
+				AddStat(stackPanelWidget, "生病次数", playerStats.TimesWasSick.ToString("N0") + " 次");
+				AddStat(stackPanelWidget, "呕吐次数", playerStats.TimesPuked.ToString("N0") + " 次");
+				AddStat(stackPanelWidget, "感染流感次数", playerStats.TimesHadFlu.ToString("N0") + " 次");
 				stackPanelWidget.Children.Add(new LabelWidget
 				{
-					Text = "Other Statistics",
+					Text = "其它统计",
 					Font = font,
 					HorizontalAlignment = WidgetAlignment.Center,
 					Margin = new Vector2(0f, 10f),
 					Color = white
 				});
-				AddStat(stackPanelWidget, "Struck By Lightning", playerStats.StruckByLightning.ToString("N0") + " times");
+				AddStat(stackPanelWidget, "被闪电击中", playerStats.StruckByLightning.ToString("N0") + " 次");
 				GameMode easiestModeUsed = playerStats.EasiestModeUsed;
-				AddStat(stackPanelWidget, "Easiest Game Mode Used", easiestModeUsed.ToString());
+				AddStat(stackPanelWidget, "使用最简单的游戏模式", easiestModeUsed.ToString());
 				if (playerStats.DeathRecords.Count > 0)
 				{
 					stackPanelWidget.Children.Add(new LabelWidget
 					{
-						Text = "Death Record",
+						Text = "死亡记录",
 						Font = font,
 						HorizontalAlignment = WidgetAlignment.Center,
 						Margin = new Vector2(0f, 10f),
@@ -199,8 +199,8 @@ namespace Game
 					foreach (PlayerStats.DeathRecord deathRecord in playerStats.DeathRecords)
 					{
 						float num2 = (float)MathUtils.Remainder(deathRecord.Day, 1.0);
-						string arg = (!(num2 < 0.2f) && !(num2 >= 0.8f)) ? ((!(num2 >= 0.7f)) ? ((!(num2 >= 0.5f)) ? "Morning of" : "Afternoon of") : "Evening of") : "Night of";
-						AddStat(stackPanelWidget, string.Format("{1} day {0:0}", MathUtils.Floor(deathRecord.Day) + 1.0, arg), "", deathRecord.Cause);
+						string arg = (!(num2 < 0.2f) && !(num2 >= 0.8f)) ? ((!(num2 >= 0.7f)) ? ((!(num2 >= 0.5f)) ? "早上的" : "中午的") : "晚上的") : "深夜的";
+						AddStat(stackPanelWidget, string.Format("{1} 天 {0:0}", MathUtils.Floor(deathRecord.Day) + 1.0, arg), "", deathRecord.Cause);
 					}
 				}
 			}
@@ -208,7 +208,7 @@ namespace Game
 			{
 				stackPanelWidget.Children.Add(new LabelWidget
 				{
-					Text = "No player statistics available because world was started in an old version of the game.",
+					Text = "没有可用的玩家统计，因为这来自于一个很旧的游戏存档",
 					WordWrap = true,
 					Font = font2,
 					HorizontalAlignment = WidgetAlignment.Center,
@@ -228,7 +228,7 @@ namespace Game
 				{
 					list.Add(new Tuple<string, Action>("Restart Adventure", delegate
 					{
-						DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("Reset Adventure?", "The adventure will start from the beginning.", "Yes", "No", delegate(MessageDialogButton result)
+						DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("重置冒险？", "冒险将重新开始", LanguageControl.getTranslate("system.yes"), LanguageControl.getTranslate("system.no"), delegate (MessageDialogButton result)
 						{
 							if (result == MessageDialogButton.Button1)
 							{
@@ -239,42 +239,42 @@ namespace Game
 				}
 				if (GetRateableItems().FirstOrDefault() != null && UserManager.ActiveUser != null)
 				{
-					list.Add(new Tuple<string, Action>("Rate", delegate
+					list.Add(new Tuple<string, Action>("评分", delegate
 					{
-						DialogsManager.ShowDialog(base.ParentWidget, new ListSelectionDialog("Select Content To Rate", GetRateableItems(), 60f, (object o) => ((ActiveExternalContentInfo)o).DisplayName, delegate(object o)
+						DialogsManager.ShowDialog(base.ParentWidget, new ListSelectionDialog("选择要评分的内容", GetRateableItems(), 60f, (object o) => ((ActiveExternalContentInfo)o).DisplayName, delegate (object o)
 						{
 							ActiveExternalContentInfo activeExternalContentInfo = (ActiveExternalContentInfo)o;
 							DialogsManager.ShowDialog(base.ParentWidget, new RateCommunityContentDialog(activeExternalContentInfo.Address, activeExternalContentInfo.DisplayName, UserManager.ActiveUser.UniqueId));
 						}));
 					}));
 				}
-				list.Add(new Tuple<string, Action>("Edit Players", delegate
+				list.Add(new Tuple<string, Action>("编辑玩家", delegate
 				{
 					ScreensManager.SwitchScreen("Players", m_componentPlayer.Project.FindSubsystem<SubsystemPlayers>(throwOnError: true));
 				}));
-				list.Add(new Tuple<string, Action>("Settings", delegate
+				list.Add(new Tuple<string, Action>("设置", delegate
 				{
 					ScreensManager.SwitchScreen("Settings");
 				}));
-				list.Add(new Tuple<string, Action>("Help", delegate
+				list.Add(new Tuple<string, Action>("帮助", delegate
 				{
 					ScreensManager.SwitchScreen("Help");
 				}));
 				if ((base.Input.Devices & (WidgetInputDevice.Keyboard | WidgetInputDevice.Mouse)) != 0)
 				{
-					list.Add(new Tuple<string, Action>("Keyboard Controls", delegate
+					list.Add(new Tuple<string, Action>("按键设置", delegate
 					{
 						DialogsManager.ShowDialog(base.ParentWidget, new KeyboardHelpDialog());
 					}));
 				}
 				if ((base.Input.Devices & WidgetInputDevice.Gamepads) != 0)
 				{
-					list.Add(new Tuple<string, Action>("Gamepad Controls", delegate
+					list.Add(new Tuple<string, Action>("触摸板控制", delegate
 					{
 						DialogsManager.ShowDialog(base.ParentWidget, new GamepadHelpDialog());
 					}));
 				}
-				ListSelectionDialog dialog = new ListSelectionDialog("More Actions", list, 60f, (object t) => ((Tuple<string, Action>)t).Item1, delegate(object t)
+				ListSelectionDialog dialog = new ListSelectionDialog("更多选项", list, 60f, (object t) => ((Tuple<string, Action>)t).Item1, delegate (object t)
 				{
 					((Tuple<string, Action>)t).Item2();
 				});
@@ -293,7 +293,7 @@ namespace Game
 			}
 		}
 
-		private IEnumerable<ActiveExternalContentInfo> GetRateableItems()
+		public IEnumerable<ActiveExternalContentInfo> GetRateableItems()
 		{
 			if (GameManager.Project != null && UserManager.ActiveUser != null)
 			{
@@ -308,7 +308,7 @@ namespace Game
 			}
 		}
 
-		private static string FormatDistance(double value)
+		public static string FormatDistance(double value)
 		{
 			if (value < 1000.0)
 			{
@@ -317,7 +317,7 @@ namespace Game
 			return $"{value / 1000.0:N2}km";
 		}
 
-		private void AddStat(ContainerWidget containerWidget, string title, string value1, string value2 = "")
+		public void AddStat(ContainerWidget containerWidget, string title, string value1, string value2 = "")
 		{
 			BitmapFont font = ContentManager.Get<BitmapFont>("Fonts/Pericles");
 			Color white = Color.White;
@@ -326,7 +326,7 @@ namespace Game
 			{
 				Direction = LayoutDirection.Horizontal,
 				HorizontalAlignment = WidgetAlignment.Center,
-				Children = 
+				Children =
 				{
 					(Widget)new LabelWidget
 					{
@@ -340,7 +340,7 @@ namespace Game
 					{
 						Direction = LayoutDirection.Horizontal,
 						HorizontalAlignment = WidgetAlignment.Near,
-						Children = 
+						Children =
 						{
 							(Widget)new LabelWidget
 							{

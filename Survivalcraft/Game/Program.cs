@@ -55,6 +55,7 @@ namespace Game
 		private static void DeactivatedHandler()
 		{
 			GC.Collect();
+			ModsManager.SaveSettings();
 		}
 
 		private static void FrameHandler()

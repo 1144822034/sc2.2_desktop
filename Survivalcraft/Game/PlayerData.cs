@@ -9,38 +9,38 @@ namespace Game
 {
 	public class PlayerData : IDisposable
 	{
-		private enum SpawnMode
+		public enum SpawnMode
 		{
 			InitialIntro,
 			InitialNoIntro,
 			Respawn
 		}
 
-		private Project m_project;
+		public Project m_project;
 
-		private SubsystemTerrain m_subsystemTerrain;
+		public SubsystemTerrain m_subsystemTerrain;
 
-		private SubsystemGameInfo m_subsystemGameInfo;
+		public SubsystemGameInfo m_subsystemGameInfo;
 
-		private SubsystemSky m_subsystemSky;
+		public SubsystemSky m_subsystemSky;
 
-		private GameWidget m_gameWidget;
+		public GameWidget m_gameWidget;
 
-		private StateMachine m_stateMachine = new StateMachine();
+		public StateMachine m_stateMachine = new StateMachine();
 
-		private PlayerClass m_playerClass;
+		public PlayerClass m_playerClass;
 
-		private string m_name;
+		public string m_name;
 
-		private SpawnMode m_spawnMode;
+		public SpawnMode m_spawnMode;
 
-		private double? m_playerDeathTime;
+		public double? m_playerDeathTime;
 
-		private double m_terrainWaitStartTime;
+		public double m_terrainWaitStartTime;
 
-		private SpawnDialog m_spawnDialog;
+		public SpawnDialog m_spawnDialog;
 
-		private float m_progress;
+		public float m_progress;
 
 		public int PlayerIndex
 		{
@@ -51,19 +51,19 @@ namespace Game
 		public SubsystemGameWidgets SubsystemGameWidgets
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public SubsystemPlayers SubsystemPlayers
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public ComponentPlayer ComponentPlayer
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public GameWidget GameWidget
@@ -82,7 +82,7 @@ namespace Game
 					}
 					if (m_gameWidget == null)
 					{
-						throw new InvalidOperationException("No GameWidget found for player.");
+						throw new InvalidOperationException("没有对应的游戏玩家视图");
 					}
 				}
 				return m_gameWidget;
@@ -98,19 +98,19 @@ namespace Game
 		public double FirstSpawnTime
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public double LastSpawnTime
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public int SpawnsCount
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public string Name
@@ -132,7 +132,7 @@ namespace Game
 		public bool IsDefaultName
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public PlayerClass PlayerClass
@@ -145,7 +145,7 @@ namespace Game
 			{
 				if (SubsystemPlayers.PlayersData.Contains(this))
 				{
-					throw new InvalidOperationException("Cannot change player class when player data already exists.");
+					throw new InvalidOperationException("当玩家数据已经存在时不能改变玩家类");
 				}
 				m_playerClass = value;
 			}
@@ -200,7 +200,7 @@ namespace Game
 			{
 				if (ComponentPlayer != null)
 				{
-					UpdateSpawnDialog($"Spawning {Name} (Level {MathUtils.Floor(Level)})", null, 0f, resetProgress: true);
+					UpdateSpawnDialog($"生成{Name}的世界中...(等级 {MathUtils.Floor(Level)})", null, 0f, resetProgress: true);
 					m_stateMachine.TransitionTo("WaitForTerrain");
 				}
 				else
@@ -247,11 +247,11 @@ namespace Game
 				}
 				if (m_spawnMode == SpawnMode.Respawn)
 				{
-					UpdateSpawnDialog($"Respawning {Name} (Level {MathUtils.Floor(Level)})", "Your items will remain for a short time at the place of death.", 0f, resetProgress: true);
+					UpdateSpawnDialog($"{Name}重生中... (等级 {MathUtils.Floor(Level)})", "你的物品将会在你死亡后保留一段时间", 0f, resetProgress: true);
 				}
 				else
 				{
-					UpdateSpawnDialog($"Spawning {Name} (Level {MathUtils.Floor(Level)})", null, 0f, resetProgress: true);
+					UpdateSpawnDialog($"生成{Name}的世界中... (等级 {MathUtils.Floor(Level)})", null, 0f, resetProgress: true);
 				}
 				m_subsystemTerrain.TerrainUpdater.SetUpdateLocation(PlayerIndex, SpawnPosition.XZ, 0f, 64f);
 				m_terrainWaitStartTime = Time.FrameStartTime;
@@ -265,17 +265,17 @@ namespace Game
 					{
 						switch (m_spawnMode)
 						{
-						case SpawnMode.InitialIntro:
-							SpawnPosition = FindIntroSpawnPosition(SpawnPosition.XZ);
-							break;
-						case SpawnMode.InitialNoIntro:
-							SpawnPosition = FindNoIntroSpawnPosition(SpawnPosition, respawn: false);
-							break;
-						case SpawnMode.Respawn:
-							SpawnPosition = FindNoIntroSpawnPosition(SpawnPosition, respawn: true);
-							break;
-						default:
-							throw new InvalidOperationException("Invalid spawn mode.");
+							case SpawnMode.InitialIntro:
+								SpawnPosition = FindIntroSpawnPosition(SpawnPosition.XZ);
+								break;
+							case SpawnMode.InitialNoIntro:
+								SpawnPosition = FindNoIntroSpawnPosition(SpawnPosition, respawn: false);
+								break;
+							case SpawnMode.Respawn:
+								SpawnPosition = FindNoIntroSpawnPosition(SpawnPosition, respawn: true);
+								break;
+							default:
+								throw new InvalidOperationException("Invalid spawn mode.");
 						}
 						m_stateMachine.TransitionTo("WaitForTerrain");
 					}
@@ -328,20 +328,20 @@ namespace Game
 					string text = ComponentPlayer.ComponentHealth.CauseOfDeath;
 					if (string.IsNullOrEmpty(text))
 					{
-						text = "Unknown";
+						text = "未知";
 					}
-					string arg = $"Cause of death: {text}";
+					string arg = $"死亡原因: {text}";
 					if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Cruel)
 					{
-						ComponentPlayer.ComponentGui.DisplayLargeMessage("YOU HAVE DIED", $"{arg}\n\nCannot respawn in \"{m_subsystemGameInfo.WorldSettings.GameMode.ToString()}\" game mode", 30f, 1.5f);
+						ComponentPlayer.ComponentGui.DisplayLargeMessage("你已死亡", $"{arg}\n\n不能在\"{m_subsystemGameInfo.WorldSettings.GameMode.ToString()}\"模式下重生", 30f, 1.5f);
 					}
 					else if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Adventure && !m_subsystemGameInfo.WorldSettings.IsAdventureRespawnAllowed)
 					{
-						ComponentPlayer.ComponentGui.DisplayLargeMessage("YOU HAVE DIED", $"{arg}\n\nTap to restart adventure", 30f, 1.5f);
+						ComponentPlayer.ComponentGui.DisplayLargeMessage("你已死亡", $"{arg}\n\n点击重新开始冒险", 30f, 1.5f);
 					}
 					else
 					{
-						ComponentPlayer.ComponentGui.DisplayLargeMessage("YOU HAVE DIED", $"{arg}\n\nTap to respawn", 30f, 1.5f);
+						ComponentPlayer.ComponentGui.DisplayLargeMessage("你已死亡", $"{arg}\n\n点击重新开始", 30f, 1.5f);
 					}
 				}
 				Level = MathUtils.Max(MathUtils.Floor(Level / 2f), 1f);
@@ -400,21 +400,11 @@ namespace Game
 
 		public static bool VerifyName(string name)
 		{
-			if (name.Length > 14 || name.Length < 2)
+			if (name.Length < 2)
 			{
 				return false;
 			}
-			foreach (char c in name)
-			{
-				if (!char.IsLetterOrDigit(c) && c != ' ')
-				{
-					return false;
-				}
-			}
-			if (name[0] == ' ' || name[name.Length - 1] == ' ')
-			{
-				return false;
-			}
+
 			return true;
 		}
 
@@ -477,10 +467,10 @@ namespace Game
 			}
 		}
 
-		private Vector3 FindIntroSpawnPosition(Vector2 desiredSpawnPosition)
+		public Vector3 FindIntroSpawnPosition(Vector2 desiredSpawnPosition)
 		{
 			Vector2 vector = Vector2.Zero;
-			float num = -3.40282347E+38f;
+			float num = float.MinValue;
 			for (int i = -30; i <= 30; i += 2)
 			{
 				for (int j = -30; j <= 30; j += 2)
@@ -499,10 +489,10 @@ namespace Game
 			return new Vector3(vector.X + 0.5f, num5 + 0.01f, vector.Y + 0.5f);
 		}
 
-		private Vector3 FindNoIntroSpawnPosition(Vector3 desiredSpawnPosition, bool respawn)
+		public Vector3 FindNoIntroSpawnPosition(Vector3 desiredSpawnPosition, bool respawn)
 		{
 			Vector3 vector = Vector3.Zero;
-			float num = -3.40282347E+38f;
+			float num = float.MinValue;
 			for (int i = -8; i <= 8; i++)
 			{
 				for (int j = -8; j <= 8; j++)
@@ -524,7 +514,7 @@ namespace Game
 			return new Vector3(vector.X + 0.5f, vector.Y + 0.01f, vector.Z + 0.5f);
 		}
 
-		private float ScoreIntroSpawnPosition(Vector2 desiredSpawnPosition, int x, int z)
+		public float ScoreIntroSpawnPosition(Vector2 desiredSpawnPosition, int x, int z)
 		{
 			float num = -0.01f * Vector2.Distance(new Vector2(x, z), desiredSpawnPosition);
 			int num2 = m_subsystemTerrain.Terrain.CalculateTopmostCellHeight(x, z);
@@ -570,7 +560,7 @@ namespace Game
 			return num;
 		}
 
-		private float ScoreNoIntroSpawnPosition(Vector3 desiredSpawnPosition, int x, int y, int z)
+		public float ScoreNoIntroSpawnPosition(Vector3 desiredSpawnPosition, int x, int y, int z)
 		{
 			float num = -0.01f * Vector3.Distance(new Vector3(x, y, z), desiredSpawnPosition);
 			if (y < 1 || y >= 255)
@@ -606,7 +596,7 @@ namespace Game
 			return num;
 		}
 
-		private bool CheckIsPointInWater(Point3 p)
+		public bool CheckIsPointInWater(Point3 p)
 		{
 			bool result = true;
 			for (int i = p.X - 1; i < p.X + 1; i++)
@@ -631,7 +621,7 @@ namespace Game
 			return result;
 		}
 
-		private void SpawnPlayer(Vector3 position, SpawnMode spawnMode)
+		public void SpawnPlayer(Vector3 position, SpawnMode spawnMode)
 		{
 			ComponentMount componentMount = null;
 			if (spawnMode != SpawnMode.Respawn && CheckIsPointInWater(Terrain.ToCell(position)))
@@ -783,7 +773,7 @@ namespace Game
 			return "MalePlayer";
 		}
 
-		private void UpdateSpawnDialog(string largeMessage, string smallMessage, float progress, bool resetProgress)
+		public void UpdateSpawnDialog(string largeMessage, string smallMessage, float progress, bool resetProgress)
 		{
 			if (resetProgress)
 			{
@@ -806,7 +796,7 @@ namespace Game
 			m_spawnDialog.Progress = m_progress;
 		}
 
-		private void HideSpawnDialog()
+		public void HideSpawnDialog()
 		{
 			if (m_spawnDialog != null)
 			{
@@ -815,7 +805,7 @@ namespace Game
 			}
 		}
 
-		private static string MakeClothingValue(int index, int color)
+		public static string MakeClothingValue(int index, int color)
 		{
 			return Terrain.MakeBlockValue(203, 0, ClothingBlock.SetClothingIndex(ClothingBlock.SetClothingColor(0, color), index)).ToString(CultureInfo.InvariantCulture);
 		}

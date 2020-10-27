@@ -17,6 +17,7 @@ namespace Game
 			{
 				63
 			});
+			LanguageControl.init(ModsManager.modSettings.languageType);
 			List<FileEntry>.Enumerator enumerator = ModsManager.GetEntries(".pak").GetEnumerator();
 			while (enumerator.MoveNext())
 			{

@@ -1,9 +1,9 @@
-using Engine;
+﻿using Engine;
 
 namespace Game
 {
-	public class DrawBlockEnvironmentData
-	{
+    public class DrawBlockEnvironmentData
+    {
 		public SubsystemTerrain SubsystemTerrain;
 
 		public Matrix InWorldMatrix;

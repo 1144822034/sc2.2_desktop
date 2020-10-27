@@ -190,7 +190,7 @@ namespace Game
 
 		public virtual string GetCategory(int value)
 		{
-			return DefaultCategory;
+			return LanguageControl.getTranslate("sccate." + DefaultCategory);
 		}
 
 		public virtual IEnumerable<int> GetCreativeValues()

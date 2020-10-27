@@ -34,23 +34,24 @@ namespace Game
 
 		public static readonly string[] DefaultNames = new string[16]
 		{
-			"White",
-			"Pale Cyan",
-			"Pink",
-			"Pale Blue",
-			"Yellow",
-			"Pale Green",
-			"Salmon",
-			"Light Gray",
-			"Gray",
-			"Cyan",
-			"Purple",
-			"Blue",
-			"Brown",
-			"Green",
-			"Red",
-			"Black"
+			"白色",
+			"浅青色",
+			"粉红色",
+			"淡蓝色",
+			"黄色",
+			"淡绿色",
+			"鲑鱼红",
+			"浅灰色",
+			"灰色",
+			"青色",
+			"紫色",
+			"蓝色",
+			"棕色",
+			"绿色",
+			"红色",
+			"黑色"
 		};
+
 
 		public Color[] Colors;
 

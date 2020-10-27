@@ -54,7 +54,11 @@ public static class ModsManager
 	public static string ModsSetPath = "app:/ModSettings.xml";
 
 	public static string path;//移动端mods数据文件夹
-
+	public class ModSettings
+	{
+		public LanguageControl.LanguageType languageType;
+	}
+	public static ModSettings modSettings;
 	public static Dictionary<string, ZipArchive> zip_filelist;
 	public static List<FileEntry> quickAddModsFileList = new List<FileEntry>();
 	public static string[] acceptTypes = new string[] {".dll",".csv",".xdb",".clo",".cr" };
@@ -79,6 +83,40 @@ public static class ModsManager
 			}
 		}
 		return node;
+	}
+	public static void SaveSettings()
+	{
+		XElement xElement = new XElement("Settings");
+		XElement la = XmlUtils.AddElement(xElement, "Set");
+		la.SetAttributeValue("Name", "Language");
+		la.SetAttributeValue("Value", (int)modSettings.languageType);
+		using (Stream stream = Storage.OpenFile("app:/ModSettings.xml", OpenFileMode.Create))
+		{
+			XmlUtils.SaveXmlToStream(xElement, stream, null, throwOnError: true);
+		}
+	}
+	public static void GetSetting()
+	{
+		ModSettings mmodSettings = new ModSettings();
+		if (Storage.FileExists(ModsSetPath))
+		{
+			using (Stream stream = Storage.OpenFile(ModsSetPath, OpenFileMode.Read))
+			{
+				foreach (XElement item in XmlUtils.LoadXmlFromStream(stream, null, throwOnError: true).Elements())
+				{
+					if (item.Attribute("Name").Value == "Language")
+					{
+						mmodSettings.languageType = (LanguageControl.LanguageType)int.Parse(item.Attribute("Value").Value);
+					}
+				}
+			}
+		}
+		else
+		{
+			mmodSettings.languageType = LanguageControl.LanguageType.zh_cn;
+		}
+		modSettings = mmodSettings;
+
 	}
 	public static void Modify(XElement dst, XElement src, string attr1 = null, string attr2 = null, XName type = null)
 	{
@@ -162,6 +200,7 @@ public static class ModsManager
 		zip_filelist = new Dictionary<string, ZipArchive>();
 		if (!Storage.DirectoryExists(ModsPath)) Storage.CreateDirectory(ModsPath);
 		getFiles();//获取zip列表
+		GetSetting();//初始化设置
 		List<FileEntry> dlls = GetEntries(".dll");
         foreach(FileEntry item in dlls){
 			LoadMod(Assembly.Load(StreamToBytes(item.Stream)));

@@ -8,49 +8,49 @@ namespace Game
 {
 	public class BuildFurnitureDialog : Dialog
 	{
-		private FurnitureDesign m_design;
+		public FurnitureDesign m_design;
 
-		private FurnitureDesign m_sourceDesign;
+		public FurnitureDesign m_sourceDesign;
 
-		private int m_axis;
+		public int m_axis;
 
-		private Action<bool> m_handler;
+		public Action<bool> m_handler;
 
-		private bool m_isValid;
+		public bool m_isValid;
 
-		private LabelWidget m_nameLabel;
+		public LabelWidget m_nameLabel;
 
-		private LabelWidget m_statusLabel;
+		public LabelWidget m_statusLabel;
 
-		private FurnitureDesignWidget m_designWidget2d;
+		public FurnitureDesignWidget m_designWidget2d;
 
-		private FurnitureDesignWidget m_designWidget3d;
+		public FurnitureDesignWidget m_designWidget3d;
 
-		private ButtonWidget m_axisButton;
+		public ButtonWidget m_axisButton;
 
-		private ButtonWidget m_leftButton;
+		public ButtonWidget m_leftButton;
 
-		private ButtonWidget m_rightButton;
+		public ButtonWidget m_rightButton;
 
-		private ButtonWidget m_upButton;
+		public ButtonWidget m_upButton;
 
-		private ButtonWidget m_downButton;
+		public ButtonWidget m_downButton;
 
-		private ButtonWidget m_mirrorButton;
+		public ButtonWidget m_mirrorButton;
 
-		private ButtonWidget m_turnRightButton;
+		public ButtonWidget m_turnRightButton;
 
-		private ButtonWidget m_increaseResolutionButton;
+		public ButtonWidget m_increaseResolutionButton;
 
-		private ButtonWidget m_decreaseResolutionButton;
+		public ButtonWidget m_decreaseResolutionButton;
 
-		private LabelWidget m_resolutionLabel;
+		public LabelWidget m_resolutionLabel;
 
-		private ButtonWidget m_nameButton;
+		public ButtonWidget m_nameButton;
 
-		private ButtonWidget m_buildButton;
+		public ButtonWidget m_buildButton;
 
-		private ButtonWidget m_cancelButton;
+		public ButtonWidget m_cancelButton;
 
 		public BuildFurnitureDialog(FurnitureDesign design, FurnitureDesign sourceDesign, Action<bool> handler)
 		{
@@ -80,8 +80,8 @@ namespace Game
 			int num = 0;
 			num += m_design.Geometry.SubsetOpaqueByFace.Sum((BlockMesh b) => (b != null) ? (b.Indices.Count / 3) : 0);
 			num += m_design.Geometry.SubsetAlphaTestByFace.Sum((BlockMesh b) => (b != null) ? (b.Indices.Count / 3) : 0);
-			m_isValid = (num <= 300);
-			m_statusLabel.Text = string.Format("Complexity {0}/{1}{2}", num, 300, m_isValid ? " (OK)" : " (too complex)");
+			m_isValid = (num <= 65535);
+			m_statusLabel.Text = string.Format("复杂性 {0}/{1}{2}", num, 65535, m_isValid ? " (确定)" : " (太过复杂)");
 			m_designWidget2d.Design = m_design;
 			m_designWidget3d.Design = m_design;
 		}
@@ -93,15 +93,15 @@ namespace Game
 			m_designWidget3d.Mode = FurnitureDesignWidget.ViewMode.Perspective;
 			if (m_designWidget2d.Mode == FurnitureDesignWidget.ViewMode.Side)
 			{
-				m_axisButton.Text = "Side View";
+				m_axisButton.Text = "侧视图";
 			}
 			if (m_designWidget2d.Mode == FurnitureDesignWidget.ViewMode.Top)
 			{
-				m_axisButton.Text = "Top View";
+				m_axisButton.Text = "俯视图";
 			}
 			if (m_designWidget2d.Mode == FurnitureDesignWidget.ViewMode.Front)
 			{
-				m_axisButton.Text = "Front View";
+				m_axisButton.Text = "正视图";
 			}
 			m_leftButton.IsEnabled = IsShiftPossible(DirectionAxisToDelta(0, m_axis));
 			m_rightButton.IsEnabled = IsShiftPossible(DirectionAxisToDelta(1, m_axis));
@@ -116,10 +116,10 @@ namespace Game
 				List<Tuple<string, Action>> list = new List<Tuple<string, Action>>();
 				if (m_sourceDesign != null)
 				{
-					list.Add(new Tuple<string, Action>("Rename Original Furniture", delegate
+					list.Add(new Tuple<string, Action>("重命名原始家具", delegate
 					{
 						Dismiss(result: false);
-						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("Rename Furniture", m_sourceDesign.Name, 20, delegate(string s)
+						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("重命名家具", m_sourceDesign.Name, 20, delegate (string s)
 						{
 							try
 							{
@@ -130,13 +130,13 @@ namespace Game
 							}
 							catch (Exception ex3)
 							{
-								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("Error", ex3.Message, "OK", null, null));
+								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("错误", ex3.Message, "确定", null, null));
 							}
 						}));
 					}));
-					list.Add(new Tuple<string, Action>("Rename Modified Furniture", delegate
+					list.Add(new Tuple<string, Action>("重命名修改的家具", delegate
 					{
-						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("Name Furniture", m_design.Name, 20, delegate(string s)
+						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("家具名称", m_design.Name, 20, delegate (string s)
 						{
 							try
 							{
@@ -147,7 +147,7 @@ namespace Game
 							}
 							catch (Exception ex2)
 							{
-								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("Error", ex2.Message, "OK", null, null));
+								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("错误", ex2.Message, "确定", null, null));
 							}
 						}));
 					}));
@@ -156,7 +156,7 @@ namespace Game
 				{
 					list.Add(new Tuple<string, Action>("Name Modified Furniture", delegate
 					{
-						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("Name Furniture", m_design.Name, 20, delegate(string s)
+						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("家具名称", m_design.Name, 20, delegate (string s)
 						{
 							try
 							{
@@ -167,7 +167,7 @@ namespace Game
 							}
 							catch (Exception ex)
 							{
-								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("Error", ex.Message, "OK", null, null));
+								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("错误", ex.Message, "确定", null, null));
 							}
 						}));
 					}));
@@ -178,7 +178,7 @@ namespace Game
 				}
 				else
 				{
-					DialogsManager.ShowDialog(base.ParentWidget, new ListSelectionDialog("Furniture Naming", list, 64f, (object t) => ((Tuple<string, Action>)t).Item1, delegate(object t)
+					DialogsManager.ShowDialog(base.ParentWidget, new ListSelectionDialog("家具名称", list, 64f, (object t) => ((Tuple<string, Action>)t).Item1, delegate (object t)
 					{
 						((Tuple<string, Action>)t).Item2();
 					}));
@@ -230,7 +230,7 @@ namespace Game
 			}
 		}
 
-		private bool IsShiftPossible(Point3 delta)
+		public bool IsShiftPossible(Point3 delta)
 		{
 			int resolution = m_design.Resolution;
 			Box box = m_design.Box;
@@ -242,7 +242,7 @@ namespace Game
 			return false;
 		}
 
-		private void Shift(Point3 delta)
+		public void Shift(Point3 delta)
 		{
 			if (IsShiftPossible(delta))
 			{
@@ -250,7 +250,7 @@ namespace Game
 			}
 		}
 
-		private bool IsDecreaseResolutionPossible()
+		public bool IsDecreaseResolutionPossible()
 		{
 			int resolution = m_design.Resolution;
 			if (resolution > 2)
@@ -261,7 +261,7 @@ namespace Game
 			return false;
 		}
 
-		private void DecreaseResolution()
+		public void DecreaseResolution()
 		{
 			if (IsDecreaseResolutionPossible())
 			{
@@ -284,12 +284,12 @@ namespace Game
 			}
 		}
 
-		private bool IsIncreaseResolutionPossible()
+		public bool IsIncreaseResolutionPossible()
 		{
 			return m_design.Resolution < 16;
 		}
 
-		private void IncreaseResolution()
+		public void IncreaseResolution()
 		{
 			if (IsIncreaseResolutionPossible())
 			{
@@ -297,60 +297,60 @@ namespace Game
 			}
 		}
 
-		private static Point3 DirectionAxisToDelta(int direction, int axis)
+		public static Point3 DirectionAxisToDelta(int direction, int axis)
 		{
 			if (direction == 0)
 			{
 				switch (axis)
 				{
-				case 0:
-					return new Point3(0, 0, 1);
-				case 1:
-					return new Point3(1, 0, 0);
-				case 2:
-					return new Point3(1, 0, 0);
+					case 0:
+						return new Point3(0, 0, 1);
+					case 1:
+						return new Point3(1, 0, 0);
+					case 2:
+						return new Point3(1, 0, 0);
 				}
 			}
 			if (direction == 1)
 			{
 				switch (axis)
 				{
-				case 0:
-					return new Point3(0, 0, -1);
-				case 1:
-					return new Point3(-1, 0, 0);
-				case 2:
-					return new Point3(-1, 0, 0);
+					case 0:
+						return new Point3(0, 0, -1);
+					case 1:
+						return new Point3(-1, 0, 0);
+					case 2:
+						return new Point3(-1, 0, 0);
 				}
 			}
 			if (direction == 2)
 			{
 				switch (axis)
 				{
-				case 0:
-					return new Point3(0, 1, 0);
-				case 1:
-					return new Point3(0, 0, 1);
-				case 2:
-					return new Point3(0, 1, 0);
+					case 0:
+						return new Point3(0, 1, 0);
+					case 1:
+						return new Point3(0, 0, 1);
+					case 2:
+						return new Point3(0, 1, 0);
 				}
 			}
 			if (direction == 3)
 			{
 				switch (axis)
 				{
-				case 0:
-					return new Point3(0, -1, 0);
-				case 1:
-					return new Point3(0, 0, -1);
-				case 2:
-					return new Point3(0, -1, 0);
+					case 0:
+						return new Point3(0, -1, 0);
+					case 1:
+						return new Point3(0, 0, -1);
+					case 2:
+						return new Point3(0, -1, 0);
 				}
 			}
 			return Point3.Zero;
 		}
 
-		private void Dismiss(bool result)
+		public void Dismiss(bool result)
 		{
 			DialogsManager.HideDialog(this);
 			m_handler(result);

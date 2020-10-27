@@ -92,7 +92,8 @@ namespace Game
 			m_blocks = new Block[num + 1];
 			m_fluidBlocks = new FluidBlock[num + 1];
 
-			foreach (KeyValuePair<int, Block> current2 in dictionary) {
+			foreach (KeyValuePair<int, Block> current2 in dictionary)
+			{
 				m_blocks[current2.Key] = current2.Value;//添加普通方块
 				m_fluidBlocks[current2.Key] = (current2.Value as FluidBlock);//添加流体方块
 			}
@@ -107,8 +108,9 @@ namespace Game
 			string data = ContentManager.Get<string>("BlocksData");
 			ContentManager.Dispose("BlocksData");
 			LoadBlocksData(data);
-			List<FileEntry> blocklist= ModsManager.GetEntries(".csv");
-			foreach (FileEntry file in blocklist) {
+			List<FileEntry> blocklist = ModsManager.GetEntries(".csv");
+			foreach (FileEntry file in blocklist)
+			{
 				file.Stream.Position = 0L;
 				StreamReader reader = new StreamReader(file.Stream);
 				string text = reader.ReadToEnd();
@@ -119,19 +121,19 @@ namespace Game
 			{
 				blocks[j].Initialize();
 			}
-			m_categories.Add("Terrain");
-			m_categories.Add("Plants");
-			m_categories.Add("Construction");
-			m_categories.Add("Items");
-			m_categories.Add("Tools");
-			m_categories.Add("Weapons");
-			m_categories.Add("Clothes");
-			m_categories.Add("Electrics");
-			m_categories.Add("Food");
-			m_categories.Add("Spawner_Eggs");
-			m_categories.Add("Painted");
-			m_categories.Add("Dyed");
-			m_categories.Add("Fireworks");
+			m_categories.Add(LanguageControl.getTranslate("sccate.Terrain"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Plants"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Construction"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Items"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Tools"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Weapons"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Clothes"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Electrics"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Food"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Spawner_Eggs"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Painted"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Dyed"));
+			m_categories.Add(LanguageControl.getTranslate("sccate.Fireworks"));
 			blocks = Blocks;
 			foreach (Block block2 in blocks)
 			{
@@ -151,7 +153,7 @@ namespace Game
 			Block block = Blocks.FirstOrDefault((Block b) => b.GetType().Name == typeName);
 			if (block == null && throwIfNotFound)
 			{
-				throw new InvalidOperationException(string.Format("block type {0} not found",typeName));
+				throw new InvalidOperationException(string.Format(LanguageControl.getTranslate("blockmgr.type_not_found"), typeName));
 			}
 			return block;
 		}
