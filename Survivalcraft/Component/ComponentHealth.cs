@@ -243,7 +243,7 @@ namespace Game
 			}
 			if (m_componentCreature.ComponentBody.ImmersionFactor > 0f && m_componentCreature.ComponentBody.ImmersionFluidBlock is MagmaBlock)
 			{
-				Injure(2f * m_componentCreature.ComponentBody.ImmersionFactor * dt, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentplayer.burned_magma"));
+				Injure(2f * m_componentCreature.ComponentBody.ImmersionFactor * dt, null, ignoreInvulnerability: false, LanguageControl.Get("ComponentHealth","1"));
 				float num2 = 1.1f + 0.1f * (float)MathUtils.Sin(12.0 * m_subsystemTime.GameTime);
 				m_redScreenFactor = MathUtils.Max(m_redScreenFactor, num2 * 1.5f * m_componentCreature.ComponentBody.ImmersionFactor);
 			}
@@ -255,13 +255,13 @@ namespace Game
 				{
 					num4 /= m_componentPlayer.ComponentLevel.ResilienceFactor;
 				}
-				Injure(num4, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentplayer.impact_world"));
+				Injure(num4, null, ignoreInvulnerability: false, LanguageControl.Get("ComponentHealth", "2"));
 			}
 			m_wasStanding = (m_componentCreature.ComponentBody.StandingOnValue.HasValue || m_componentCreature.ComponentBody.StandingOnBody != null);
 			if ((position.Y < 0f || position.Y > 296f) && m_subsystemTime.PeriodicGameTimeEvent(2.0, 0.0))
 			{
-				Injure(0.1f, null, ignoreInvulnerability: true, LanguageControl.getTranslate("componentplayer.leave_world"));
-				m_componentPlayer?.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentplayer.come_back"), Color.White, blinking: true, playNotificationSound: false);
+				Injure(0.1f, null, ignoreInvulnerability: true, LanguageControl.Get("ComponentHealth", "3"));
+				m_componentPlayer?.ComponentGui.DisplaySmallMessage(LanguageControl.Get("ComponentHealth", "4"), Color.White, blinking: true, playNotificationSound: false);
 			}
 			bool num5 = m_subsystemTime.PeriodicGameTimeEvent(1.0, 0.0);
 			if (num5 && Air == 0f)
@@ -271,7 +271,7 @@ namespace Game
 				{
 					num6 /= m_componentPlayer.ComponentLevel.ResilienceFactor;
 				}
-				Injure(num6, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentplayer.suffocated"));
+				Injure(num6, null, ignoreInvulnerability: false, LanguageControl.Get("ComponentHealth", "5"));
 			}
 			if (num5 && (m_componentOnFire.IsOnFire || m_componentOnFire.TouchesFire))
 			{
@@ -280,11 +280,11 @@ namespace Game
 				{
 					num7 /= m_componentPlayer.ComponentLevel.ResilienceFactor;
 				}
-				Injure(num7, m_componentOnFire.Attacker, ignoreInvulnerability: false, LanguageControl.getTranslate("componentplayer.burn_death"));
+				Injure(num7, m_componentOnFire.Attacker, ignoreInvulnerability: false, LanguageControl.Get("ComponentHealth", "5"));
 			}
 			if (num5 && CanStrand && m_componentCreature.ComponentBody.ImmersionFactor < 0.25f && (m_componentCreature.ComponentBody.StandingOnValue != 0 || m_componentCreature.ComponentBody.StandingOnBody != null))
 			{
-				Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentplayer.stranded"));
+				Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.Get("ComponentHealth", "6"));
 			}
 			HealthChange = Health - m_lastHealth;
 			m_lastHealth = Health;

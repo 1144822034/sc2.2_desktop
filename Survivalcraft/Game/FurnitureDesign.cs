@@ -9,12 +9,12 @@ namespace Game
 {
 	public class FurnitureDesign
 	{
-		private struct Cell
+		public struct Cell
 		{
 			public int Value;
 		}
 
-		private struct Subdivision
+		public struct Subdivision
 		{
 			public int TotalVolume;
 
@@ -31,47 +31,47 @@ namespace Game
 
 		public const int MaxNameLength = 20;
 
-		private int m_index = -1;
+		public int m_index = -1;
 
-		private string m_name = string.Empty;
+		public string m_name = string.Empty;
 
-		private FurnitureSet m_furnitureSet;
+		public FurnitureSet m_furnitureSet;
 
-		private SubsystemTerrain m_subsystemTerrain;
+		public SubsystemTerrain m_subsystemTerrain;
 
-		internal bool m_gcUsed;
+		public bool m_gcUsed;
 
-		internal int m_terrainUseCount;
+		public int m_terrainUseCount;
 
-		internal int m_loadTimeLinkedDesignIndex = -1;
+		public int m_loadTimeLinkedDesignIndex = -1;
 
-		private int m_resolution;
+		public int m_resolution;
 
-		private int[] m_values;
+		public int[] m_values;
 
-		private int? m_hash;
+		public int? m_hash;
 
-		private FurnitureGeometry m_geometry;
+		public FurnitureGeometry m_geometry;
 
-		private Box? m_box;
+		public Box? m_box;
 
-		private int? m_shadowStrengthFactor;
+		public int? m_shadowStrengthFactor;
 
-		private BoundingBox[][] m_collisionBoxesByRotation;
+		public BoundingBox[][] m_collisionBoxesByRotation;
 
-		private BoundingBox[][] m_interactionBoxesByRotation;
+		public BoundingBox[][] m_interactionBoxesByRotation;
 
-		private BoundingBox[][] m_torchPointsByRotation;
+		public BoundingBox[][] m_torchPointsByRotation;
 
-		private int m_mainValue;
+		public int m_mainValue;
 
-		private int m_mountingFacesMask = -1;
+		public int m_mountingFacesMask = -1;
 
-		private int m_transparentFacesMask = -1;
+		public int m_transparentFacesMask = -1;
 
-		private FurnitureDesign m_linkedDesign;
+		public FurnitureDesign m_linkedDesign;
 
-		private FurnitureInteractionMode m_interactionMode;
+		public FurnitureInteractionMode m_interactionMode;
 
 		public int Resolution => m_resolution;
 
@@ -159,7 +159,7 @@ namespace Game
 			{
 				return m_index;
 			}
-			internal set
+			set
 			{
 				m_index = value;
 			}
@@ -275,7 +275,7 @@ namespace Game
 			}, StringSplitOptions.RemoveEmptyEntries);
 			for (int i = 0; i < array2.Length; i++)
 			{
-				string[] array3 = array2[i].Split('*');
+				string[] array3 = array2[i].Split(new string[] { "*"}, StringSplitOptions.None);
 				if (array3.Length != 2)
 				{
 					throw new InvalidOperationException("Invalid furniture values string.");
@@ -339,22 +339,22 @@ namespace Game
 			{
 				if (InteractionMode == FurnitureInteractionMode.ElectricButton)
 				{
-					return "Furniture Button";
+					return "按钮家具";
 				}
 				if (InteractionMode == FurnitureInteractionMode.ElectricSwitch)
 				{
-					return "Furniture Switch";
+					return "开关家具";
 				}
 				if (InteractionMode == FurnitureInteractionMode.ConnectedMultistate)
 				{
 					int count2 = ListChain().Count;
 					if (count2 > 1)
 					{
-						return $"{count2}-state Connected Furniture";
+						return $"{count2}个已连接 家具";
 					}
 				}
 			}
-			return "Furniture";
+			return "家具";
 		}
 
 		public BoundingBox[] GetCollisionBoxes(int rotation)
@@ -652,7 +652,7 @@ namespace Game
 			return list;
 		}
 
-		private byte[] CreatePrecedingEmptySpacesArray()
+		public byte[] CreatePrecedingEmptySpacesArray()
 		{
 			byte[] array = new byte[m_values.Length];
 			int num = 0;
@@ -674,14 +674,14 @@ namespace Game
 			return array;
 		}
 
-		private Box CalculateBox(Box box, byte[] precedingEmptySpaces)
+		public Box CalculateBox(Box box, byte[] precedingEmptySpaces)
 		{
-			int num = 2147483647;
-			int num2 = 2147483647;
-			int num3 = 2147483647;
-			int num4 = -2147483648;
-			int num5 = -2147483648;
-			int num6 = -2147483648;
+			int num = int.MaxValue;
+			int num2 = int.MaxValue;
+			int num3 = int.MaxValue;
+			int num4 = int.MinValue;
+			int num5 = int.MinValue;
+			int num6 = int.MinValue;
 			for (int i = box.Near; i < box.Far; i++)
 			{
 				int num7 = Math.Min(num3, i);
@@ -715,7 +715,7 @@ namespace Game
 			return new Box(num, num2, num3, num4 - num + 1, num5 - num2 + 1, num6 - num3 + 1);
 		}
 
-		private void CalculateShadowStrengthFactor()
+		public void CalculateShadowStrengthFactor()
 		{
 			float[] array = new float[Resolution * Resolution];
 			int num = 0;
@@ -743,7 +743,7 @@ namespace Game
 			m_shadowStrengthFactor = (int)MathUtils.Clamp(MathUtils.Round(num2 * 3f * num3), 0f, 3f);
 		}
 
-		private void CreateGeometry()
+		public void CreateGeometry()
 		{
 			m_geometry = new FurnitureGeometry();
 			for (int i = 0; i < 6; i++)
@@ -756,48 +756,48 @@ namespace Game
 				Point3 point5;
 				switch (i)
 				{
-				case 0:
-					point = new Point3(0, 0, 1);
-					point2 = new Point3(-1, 0, 0);
-					point3 = new Point3(0, -1, 0);
-					point4 = new Point3(m_resolution, m_resolution, 0);
-					point5 = new Point3(m_resolution - 1, m_resolution - 1, 0);
-					break;
-				case 1:
-					point = new Point3(1, 0, 0);
-					point2 = new Point3(0, 0, 1);
-					point3 = new Point3(0, -1, 0);
-					point4 = new Point3(0, m_resolution, 0);
-					point5 = new Point3(0, m_resolution - 1, 0);
-					break;
-				case 2:
-					point = new Point3(0, 0, -1);
-					point2 = new Point3(1, 0, 0);
-					point3 = new Point3(0, -1, 0);
-					point4 = new Point3(0, m_resolution, m_resolution);
-					point5 = new Point3(0, m_resolution - 1, m_resolution - 1);
-					break;
-				case 3:
-					point = new Point3(-1, 0, 0);
-					point2 = new Point3(0, 0, -1);
-					point3 = new Point3(0, -1, 0);
-					point4 = new Point3(m_resolution, m_resolution, m_resolution);
-					point5 = new Point3(m_resolution - 1, m_resolution - 1, m_resolution - 1);
-					break;
-				case 4:
-					point = new Point3(0, 1, 0);
-					point2 = new Point3(-1, 0, 0);
-					point3 = new Point3(0, 0, 1);
-					point4 = new Point3(m_resolution, 0, 0);
-					point5 = new Point3(m_resolution - 1, 0, 0);
-					break;
-				default:
-					point = new Point3(0, -1, 0);
-					point2 = new Point3(-1, 0, 0);
-					point3 = new Point3(0, 0, -1);
-					point4 = new Point3(m_resolution, m_resolution, m_resolution);
-					point5 = new Point3(m_resolution - 1, m_resolution - 1, m_resolution - 1);
-					break;
+					case 0:
+						point = new Point3(0, 0, 1);
+						point2 = new Point3(-1, 0, 0);
+						point3 = new Point3(0, -1, 0);
+						point4 = new Point3(m_resolution, m_resolution, 0);
+						point5 = new Point3(m_resolution - 1, m_resolution - 1, 0);
+						break;
+					case 1:
+						point = new Point3(1, 0, 0);
+						point2 = new Point3(0, 0, 1);
+						point3 = new Point3(0, -1, 0);
+						point4 = new Point3(0, m_resolution, 0);
+						point5 = new Point3(0, m_resolution - 1, 0);
+						break;
+					case 2:
+						point = new Point3(0, 0, -1);
+						point2 = new Point3(1, 0, 0);
+						point3 = new Point3(0, -1, 0);
+						point4 = new Point3(0, m_resolution, m_resolution);
+						point5 = new Point3(0, m_resolution - 1, m_resolution - 1);
+						break;
+					case 3:
+						point = new Point3(-1, 0, 0);
+						point2 = new Point3(0, 0, -1);
+						point3 = new Point3(0, -1, 0);
+						point4 = new Point3(m_resolution, m_resolution, m_resolution);
+						point5 = new Point3(m_resolution - 1, m_resolution - 1, m_resolution - 1);
+						break;
+					case 4:
+						point = new Point3(0, 1, 0);
+						point2 = new Point3(-1, 0, 0);
+						point3 = new Point3(0, 0, 1);
+						point4 = new Point3(m_resolution, 0, 0);
+						point5 = new Point3(m_resolution - 1, 0, 0);
+						break;
+					default:
+						point = new Point3(0, -1, 0);
+						point2 = new Point3(-1, 0, 0);
+						point3 = new Point3(0, 0, -1);
+						point4 = new Point3(m_resolution, m_resolution, m_resolution);
+						point5 = new Point3(m_resolution - 1, m_resolution - 1, m_resolution - 1);
+						break;
 				}
 				BlockMesh blockMesh = new BlockMesh();
 				BlockMesh blockMesh2 = new BlockMesh();
@@ -958,7 +958,7 @@ namespace Game
 			}
 		}
 
-		private void CreateCollisionAndInteractionBoxes()
+		public void CreateCollisionAndInteractionBoxes()
 		{
 			Subdivision subdivision = CreateBoundingBoxesHelper(Box, 0, CreatePrecedingEmptySpacesArray());
 			List<BoundingBox> list = new List<BoundingBox>(subdivision.Boxes.Count);
@@ -1041,7 +1041,7 @@ namespace Game
 					}
 					return;
 					continue;
-					end_IL_0263:
+				end_IL_0263:
 					break;
 				}
 				list2.RemoveAt(num);
@@ -1050,7 +1050,7 @@ namespace Game
 			}
 		}
 
-		private void CreateTorchPoints()
+		public void CreateTorchPoints()
 		{
 			List<BoundingBox> list = new List<BoundingBox>();
 			for (int i = 0; i < Resolution; i++)
@@ -1105,7 +1105,7 @@ namespace Game
 			}
 		}
 
-		private void CalculateMainValue()
+		public void CalculateMainValue()
 		{
 			Dictionary<int, int> dictionary = new Dictionary<int, int>();
 			for (int i = 0; i < Resolution; i++)
@@ -1135,7 +1135,7 @@ namespace Game
 			}
 		}
 
-		private void CalculateFacesMasks()
+		public void CalculateFacesMasks()
 		{
 			m_mountingFacesMask = 0;
 			m_transparentFacesMask = 0;
@@ -1219,7 +1219,7 @@ namespace Game
 			}
 		}
 
-		private Subdivision CreateBoundingBoxesHelper(Box box, int depth, byte[] precedingEmptySpaces)
+		public Subdivision CreateBoundingBoxesHelper(Box box, int depth, byte[] precedingEmptySpaces)
 		{
 			int num = 0;
 			Subdivision result = default(Subdivision);
@@ -1289,7 +1289,7 @@ namespace Game
 			return result;
 		}
 
-		private Point2 FindLargestSize(Cell[] surface, Point2 start, int value)
+		public Point2 FindLargestSize(Cell[] surface, Point2 start, int value)
 		{
 			Point2 result = Point2.Zero;
 			int num = m_resolution;
@@ -1311,7 +1311,7 @@ namespace Game
 			return result;
 		}
 
-		private void MarkUsed(Cell[] surface, Point2 start, Point2 size)
+		public void MarkUsed(Cell[] surface, Point2 start, Point2 size)
 		{
 			for (int i = start.Y; i < start.Y + size.Y; i++)
 			{
@@ -1322,44 +1322,44 @@ namespace Game
 			}
 		}
 
-		private static Vector3 RotatePoint(Vector3 p, int axis, int steps)
+		public static Vector3 RotatePoint(Vector3 p, int axis, int steps)
 		{
 			for (int i = 0; i < steps; i++)
 			{
 				switch (axis)
 				{
-				case 0:
-					p = new Vector3(p.X, p.Z, 0f - p.Y);
-					break;
-				case 1:
-					p = new Vector3(0f - p.Z, p.Y, p.X);
-					break;
-				default:
-					p = new Vector3(0f - p.Y, p.X, p.Z);
-					break;
+					case 0:
+						p = new Vector3(p.X, p.Z, 0f - p.Y);
+						break;
+					case 1:
+						p = new Vector3(0f - p.Z, p.Y, p.X);
+						break;
+					default:
+						p = new Vector3(0f - p.Y, p.X, p.Z);
+						break;
 				}
 			}
 			return p;
 		}
 
-		private static Vector3 MirrorPoint(Vector3 p, int axis)
+		public static Vector3 MirrorPoint(Vector3 p, int axis)
 		{
 			switch (axis)
 			{
-			case 0:
-				p = new Vector3(p.X, p.Y, 0f - p.Z);
-				break;
-			case 1:
-				p = new Vector3(0f - p.X, p.Y, p.Z);
-				break;
-			default:
-				p = new Vector3(0f - p.X, p.Y, p.Z);
-				break;
+				case 0:
+					p = new Vector3(p.X, p.Y, 0f - p.Z);
+					break;
+				case 1:
+					p = new Vector3(0f - p.X, p.Y, p.Z);
+					break;
+				default:
+					p = new Vector3(0f - p.X, p.Y, p.Z);
+					break;
 			}
 			return p;
 		}
 
-		private static void EnsureMinSize(ref float min, ref float max, float minSize)
+		public static void EnsureMinSize(ref float min, ref float max, float minSize)
 		{
 			float num = max - min;
 			if (num < minSize)
@@ -1380,7 +1380,7 @@ namespace Game
 			}
 		}
 
-		private static bool IsValueTransparent(int value)
+		public static bool IsValueTransparent(int value)
 		{
 			if (value != 0)
 			{

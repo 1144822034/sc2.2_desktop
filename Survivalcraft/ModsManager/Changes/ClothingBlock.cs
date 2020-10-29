@@ -130,7 +130,7 @@ namespace Game
 			{
 				return base.GetCategory(value);
 			}
-			return LanguageControl.getTranslate("sccate.Dyed");
+			return LanguageControl.Get("BlocksManager","Dyed");
 		}
 
 		public override int GetDamage(int value)

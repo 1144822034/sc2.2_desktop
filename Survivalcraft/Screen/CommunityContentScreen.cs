@@ -14,7 +14,6 @@ namespace Game
 			ByRank,
 			ByTime
 		}
-		public Dictionary<string, string> trans = new Dictionary<string, string>();
 
 		public ListPanelWidget m_listPanel;
 
@@ -44,14 +43,6 @@ namespace Game
 
 		public CommunityContentScreen()
 		{
-			trans.Add("Unknown", "未知");
-			trans.Add("Directory", "文件夹");
-			trans.Add("World", "世界");
-			trans.Add("BlocksTexture", "方块材质");
-			trans.Add("CharacterSkin", "人物皮肤");
-			trans.Add("FurniturePack", "家具包");
-			trans.Add("ByRank", "等级");
-			trans.Add("ByTime", "时间");
 			XElement node = ContentManager.Get<XElement>("Screens/CommunityContentScreen");
 			LoadContents(this, node);
 			m_listPanel = Children.Find<ListPanelWidget>("List");
@@ -109,7 +100,7 @@ namespace Game
 			if (m_changeOrderButton.IsClicked)
 			{
 				List<Order> items = EnumUtils.GetEnumValues(typeof(Order)).Cast<Order>().ToList();
-				DialogsManager.ShowDialog(null, new ListSelectionDialog("排序方式", items, 60f, (object item) => GetOrderDisplayName((Order)item), delegate(object item)
+				DialogsManager.ShowDialog(null, new ListSelectionDialog(LanguageControl.Get("CommunityContentScreen", "Order Type"), items, 60f, (object item) => GetOrderDisplayName((Order)item), delegate(object item)
 				{
 					m_order = (Order)item;
 					PopulateList(null);
@@ -174,8 +165,8 @@ namespace Game
 				text = "0";
 			}
 			string text2 = (m_filter is string) ? ((string)m_filter) : string.Empty;
-			string text3 = (m_filter is ExternalContentType) ? trans[m_filter.ToString()] : string.Empty;
-			string text4 = trans[ m_order.ToString()];
+			string text3 = (m_filter is ExternalContentType) ? LanguageControl.Get("CommunityContentScreen", m_filter.ToString()) : string.Empty;
+			string text4 = LanguageControl.Get("CommunityContentScreen", m_order.ToString());
 			string cacheKey = text2 + "\n" + text3 + "\n" + text4 + "\n" + text;
 			m_moreLink = null;
 			if (string.IsNullOrEmpty(cursor))
@@ -236,7 +227,7 @@ namespace Game
 		{
 			if (UserManager.ActiveUser != null)
 			{
-				DialogsManager.ShowDialog(null, new MessageDialog("你确定吗?", "这个链接将会从服务器删除", LanguageControl.getTranslate("system.yes"), LanguageControl.getTranslate("system.no"), delegate(MessageDialogButton button)
+				DialogsManager.ShowDialog(null, new MessageDialog("你确定吗?", "这个链接将会从服务器删除", LanguageControl.Get("Usual", "yes"), LanguageControl.Get("Usual", "no"), delegate(MessageDialogButton button)
 				{
 					if (button == MessageDialogButton.Button1)
 					{

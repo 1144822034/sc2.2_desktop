@@ -1,6 +1,7 @@
 using Engine;
 using Engine.Content;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -46,7 +47,7 @@ namespace Game
 			object obj = Get(name);
 			if (!type.GetTypeInfo().IsAssignableFrom(obj.GetType().GetTypeInfo()))
 			{
-				throw new InvalidOperationException($"Content \"{name}\" has type {obj.GetType().FullName}, requested type was {type.FullName}");
+				throw new InvalidOperationException(string.Format(LanguageControl.Get("ContentManager", "1"),name,obj.GetType().FullName,type.FullName));
 			}
 			return obj;
 		}

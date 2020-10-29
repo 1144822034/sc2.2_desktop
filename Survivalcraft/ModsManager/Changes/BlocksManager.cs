@@ -121,19 +121,19 @@ namespace Game
 			{
 				blocks[j].Initialize();
 			}
-			m_categories.Add(LanguageControl.getTranslate("sccate.Terrain"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Plants"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Construction"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Items"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Tools"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Weapons"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Clothes"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Electrics"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Food"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Spawner_Eggs"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Painted"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Dyed"));
-			m_categories.Add(LanguageControl.getTranslate("sccate.Fireworks"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Terrain"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Plants"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Construction"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Items"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Tools"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Weapons"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Clothes"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Electrics"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Food"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Spawner_Eggs"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Painted"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Dyed"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Fireworks"));
 			blocks = Blocks;
 			foreach (Block block2 in blocks)
 			{
@@ -153,7 +153,7 @@ namespace Game
 			Block block = Blocks.FirstOrDefault((Block b) => b.GetType().Name == typeName);
 			if (block == null && throwIfNotFound)
 			{
-				throw new InvalidOperationException(string.Format(LanguageControl.getTranslate("blockmgr.type_not_found"), typeName));
+				throw new InvalidOperationException(string.Format(LanguageControl.Get("BlocksManager", 1), typeName));
 			}
 			return block;
 		}
@@ -373,7 +373,7 @@ namespace Game
 				}
 				if (array3.Length != array2.Length + 1)
 				{
-					throw new InvalidOperationException(string.Format("Not enough field values for block \"{0}\".", (array3.Length != 0) ? array3[0] : "unknown"));
+					throw new InvalidOperationException(string.Format(LanguageControl.Get("BlocksManager",2), (array3.Length != 0) ? array3[0] : LanguageControl.Get("Usual", "unknown")));
 				}
 				string typeName = array3[0];
 				if (string.IsNullOrEmpty(typeName))
@@ -383,11 +383,11 @@ namespace Game
 				Block block = m_blocks.FirstOrDefault((Block v) => v.GetType().Name == typeName);
 				if (block == null)
 				{
-					throw new InvalidOperationException($"Block \"{typeName}\" not found when loading block data.");
+					throw new InvalidOperationException(string.Format( LanguageControl.Get("BlocksManager", 3), typeName));
 				}
 				if (dictionary.ContainsKey(block))
 				{
-					throw new InvalidOperationException($"Data for block \"{typeName}\" specified more than once when loading block data.");
+					throw new InvalidOperationException(string.Format(LanguageControl.Get("BlocksManager",4), typeName));
 				}
 				dictionary.Add(block, value: true);
 				Dictionary<string, FieldInfo> dictionary2 = new Dictionary<string, FieldInfo>();
@@ -406,13 +406,13 @@ namespace Game
 					{
 						if (!dictionary2.TryGetValue(text, out FieldInfo value))
 						{
-							throw new InvalidOperationException($"Field \"{text}\" not found or not accessible when loading block data.");
+							throw new InvalidOperationException(string.Format(LanguageControl.Get("BlocksManager", 5), text));
 						}
 						object obj = null;
 						if (text2.StartsWith("#"))
 						{
 							string refTypeName = text2.Substring(1);
-							obj = ((!string.IsNullOrEmpty(refTypeName)) ? ((object)(m_blocks.FirstOrDefault((Block v) => v.GetType().Name == refTypeName) ?? throw new InvalidOperationException($"Reference block \"{refTypeName}\" not found when loading block data.")).BlockIndex) : ((object)block.BlockIndex));
+							obj = ((!string.IsNullOrEmpty(refTypeName)) ? ((object)(m_blocks.FirstOrDefault((Block v) => v.GetType().Name == refTypeName) ?? throw new InvalidOperationException(string.Format(LanguageControl.Get("BlocksManager", 6), refTypeName))).BlockIndex) : ((object)block.BlockIndex));
 						}
 						else
 						{
@@ -422,16 +422,6 @@ namespace Game
 					}
 				}
 			}
-			/*//不在字典的block抛出错误?
-			using (IEnumerator<Block> enumerator2 = m_blocks.Except(dictionary.Keys).GetEnumerator())
-			{
-				if (enumerator2.MoveNext())
-				{
-					Block current2 = enumerator2.Current;
-					throw new InvalidOperationException($"Data for block \"{current2.GetType().Name}\" not found when loading blocks data.");
-				}
-			}
-			*/
 		}
 
 		public static void CalculateSlotTexCoordTables()

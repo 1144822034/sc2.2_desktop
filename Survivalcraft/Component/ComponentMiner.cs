@@ -496,9 +496,8 @@ namespace Game
 					if (attacker != null)
 					{
 						string str = attacker.KillVerbs[s_random.Int(0, attacker.KillVerbs.Count - 1)];
-						string text = attacker.DisplayName;
-						//string str2 = (text.Length > 0 && "aeiouy".Contains(text)) ? LanguageControl.getTranslate("componentminer.byan") : LanguageControl.getTranslate("componentminer.bya");
-						cause = text+"bei"+str;
+						string attackerName = attacker.DisplayName;
+						cause =string.Format(LanguageControl.getTranslate("componentminer.byan"),attackerName,str);
 					}
 					else
 					{

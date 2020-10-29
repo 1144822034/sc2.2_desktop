@@ -9,7 +9,7 @@ namespace Game
 {
     public static class LanguageControl
     {
-        public static Dictionary<string, string> items;
+        public static Dictionary<string, Dictionary<string,string>> items;        
         public enum LanguageType
         {
             zh_cn
@@ -22,9 +22,9 @@ namespace Game
             }
             else
             {
-                items = new Dictionary<string, string>();
+                items = new Dictionary<string, Dictionary<string,string>>();
             }
-            Stream ssa = Storage.OpenFile("app:lang/" + languageType.ToString() + ".lang", OpenFileMode.Read);
+            Stream ssa = Storage.OpenFile("app:lang/" + languageType.ToString() + ".json", OpenFileMode.Read);
             MemoryStream memoryStream = new MemoryStream();
             byte[] data;
             if (!ssa.CanSeek)
@@ -43,11 +43,17 @@ namespace Game
             {//加载原版语言包
                 string txt = System.Text.Encoding.UTF8.GetString(data);
                 txt = txt.Substring(1, txt.Length - 1);
-                JsonObject obj = (JsonObject)SimpleJson.SimpleJson.DeserializeObject(txt);
-                foreach (KeyValuePair<string, object> lla in obj.ToArray())
+                JsonArray obj = (JsonArray)SimpleJson.SimpleJson.DeserializeObject(txt);                
+                foreach (KeyValuePair<string, object> lla in obj)
                 {
-                    if (items.ContainsKey(lla.Key)) items.Add(lla.Key, lla.Value.ToString());//遇到重复自动覆盖
-                    else items[lla.Key] = lla.Value.ToString();
+                    JsonObject json = (JsonObject)lla.Value;
+                    Dictionary<string, string> values = new Dictionary<string, string>();
+                    foreach (KeyValuePair<string,object> llb in json) {
+                        if (values.ContainsKey(llb.Key)) values.Add(llb.Key, llb.Value.ToString());//遇到重复自动覆盖
+                        else values[lla.Key] = llb.Value.ToString();
+                    }
+                    if (items.ContainsKey(lla.Key)) items[lla.Key] = values;
+                    else items.Add(lla.Key,values);
                 }
             }
             List<FileEntry> langs = ModsManager.GetEntries(".lang");
@@ -57,10 +63,17 @@ namespace Game
                 if (filename.StartsWith(languageType.ToString()))
                 { //加载该语言包
                     JsonObject obj = (JsonObject)WebManager.JsonFromBytes(ModsManager.StreamToBytes(entry.Stream));
-                    foreach (KeyValuePair<string, object> lla in obj.ToArray())
+                    foreach (KeyValuePair<string, object> lla in obj)
                     {
-                        if (items.ContainsKey(lla.Key)) items.Add(lla.Key, lla.Value.ToString());//遇到重复自动覆盖
-                        else items[lla.Key] = lla.Value.ToString();
+                        JsonObject json = (JsonObject)lla.Value;
+                        Dictionary<string, string> values = new Dictionary<string, string>();
+                        foreach (KeyValuePair<string, object> llb in json)
+                        {
+                            if (values.ContainsKey(llb.Key)) values.Add(llb.Key, llb.Value.ToString());//遇到重复自动覆盖
+                            else values[lla.Key] = llb.Value.ToString();
+                        }
+                        if (items.ContainsKey(lla.Key)) items[lla.Key] = values;
+                        else items.Add(lla.Key, values);
                     }
                 }
             }
@@ -72,11 +85,34 @@ namespace Game
             string[] list = new string[] { "中文", "English" };
             return list[d];
         }
-        public static string getTranslate(string key)
+        public static string Get(string className, string key)
         {//获得键值
-            items.TryGetValue(key, out string value);
-            if (string.IsNullOrEmpty(value)) return key;
-            return value;
+            try
+            {
+                
+                items.TryGetValue(className, out Dictionary<string, string> item);
+                item.TryGetValue(key, out string value);
+                if (string.IsNullOrEmpty(value)) return key;
+                return value;
+            }
+            catch {
+                return string.Format("not found [{0}][{1}]",className,key) ;
+            }
+        }
+        public static string Get(string className, int key)
+        {//获得键值
+            try
+            {
+
+                items.TryGetValue(className, out Dictionary<string, string> item);
+                item.TryGetValue(key.ToString(), out string value);
+                if (string.IsNullOrEmpty(value)) return key.ToString();
+                return value;
+            }
+            catch
+            {
+                return string.Format("not found [{0}][{1}]", className, key);
+            }
         }
     }
 }

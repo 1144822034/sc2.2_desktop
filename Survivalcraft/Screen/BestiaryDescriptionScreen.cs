@@ -86,34 +86,34 @@ namespace Game
 				m_descriptionWidget.Text = bestiaryCreatureInfo.Description;
 				m_propertyNames1Widget.Text = string.Empty;
 				m_propertyValues1Widget.Text = string.Empty;
-				m_propertyNames1Widget.Text += LanguageControl.getTranslate("bestiary.resilience");
+				m_propertyNames1Widget.Text += LanguageControl.Get("BestiaryDescriptionScreen", "resilience");
 				LabelWidget propertyValues1Widget = m_propertyValues1Widget;
 				propertyValues1Widget.Text = propertyValues1Widget.Text + bestiaryCreatureInfo.AttackResilience.ToString() + "\n";
-				m_propertyNames1Widget.Text += LanguageControl.getTranslate("bestiary.attack");
+				m_propertyNames1Widget.Text += LanguageControl.Get("BestiaryDescriptionScreen", "attack");
 				LabelWidget propertyValues1Widget2 = m_propertyValues1Widget;
-				propertyValues1Widget2.Text = propertyValues1Widget2.Text + ((bestiaryCreatureInfo.AttackPower > 0f) ? bestiaryCreatureInfo.AttackPower.ToString("0.0") : "None") + "\n";
-				m_propertyNames1Widget.Text += LanguageControl.getTranslate("bestiary.herding");
+				propertyValues1Widget2.Text = propertyValues1Widget2.Text + ((bestiaryCreatureInfo.AttackPower > 0f) ? bestiaryCreatureInfo.AttackPower.ToString("0.0") : LanguageControl.Get("Usual","None")) + "\n";
+				m_propertyNames1Widget.Text += LanguageControl.Get("BestiaryDescriptionScreen", "herding");
 				LabelWidget propertyValues1Widget3 = m_propertyValues1Widget;
-				propertyValues1Widget3.Text = propertyValues1Widget3.Text + (bestiaryCreatureInfo.IsHerding ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no")) + "\n";
-				m_propertyNames1Widget.Text += LanguageControl.getTranslate("bestiary.can_be");
+				propertyValues1Widget3.Text = propertyValues1Widget3.Text + (bestiaryCreatureInfo.IsHerding ? LanguageControl.Get("Usual","yes") : LanguageControl.Get("Usual","no")) + "\n";
+				m_propertyNames1Widget.Text += LanguageControl.Get("BestiaryDescriptionScreen", "1");
 				LabelWidget propertyValues1Widget4 = m_propertyValues1Widget;
-				propertyValues1Widget4.Text = propertyValues1Widget4.Text + (bestiaryCreatureInfo.CanBeRidden ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no")) + "\n";
+				propertyValues1Widget4.Text = propertyValues1Widget4.Text + (bestiaryCreatureInfo.CanBeRidden ? LanguageControl.Get("Usual","yes") : LanguageControl.Get("Usual", "no")) + "\n";
 				m_propertyNames1Widget.Text = m_propertyNames1Widget.Text.TrimEnd();
 				m_propertyValues1Widget.Text = m_propertyValues1Widget.Text.TrimEnd();
 				m_propertyNames2Widget.Text = string.Empty;
 				m_propertyValues2Widget.Text = string.Empty;
-				m_propertyNames2Widget.Text += LanguageControl.getTranslate("bestiary.speed");
+				m_propertyNames2Widget.Text += LanguageControl.Get("BestiaryDescriptionScreen", "speed");
 				LabelWidget propertyValues2Widget = m_propertyValues2Widget;
-				propertyValues2Widget.Text = propertyValues2Widget.Text + ((double)bestiaryCreatureInfo.MovementSpeed * 3.6).ToString("0") + LanguageControl.getTranslate("bestiary.speed_unit");
-				m_propertyNames2Widget.Text += LanguageControl.getTranslate("bestiary.jump_height");
+				propertyValues2Widget.Text = propertyValues2Widget.Text + ((double)bestiaryCreatureInfo.MovementSpeed * 3.6).ToString("0") + LanguageControl.Get("BestiaryDescriptionScreen", "speed unit");
+				m_propertyNames2Widget.Text += LanguageControl.Get("BestiaryDescriptionScreen", "jump height");
 				LabelWidget propertyValues2Widget2 = m_propertyValues2Widget;
-				propertyValues2Widget2.Text = propertyValues2Widget2.Text + bestiaryCreatureInfo.JumpHeight.ToString("0.0") + LanguageControl.getTranslate("bestiary.length_unit");
-				m_propertyNames2Widget.Text += LanguageControl.getTranslate("bestiary.weight");
+				propertyValues2Widget2.Text = propertyValues2Widget2.Text + bestiaryCreatureInfo.JumpHeight.ToString("0.0") + LanguageControl.Get("BestiaryDescriptionScreen", "length unit");
+				m_propertyNames2Widget.Text += LanguageControl.Get("BestiaryDescriptionScreen", "weight");
 				LabelWidget propertyValues2Widget3 = m_propertyValues2Widget;
-				propertyValues2Widget3.Text = propertyValues2Widget3.Text + bestiaryCreatureInfo.Mass.ToString() + LanguageControl.getTranslate("bestiary.weight_unit");
-				m_propertyNames2Widget.Text += LanguageControl.getTranslate("bestiary.spawner_eggs");
+				propertyValues2Widget3.Text = propertyValues2Widget3.Text + bestiaryCreatureInfo.Mass.ToString() + LanguageControl.Get("BestiaryDescriptionScreen", "weight unit");
+				m_propertyNames2Widget.Text += LanguageControl.Get("BlocksManager", "Spawner Eggs");
 				LabelWidget propertyValues2Widget4 = m_propertyValues2Widget;
-				propertyValues2Widget4.Text = propertyValues2Widget4.Text + (bestiaryCreatureInfo.HasSpawnerEgg ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no")) + "\n";
+				propertyValues2Widget4.Text = propertyValues2Widget4.Text + (bestiaryCreatureInfo.HasSpawnerEgg ? LanguageControl.Get("Usual", "yes") : LanguageControl.Get("Usual", "no")) + "\n";
 				m_propertyNames2Widget.Text = m_propertyNames2Widget.Text.TrimEnd();
 				m_propertyValues2Widget.Text = m_propertyValues2Widget.Text.TrimEnd();
 				m_dropsPanel.Children.Clear();
@@ -121,10 +121,10 @@ namespace Game
 				{
 					foreach (ComponentLoot.Loot item in bestiaryCreatureInfo.Loot)
 					{
-						string text = (item.MinCount >= item.MaxCount) ? $"{item.MinCount}" : $"{item.MinCount} "+LanguageControl.getTranslate("system.range_tip") +" {item.MaxCount}";
+						string text = (item.MinCount >= item.MaxCount) ? $"{item.MinCount}" :string.Format( LanguageControl.Get("BestiaryDescriptionScreen", "range"),item.MinCount,item.MaxCount);
 						if (item.Probability < 1f)
 						{
-							text +=string.Format(LanguageControl.getTranslate("bestiary.of_time"),$"{item.Probability * 100f:0}");
+							text +=string.Format(LanguageControl.Get("BlocksManager", 2) , $"{item.Probability * 100f:0}");
 						}
 						m_dropsPanel.Children.Add(new StackPanelWidget
 						{
@@ -158,7 +158,7 @@ namespace Game
 					{
 						Margin = new Vector2(20f, 0f),
 						Font = ContentManager.Get<BitmapFont>("Fonts/Pericles"),
-						Text = LanguageControl.getTranslate("system.nothing")
+						Text = LanguageControl.Get("Usual","nothing")
 					});
 				}
 			}
