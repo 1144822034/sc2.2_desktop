@@ -27,7 +27,7 @@ namespace Game
 		public int m_index;
 
 		public IList<int> m_valuesList;
-
+		public static string fName = "RecipaediaDescriptionScreen";
 		public RecipaediaDescriptionScreen()
 		{
 			XElement node = ContentManager.Get<XElement>("Screens/RecipaediaDescriptionScreen");
@@ -78,82 +78,82 @@ namespace Game
 			Block block = BlocksManager.Blocks[num];
 			if (block.DefaultEmittedLightAmount > 0)
 			{
-				dictionary.Add("亮度", block.DefaultEmittedLightAmount.ToString());
+				dictionary.Add(LanguageControl.Get(fName,1), block.DefaultEmittedLightAmount.ToString());
 			}
 			if (block.FuelFireDuration > 0f)
 			{
-				dictionary.Add("燃烧值", block.FuelFireDuration.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 2), block.FuelFireDuration.ToString());
 			}
-			dictionary.Add("可堆叠", (block.MaxStacking > 1) ? ("是 (上限" + block.MaxStacking.ToString() + ")") : LanguageControl.getTranslate("system.no"));
-			dictionary.Add("可燃烧", (block.FireDuration > 0f) ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no"));
+			dictionary.Add(LanguageControl.Get(fName, 3), (block.MaxStacking > 1) ? string.Format(LanguageControl.Get(fName, 4),block.MaxStacking.ToString()) : LanguageControl.Get("Usual","no"));
+			dictionary.Add(LanguageControl.Get(fName, 5), (block.FireDuration > 0f) ? LanguageControl.Get("Usual","yes") : LanguageControl.Get("Usual","no"));
 			if (block.GetNutritionalValue(value) > 0f)
 			{
-				dictionary.Add("营养", block.GetNutritionalValue(value).ToString());
+				dictionary.Add(LanguageControl.Get(fName, 6), block.GetNutritionalValue(value).ToString());
 			}
 			if (block.GetRotPeriod(value) > 0)
 			{
-				dictionary.Add("最大储藏时间", $"{(float)(2 * block.GetRotPeriod(value)) * 60f / 1200f:0.0} 天");
+				dictionary.Add(LanguageControl.Get(fName, 7),string.Format(LanguageControl.Get(fName, 25), $"{(2 * block.GetRotPeriod(value) * 60f / 1200f):0.0}") );
 			}
 			if (block.DigMethod != 0)
 			{
-				dictionary.Add("挖掘方法",LanguageControl.getTranslate( block.DigMethod.ToString()));
-				dictionary.Add("挖掘抗性", block.DigResilience.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 8), LanguageControl.Get("DigMethod", block.DigMethod.ToString()));
+				dictionary.Add(LanguageControl.Get(fName, 9), block.DigResilience.ToString());
 			}
 			if (block.ExplosionResilience > 0f)
 			{
-				dictionary.Add("爆炸抗性", block.ExplosionResilience.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 10), block.ExplosionResilience.ToString());
 			}
 			if (block.GetExplosionPressure(value) > 0f)
 			{
-				dictionary.Add("爆炸威力", block.GetExplosionPressure(value).ToString());
+				dictionary.Add(LanguageControl.Get(fName, 11), block.GetExplosionPressure(value).ToString());
 			}
 			bool flag = false;
 			if (block.GetMeleePower(value) > 1f)
 			{
-				dictionary.Add("近战攻击力", block.GetMeleePower(value).ToString());
+				dictionary.Add(LanguageControl.Get(fName, 12), block.GetMeleePower(value).ToString());
 				flag = true;
 			}
 			if (block.GetMeleePower(value) > 1f)
 			{
-				dictionary.Add("近战命中率", $"{100f * block.GetMeleeHitProbability(value):0}%");
+				dictionary.Add(LanguageControl.Get(fName, 13), $"{100f * block.GetMeleeHitProbability(value):0}%");
 				flag = true;
 			}
 			if (block.GetProjectilePower(value) > 1f)
 			{
-				dictionary.Add("投掷攻击力", block.GetProjectilePower(value).ToString());
+				dictionary.Add(LanguageControl.Get(fName, 14), block.GetProjectilePower(value).ToString());
 				flag = true;
 			}
 			if (block.ShovelPower > 1f)
 			{
-				dictionary.Add("铲", block.ShovelPower.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 15), block.ShovelPower.ToString());
 				flag = true;
 			}
 			if (block.HackPower > 1f)
 			{
-				dictionary.Add("斧", block.HackPower.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 16), block.HackPower.ToString());
 				flag = true;
 			}
 			if (block.QuarryPower > 1f)
 			{
-				dictionary.Add("稿", block.QuarryPower.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 17), block.QuarryPower.ToString());
 				flag = true;
 			}
 			if (flag && block.Durability > 0)
 			{
-				dictionary.Add("耐久", block.Durability.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 18), block.Durability.ToString());
 			}
 			if (block.DefaultExperienceCount > 0f)
 			{
-				dictionary.Add("经验球", block.DefaultExperienceCount.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 19), block.DefaultExperienceCount.ToString());
 			}
 			if (block is ClothingBlock)
 			{
 				ClothingData clothingData = ClothingBlock.GetClothingData(Terrain.ExtractData(value));
-				dictionary.Add("可以染色", clothingData.CanBeDyed ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no"));
-				dictionary.Add("护甲防御", $"{(int)(clothingData.ArmorProtection * 100f)}%");
-				dictionary.Add("装备耐久", clothingData.Sturdiness.ToString());
-				dictionary.Add("绝缘", $"{clothingData.Insulation:0.0} clo");
-				dictionary.Add("移速加成", $"{clothingData.MovementSpeedFactor * 100f:0}%");
+				dictionary.Add(LanguageControl.Get(fName, 20), clothingData.CanBeDyed ? LanguageControl.Get("Usual","yes") : LanguageControl.Get("Usual","no"));
+				dictionary.Add(LanguageControl.Get(fName, 21), $"{(int)(clothingData.ArmorProtection * 100f)}%");
+				dictionary.Add(LanguageControl.Get(fName, 22), clothingData.Sturdiness.ToString());
+				dictionary.Add(LanguageControl.Get(fName, 23), $"{clothingData.Insulation:0.0} clo");
+				dictionary.Add(LanguageControl.Get(fName, 24), $"{clothingData.MovementSpeedFactor * 100f:0}%");
 			}
 			return dictionary;
 		}

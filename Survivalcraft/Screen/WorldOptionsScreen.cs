@@ -366,13 +366,13 @@ namespace Game
 			m_humidityOffsetSlider.Text = FormatOffset(m_worldSettings.HumidityOffset);
 			m_biomeSizeSlider.Value = FindNearestIndex(m_biomeSizes, m_worldSettings.BiomeSize);
 			m_biomeSizeSlider.Text = m_worldSettings.BiomeSize.ToString() + "x";
-			m_environmentBehaviorButton.Text =LanguageControl.getTranslate( m_worldSettings.EnvironmentBehaviorMode.ToString());
-			m_timeOfDayButton.Text = LanguageControl.getTranslate(m_worldSettings.TimeOfDayMode.ToString());
-			m_weatherEffectsButton.Text = (m_worldSettings.AreWeatherEffectsEnabled ? "启用" : "禁用");
-			m_adventureRespawnButton.Text = (m_worldSettings.IsAdventureRespawnAllowed ? "允许" : "不允许");
-			m_adventureSurvivalMechanicsButton.Text = (m_worldSettings.AreAdventureSurvivalMechanicsEnabled ? "启用" : "禁用");
-			m_supernaturalCreaturesButton.Text = (m_worldSettings.AreSupernaturalCreaturesEnabled ? "启用" : "禁用");
-			m_friendlyFireButton.Text = (m_worldSettings.IsFriendlyFireEnabled ? "允许" : "不允许");
+			m_environmentBehaviorButton.Text =LanguageControl.Get("EnvironmentBehaviorMode", m_worldSettings.EnvironmentBehaviorMode.ToString());
+			m_timeOfDayButton.Text = LanguageControl.Get("TimeOfDayMode", m_worldSettings.TimeOfDayMode.ToString());
+			m_weatherEffectsButton.Text = (m_worldSettings.AreWeatherEffectsEnabled ? LanguageControl.Get("Usual","enable") : LanguageControl.Get("Usual", "disable"));
+			m_adventureRespawnButton.Text = (m_worldSettings.IsAdventureRespawnAllowed ? LanguageControl.Get("Usual", "allowed") : LanguageControl.Get("Usual","not allowed"));
+			m_adventureSurvivalMechanicsButton.Text = (m_worldSettings.AreAdventureSurvivalMechanicsEnabled ? LanguageControl.Get("Usual", "enable") : LanguageControl.Get("Usual", "disable"));
+			m_supernaturalCreaturesButton.Text = (m_worldSettings.AreSupernaturalCreaturesEnabled ? LanguageControl.Get("Usual", "enable") : LanguageControl.Get("Usual", "disable"));
+			m_friendlyFireButton.Text = (m_worldSettings.IsFriendlyFireEnabled ? LanguageControl.Get("Usual", "allowed") : LanguageControl.Get("Usual", "not allowed"));
 			if (base.Input.Back || base.Input.Cancel || Children.Find<ButtonWidget>("TopBar.Back").IsClicked)
 			{
 				ScreensManager.SwitchScreen(ScreensManager.PreviousScreen);

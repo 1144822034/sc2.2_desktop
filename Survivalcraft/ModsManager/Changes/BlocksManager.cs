@@ -130,7 +130,7 @@ namespace Game
 			m_categories.Add(LanguageControl.Get("BlocksManager", "Clothes"));
 			m_categories.Add(LanguageControl.Get("BlocksManager", "Electrics"));
 			m_categories.Add(LanguageControl.Get("BlocksManager", "Food"));
-			m_categories.Add(LanguageControl.Get("BlocksManager", "Spawner_Eggs"));
+			m_categories.Add(LanguageControl.Get("BlocksManager", "Spawner Eggs"));
 			m_categories.Add(LanguageControl.Get("BlocksManager", "Painted"));
 			m_categories.Add(LanguageControl.Get("BlocksManager", "Dyed"));
 			m_categories.Add(LanguageControl.Get("BlocksManager", "Fireworks"));

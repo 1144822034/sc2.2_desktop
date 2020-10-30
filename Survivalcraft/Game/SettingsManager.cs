@@ -469,8 +469,8 @@ namespace Game
 			HorizontalCreativeFlight = false;
 			DropboxAccessToken = string.Empty;
 			ScpboxAccessToken = string.Empty;
-			MotdUpdateUrl = "https://scresdir.appspot.com/motd/Motd-{0}.zip";
-			MotdBackupUpdateUrl = "https://scresdir.appspot.com/motd/Motd-{0}.zip";
+			MotdUpdateUrl = "https://scmod.aijiajia.xyz/com/motd?v={0}";
+			MotdBackupUpdateUrl = "https://scmod.aijiajia.xyz/com/motd?v={0}";
 			MotdUpdatePeriodHours = 12.0;
 			MotdLastUpdateTime = DateTime.MinValue;
 			MotdLastDownloadedData = string.Empty;

@@ -25,7 +25,7 @@ namespace Game
 
 			public float Duration;
 		}
-
+		public static string fName = "ComponentGui";
 		public SubsystemGameInfo m_subsystemGameInfo;
 
 		public SubsystemAudio m_subsystemAudio;
@@ -514,12 +514,12 @@ namespace Game
 				if (!m_keyboardHelpMessageShown && (m_componentPlayer.PlayerData.InputDevice & WidgetInputDevice.Keyboard) != 0 && Time.PeriodicEvent(7.0, 0.0))
 				{
 					m_keyboardHelpMessageShown = true;
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.press_h"), Color.White, blinking: true, playNotificationSound: true);
+					DisplaySmallMessage(LanguageControl.Get(fName,1), Color.White, blinking: true, playNotificationSound: true);
 				}
 				else if (!m_gamepadHelpMessageShown && (m_componentPlayer.PlayerData.InputDevice & WidgetInputDevice.Gamepads) != 0 && Time.PeriodicEvent(7.0, 0.0))
 				{
 					m_gamepadHelpMessageShown = true;
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.press_start"), Color.White, blinking: true, playNotificationSound: true);
+					DisplaySmallMessage(LanguageControl.Get(fName, 2), Color.White, blinking: true, playNotificationSound: true);
 				}
 			}
 			if (playerInput.KeyboardHelp)
@@ -590,11 +590,11 @@ namespace Game
 				{
 					if (m_componentPlayer.ComponentBody.IsSneaking)
 					{
-						DisplaySmallMessage(LanguageControl.getTranslate("componentgui.sneak_on"), Color.White, blinking: false, playNotificationSound: false);
+						DisplaySmallMessage(LanguageControl.Get(fName, 3), Color.White, blinking: false, playNotificationSound: false);
 					}
 					else
 					{
-						DisplaySmallMessage(LanguageControl.getTranslate("componentgui.sneak_off"), Color.White, blinking: false, playNotificationSound: false);
+						DisplaySmallMessage(LanguageControl.Get(fName, 4), Color.White, blinking: false, playNotificationSound: false);
 					}
 				}
 			}
@@ -617,11 +617,11 @@ namespace Game
 				{
 					if (componentRider.Mount != null)
 					{
-						DisplaySmallMessage(LanguageControl.getTranslate("componentgui.mounted"), Color.White, blinking: false, playNotificationSound: false);
+						DisplaySmallMessage(LanguageControl.Get(fName, 5), Color.White, blinking: false, playNotificationSound: false);
 					}
 					else
 					{
-						DisplaySmallMessage(LanguageControl.getTranslate("componentgui.dismounted"), Color.White, blinking: false, playNotificationSound: false);
+						DisplaySmallMessage(LanguageControl.Get(fName, 6), Color.White, blinking: false, playNotificationSound: false);
 					}
 				}
 			}
@@ -660,11 +660,11 @@ namespace Game
 					if (m_componentPlayer.ComponentLocomotion.IsCreativeFlyEnabled)
 					{
 						m_componentPlayer.ComponentLocomotion.JumpOrder = 1f;
-						DisplaySmallMessage(LanguageControl.getTranslate("componentgui.fly_on"), Color.White, blinking: false, playNotificationSound: false);
+						DisplaySmallMessage(LanguageControl.Get(fName, 7), Color.White, blinking: false, playNotificationSound: false);
 					}
 					else
 					{
-						DisplaySmallMessage(LanguageControl.getTranslate("componentgui.fly_off"), Color.White, blinking: false, playNotificationSound: false);
+						DisplaySmallMessage(LanguageControl.Get(fName, 8), Color.White, blinking: false, playNotificationSound: false);
 					}
 				}
 			}
@@ -674,32 +674,32 @@ namespace Game
 				if (gameWidget.ActiveCamera.GetType() == typeof(FppCamera))
 				{
 					gameWidget.ActiveCamera = gameWidget.FindCamera<TppCamera>();
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.third_camera"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 9), Color.White, blinking: false, playNotificationSound: false);
 				}
 				else if (gameWidget.ActiveCamera.GetType() == typeof(TppCamera))
 				{
 					gameWidget.ActiveCamera = gameWidget.FindCamera<OrbitCamera>();
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.orbit_camera"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 10), Color.White, blinking: false, playNotificationSound: false);
 				}
 				else if (gameWidget.ActiveCamera.GetType() == typeof(OrbitCamera))
 				{
 					gameWidget.ActiveCamera = gameWidget.FindCamera<FixedCamera>();
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.fixed_camera"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 11), Color.White, blinking: false, playNotificationSound: false);
 				}
 				else
 				{
 					gameWidget.ActiveCamera = gameWidget.FindCamera<FppCamera>();
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.first_camera"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 12), Color.White, blinking: false, playNotificationSound: false);
 				}
 			}
 			if (m_photoButtonWidget.IsClicked || playerInput.TakeScreenshot)
 			{
 				ScreenCaptureManager.CapturePhoto(delegate
 				{
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.photo_save"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 13), Color.White, blinking: false, playNotificationSound: false);
 				}, delegate
 				{
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.error_capuring"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 14), Color.White, blinking: false, playNotificationSound: false);
 				});
 			}
 			if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative && (m_lightningButtonWidget.IsClicked || playerInput.Lighting))
@@ -721,22 +721,22 @@ namespace Game
 				if (num6 == num10)
 				{
 					m_subsystemTimeOfDay.TimeOfDayOffset += num6;
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.dawn"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 15), Color.White, blinking: false, playNotificationSound: false);
 				}
 				else if (num7 == num10)
 				{
 					m_subsystemTimeOfDay.TimeOfDayOffset += num7;
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.noon"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 16), Color.White, blinking: false, playNotificationSound: false);
 				}
 				else if (num8 == num10)
 				{
 					m_subsystemTimeOfDay.TimeOfDayOffset += num8;
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.dusk"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 17), Color.White, blinking: false, playNotificationSound: false);
 				}
 				else if (num9 == num10)
 				{
 					m_subsystemTimeOfDay.TimeOfDayOffset += num9;
-					DisplaySmallMessage(LanguageControl.getTranslate("componentgui.midnight"), Color.White, blinking: false, playNotificationSound: false);
+					DisplaySmallMessage(LanguageControl.Get(fName, 18), Color.White, blinking: false, playNotificationSound: false);
 				}
 			}
 			if (ModalPanelWidget != null)

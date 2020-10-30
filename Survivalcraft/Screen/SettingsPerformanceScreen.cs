@@ -50,7 +50,7 @@ namespace Game
 		public ButtonWidget m_displayFpsRibbonButton;
 
 		public int m_enterVisibilityRange;
-
+		public static string fName = "SettingsPerformanceScreen";
 		public SettingsPerformanceScreen()
 		{
 			XElement node = ContentManager.Get<XElement>("Screens/SettingsPerformanceScreen");
@@ -115,13 +115,13 @@ namespace Game
 			{
 				SettingsManager.DisplayFpsRibbon = !SettingsManager.DisplayFpsRibbon;
 			}
-			m_resolutionButton.Text =LanguageControl.getTranslate("ResolutionMode." + SettingsManager.ResolutionMode.ToString());
+			m_resolutionButton.Text =LanguageControl.Get("ResolutionMode" , SettingsManager.ResolutionMode.ToString());
 			m_visibilityRangeSlider.Value = ((m_visibilityRanges.IndexOf(SettingsManager.VisibilityRange) >= 0) ? m_visibilityRanges.IndexOf(SettingsManager.VisibilityRange) : 64);
-			m_visibilityRangeSlider.Text = string.Format(LanguageControl.getTranslate("settingper.blocks"), SettingsManager.VisibilityRange);
+			m_visibilityRangeSlider.Text = string.Format(LanguageControl.Get(fName,1), SettingsManager.VisibilityRange);
 			if (SettingsManager.VisibilityRange <= 48)
 			{
 				m_visibilityRangeWarningLabel.IsVisible = true;
-				m_visibilityRangeWarningLabel.Text = "[settingper.good_for_lower]";
+				m_visibilityRangeWarningLabel.Text = LanguageControl.Get(fName,2);
 			}
 			else if (SettingsManager.VisibilityRange <= 64)
 			{
@@ -130,48 +130,48 @@ namespace Game
 			else if (SettingsManager.VisibilityRange <= 112)
 			{
 				m_visibilityRangeWarningLabel.IsVisible = true;
-				m_visibilityRangeWarningLabel.Text = "[settingper.1gb_com]";
+				m_visibilityRangeWarningLabel.Text = LanguageControl.Get(fName, 3);
 			}
 			else if (SettingsManager.VisibilityRange <= 224)
 			{
 				m_visibilityRangeWarningLabel.IsVisible = true;
-				m_visibilityRangeWarningLabel.Text = "[settingper.2gb_com]";
+				m_visibilityRangeWarningLabel.Text = LanguageControl.Get(fName, 4);
 			}
 			else if (SettingsManager.VisibilityRange <= 384)
 			{
 				m_visibilityRangeWarningLabel.IsVisible = true;
-				m_visibilityRangeWarningLabel.Text = "[settingper.4gb_com]";
+				m_visibilityRangeWarningLabel.Text = LanguageControl.Get(fName, 5);
 			}
 			else if (SettingsManager.VisibilityRange <= 512)
 			{
 				m_visibilityRangeWarningLabel.IsVisible = true;
-				m_visibilityRangeWarningLabel.Text = "[settingper.8gb_com]";
+				m_visibilityRangeWarningLabel.Text = LanguageControl.Get(fName, 6);
 			}
 			else
 			{
 				m_visibilityRangeWarningLabel.IsVisible = true;
-				m_visibilityRangeWarningLabel.Text = "[settingper.16gb_com]";
+				m_visibilityRangeWarningLabel.Text = LanguageControl.Get(fName, 7);
 			}
-			m_viewAnglesButton.Text =LanguageControl.getTranslate("ViewAngleMode." + SettingsManager.ViewAngleMode.ToString());
+			m_viewAnglesButton.Text =LanguageControl.Get("ViewAngleMode" , SettingsManager.ViewAngleMode.ToString());
 			if (SettingsManager.TerrainMipmapsEnabled) {
-				m_terrainMipmapsButton.Text = LanguageControl.getTranslate("system.enable");
+				m_terrainMipmapsButton.Text = LanguageControl.Get("Usual","enable");
 			}
 			else {
-				m_terrainMipmapsButton.Text = LanguageControl.getTranslate("system.disable");
+				m_terrainMipmapsButton.Text = LanguageControl.Get("Usual", "disable");
 			}
 			
-			m_skyRenderingModeButton.Text =LanguageControl.getTranslate("SkyRenderingMode." + SettingsManager.SkyRenderingMode.ToString());
-			m_objectShadowsButton.Text = SettingsManager.ObjectsShadowsEnabled ? LanguageControl.getTranslate("system.enable") : LanguageControl.getTranslate("system.disable");
+			m_skyRenderingModeButton.Text =LanguageControl.Get("SkyRenderingMode" , SettingsManager.SkyRenderingMode.ToString());
+			m_objectShadowsButton.Text = SettingsManager.ObjectsShadowsEnabled ? LanguageControl.Get("Usual", "enable") : LanguageControl.Get("Usual", "disable");
 			m_framerateLimitSlider.Value = (m_presentationIntervals.IndexOf(SettingsManager.PresentationInterval) >= 0) ? m_presentationIntervals.IndexOf(SettingsManager.PresentationInterval) : (m_presentationIntervals.Count - 1);
-			m_framerateLimitSlider.Text = (SettingsManager.PresentationInterval != 0) ? string.Format(LanguageControl.getTranslate("settingper.vsync"), SettingsManager.PresentationInterval) : LanguageControl.getTranslate("settingper.unlimited");
-			m_displayFpsCounterButton.Text = (SettingsManager.DisplayFpsCounter ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no"));
-			m_displayFpsRibbonButton.Text = (SettingsManager.DisplayFpsRibbon ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no"));
+			m_framerateLimitSlider.Text = (SettingsManager.PresentationInterval != 0) ? string.Format(LanguageControl.Get(fName,8), SettingsManager.PresentationInterval) : LanguageControl.Get(fName,9);
+			m_displayFpsCounterButton.Text = (SettingsManager.DisplayFpsCounter ? LanguageControl.Get("Usual","yes") : LanguageControl.Get("Usual","no"));
+			m_displayFpsRibbonButton.Text = (SettingsManager.DisplayFpsRibbon ? LanguageControl.Get("Usual","yes") : LanguageControl.Get("Usual","no"));
 			if (base.Input.Back || base.Input.Cancel || Children.Find<ButtonWidget>("TopBar.Back").IsClicked)
 			{
 				bool flag = SettingsManager.VisibilityRange > 128;
 				if (SettingsManager.VisibilityRange > m_enterVisibilityRange && flag)
 				{
-					DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.getTranslate("settingper.large_tip"), LanguageControl.getTranslate("settingper.large_content"), LanguageControl.getTranslate("system.ok"), LanguageControl.getTranslate("system.back"), delegate(MessageDialogButton button)
+					DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get(fName,10), LanguageControl.Get(fName,11), LanguageControl.Get("Usual", "ok"),  LanguageControl.Get("Usual","back"), delegate(MessageDialogButton button)
 					{
 						if (button == MessageDialogButton.Button1)
 						{

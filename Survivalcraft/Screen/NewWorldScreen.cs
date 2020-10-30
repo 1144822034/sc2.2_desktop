@@ -21,6 +21,8 @@ namespace Game
 
 		public LabelWidget m_errorLabel;
 
+		public static string fName = "NewWorldScreen";
+
 		public ButtonWidget m_playButton;
 
 		public Random m_random = new Random();
@@ -81,8 +83,8 @@ namespace Game
 			bool flag = WorldsManager.ValidateWorldName(m_worldSettings.Name);
 			m_nameTextBox.Text = m_worldSettings.Name;
 			m_seedTextBox.Text = m_worldSettings.Seed;
-			m_gameModeButton.Text =LanguageControl.getTranslate( m_worldSettings.GameMode.ToString());
-			m_startingPositionButton.Text =LanguageControl.getTranslate( m_worldSettings.StartingPositionMode.ToString());
+			m_gameModeButton.Text =LanguageControl.Get("GameMode", m_worldSettings.GameMode.ToString());
+			m_startingPositionButton.Text =LanguageControl.Get("StartingPositionMode", m_worldSettings.StartingPositionMode.ToString());
 			m_playButton.IsVisible = flag;
 			m_errorLabel.IsVisible = !flag;
 			m_blankSeedLabel.IsVisible = (m_worldSettings.Seed.Length == 0 && !m_seedTextBox.HasFocus);

@@ -329,7 +329,7 @@ namespace Game
 			{
 				return base.GetCategory(value);
 			}
-			return LanguageControl.getTranslate("sccate.Painted");
+			return LanguageControl.Get("BlocksManager","Painted");
 		}
 
 		public override void GetDropValues(SubsystemTerrain subsystemTerrain, int oldValue, int newValue, int toolLevel, List<BlockDropValue> dropValues, out bool showDebris)

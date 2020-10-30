@@ -48,7 +48,7 @@ namespace Game
 		public ButtonWidget m_deleteButton;
 
 		public ButtonWidget m_playButton;
-
+		public static string fName = "PlayerScreen";
 		public WidgetInputDevice[] m_inputDevices = new WidgetInputDevice[5]
 		{
 			WidgetInputDevice.None,
@@ -159,7 +159,7 @@ namespace Game
 			{
 				CharacterSkinsManager.UpdateCharacterSkinsList();
 				IEnumerable<string> items = CharacterSkinsManager.CharacterSkinsNames.Where((string n) => CharacterSkinsManager.GetPlayerClass(n) == m_playerData.PlayerClass || !CharacterSkinsManager.GetPlayerClass(n).HasValue);
-				ListSelectionDialog dialog = new ListSelectionDialog("Select Character Skin", items, 64f, delegate(object item)
+				ListSelectionDialog dialog = new ListSelectionDialog(LanguageControl.Get(fName,1), items, 64f, delegate(object item)
 				{
 					XElement node = ContentManager.Get<XElement>("Widgets/CharacterSkinItem");
 					ContainerWidget obj = (ContainerWidget)Widget.LoadWidget(this, node, null);
@@ -182,7 +182,7 @@ namespace Game
 			}
 			if (m_controlsButton.IsClicked)
 			{
-				DialogsManager.ShowDialog(null, new ListSelectionDialog("Select Input Device", m_inputDevices, 56f, (object d) => GetDeviceDisplayName((WidgetInputDevice)d), delegate(object d)
+				DialogsManager.ShowDialog(null, new ListSelectionDialog(LanguageControl.Get(fName,2), m_inputDevices, 56f, (object d) => GetDeviceDisplayName((WidgetInputDevice)d), delegate(object d)
 				{
 					WidgetInputDevice widgetInputDevice = (WidgetInputDevice)d;
 					m_playerData.InputDevice = widgetInputDevice;
@@ -202,7 +202,7 @@ namespace Game
 			}
 			if (m_deleteButton.IsClicked)
 			{
-				DialogsManager.ShowDialog(null, new MessageDialog("Warning", "The player will be irrecoverably removed from the world. All items in inventory and stats will be lost.", "确定", "取消", delegate(MessageDialogButton b)
+				DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get("Usual", "warning"), LanguageControl.Get(fName,3), LanguageControl.Get("Usual","ok"), LanguageControl.Get("Usual","cancel"), delegate(MessageDialogButton b)
 				{
 					if (b == MessageDialogButton.Button1)
 					{
@@ -242,19 +242,19 @@ namespace Game
 			switch (device)
 			{
 			case WidgetInputDevice.Keyboard | WidgetInputDevice.Mouse:
-				return LanguageControl.getTranslate("playerscreen.input_device");
+				return LanguageControl.Get(fName,4);
 			case WidgetInputDevice.GamePad1:
-				return LanguageControl.getTranslate("playerscreen.pad1") + (GamePad.IsConnected(0) ? "" : LanguageControl.getTranslate("playerscreen.pad_not_found"));
+				return LanguageControl.Get(fName, 5) + (GamePad.IsConnected(0) ? "" : LanguageControl.Get(fName, 9));
 			case WidgetInputDevice.GamePad2:
-				return LanguageControl.getTranslate("playerscreen.pad2") + (GamePad.IsConnected(1) ? "" : LanguageControl.getTranslate("playerscreen.pad_not_found"));
+				return LanguageControl.Get(fName, 6) + (GamePad.IsConnected(1) ? "" : LanguageControl.Get(fName, 9));
 			case WidgetInputDevice.GamePad3:
-				return LanguageControl.getTranslate("playerscreen.pad3") + (GamePad.IsConnected(2) ? "" : LanguageControl.getTranslate("playerscreen.pad_not_found"));
+				return LanguageControl.Get(fName, 7) + (GamePad.IsConnected(2) ? "" : LanguageControl.Get(fName, 9));
 			case WidgetInputDevice.GamePad4:
-				return LanguageControl.getTranslate("playerscreen.pad4") + (GamePad.IsConnected(3) ? "" : LanguageControl.getTranslate("playerscreen.pad_not_found"));
+				return LanguageControl.Get(fName, 8) + (GamePad.IsConnected(3) ? "" : LanguageControl.Get(fName, 9));
 			case WidgetInputDevice.VrControllers:
-				return LanguageControl.getTranslate("playerscreen.vr") + (VrManager.IsVrAvailable ? "" : LanguageControl.getTranslate("playerscreen.pad_not_found"));
+				return LanguageControl.Get(fName, 11) + (VrManager.IsVrAvailable ? "" : LanguageControl.Get(fName, 9));
 			default:
-				return LanguageControl.getTranslate("playerscreen.touchscreen");
+				return LanguageControl.Get(fName, 10);
 			}
 		}
 
@@ -268,7 +268,7 @@ namespace Game
 			{
 				return true;
 			}
-			DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.getTranslate("system.error"), LanguageControl.getTranslate("invaild_player_name"), LanguageControl.getTranslate("system.ok"), null, null));
+			DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get("Usual", "error"), LanguageControl.Get(fName,12), LanguageControl.Get("Usual", "ok"), null, null));
 			return false;
 		}
 	}

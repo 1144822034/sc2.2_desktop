@@ -43,14 +43,15 @@ namespace Game
             {//加载原版语言包
                 string txt = System.Text.Encoding.UTF8.GetString(data);
                 txt = txt.Substring(1, txt.Length - 1);
-                JsonArray obj = (JsonArray)SimpleJson.SimpleJson.DeserializeObject(txt);                
+                JsonObject obj = (JsonObject)SimpleJson.SimpleJson.DeserializeObject(txt);                
                 foreach (KeyValuePair<string, object> lla in obj)
                 {
+                    string d = lla.Value.ToString();
                     JsonObject json = (JsonObject)lla.Value;
                     Dictionary<string, string> values = new Dictionary<string, string>();
                     foreach (KeyValuePair<string,object> llb in json) {
                         if (values.ContainsKey(llb.Key)) values.Add(llb.Key, llb.Value.ToString());//遇到重复自动覆盖
-                        else values[lla.Key] = llb.Value.ToString();
+                        else values[llb.Key] = llb.Value.ToString();
                     }
                     if (items.ContainsKey(lla.Key)) items[lla.Key] = values;
                     else items.Add(lla.Key,values);

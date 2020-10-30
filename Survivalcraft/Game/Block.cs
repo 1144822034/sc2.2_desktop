@@ -162,7 +162,7 @@ namespace Game
 		public int DefaultRotPeriod;
 
 		public float DefaultSicknessProbability;
-
+		public static string fName = "Block";
 		protected Random Random = new Random();
 
 		private static BoundingBox[] m_defaultCollisionBoxes = new BoundingBox[1]
@@ -174,7 +174,7 @@ namespace Game
 		{
 			if (Durability < -1 || Durability > 65535)
 			{
-				throw new InvalidOperationException($"Block {DefaultDisplayName} has ToolDurability < -1 or > 65535.");
+				throw new InvalidOperationException(string.Format(LanguageControl.Get(fName,1), DefaultDisplayName));
 			}
 		}
 
@@ -190,7 +190,7 @@ namespace Game
 
 		public virtual string GetCategory(int value)
 		{
-			return LanguageControl.getTranslate("sccate." + DefaultCategory);
+			return LanguageControl.Get("BlocksManager" , DefaultCategory);
 		}
 
 		public virtual IEnumerable<int> GetCreativeValues()

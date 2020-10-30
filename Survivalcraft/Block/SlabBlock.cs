@@ -173,7 +173,7 @@ namespace Game
 			{
 				return base.GetCategory(value);
 			}
-			return LanguageControl.getTranslate("sccate.Painted");
+			return LanguageControl.Get("BlocksManager", "Painted");
 		}
 
 		public override IEnumerable<int> GetCreativeValues()

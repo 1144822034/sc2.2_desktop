@@ -8,6 +8,8 @@ namespace Game
 	{
 		public const int Index = 168;
 
+		public new static string fName = "SoilBlock";
+
 		public static BoundingBox[] m_collisionBoxes = new BoundingBox[1]
 		{
 			new BoundingBox(new Vector3(0f, 0f, 0f), new Vector3(1f, 0.9375f, 1f))
@@ -66,17 +68,19 @@ namespace Game
 			bool hydration = GetHydration(data);
 			if (nitrogen > 0 && hydration)
 			{
-				return LanguageControl.getTranslate( "block.Moist_Compost");
+				string nm = LanguageControl.Get(fName, 2);
+				return LanguageControl.Get(fName,1);
 			}
 			if (nitrogen > 0)
 			{
-				return LanguageControl.getTranslate("block.Compost");
+				string nm = LanguageControl.Get(fName, 2);
+				return LanguageControl.Get(fName, 2);
 			}
 			if (hydration)
 			{
-				return LanguageControl.getTranslate("block.Moist_Soil");
+				return LanguageControl.Get(fName, 3);
 			}
-			return LanguageControl.getTranslate("block.Soil");
+			return LanguageControl.Get(fName, 4);
 		}
 
 		public override void GenerateTerrainVertices(BlockGeometryGenerator generator, TerrainGeometry geometry, int value, int x, int y, int z)

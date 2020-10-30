@@ -2,6 +2,7 @@ using Engine;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -38,6 +39,8 @@ namespace Game
 		public Order m_order;
 
 		public double m_contentExpiryTime;
+
+		public static string fName= "CommunityContentScreen";
 
 		public Dictionary<string, IEnumerable<object>> m_itemsCache = new Dictionary<string, IEnumerable<object>>();
 
@@ -100,7 +103,7 @@ namespace Game
 			if (m_changeOrderButton.IsClicked)
 			{
 				List<Order> items = EnumUtils.GetEnumValues(typeof(Order)).Cast<Order>().ToList();
-				DialogsManager.ShowDialog(null, new ListSelectionDialog(LanguageControl.Get("CommunityContentScreen", "Order Type"), items, 60f, (object item) => GetOrderDisplayName((Order)item), delegate(object item)
+				DialogsManager.ShowDialog(null, new ListSelectionDialog(LanguageControl.Get(fName, "Order Type"), items, 60f, (object item) => GetOrderDisplayName((Order)item), delegate(object item)
 				{
 					m_order = (Order)item;
 					PopulateList(null);
@@ -120,7 +123,7 @@ namespace Game
 				{
 					list.Add(UserManager.ActiveUser.UniqueId);
 				}
-				DialogsManager.ShowDialog(null, new ListSelectionDialog("筛选", list, 60f, (object item) => GetFilterDisplayName(item), delegate(object item)
+				DialogsManager.ShowDialog(null, new ListSelectionDialog(LanguageControl.Get(fName, "Filter"), list, 60f, (object item) => GetFilterDisplayName(item), delegate(object item)
 				{
 					m_filter = item;
 					PopulateList(null);
@@ -165,8 +168,8 @@ namespace Game
 				text = "0";
 			}
 			string text2 = (m_filter is string) ? ((string)m_filter) : string.Empty;
-			string text3 = (m_filter is ExternalContentType) ? LanguageControl.Get("CommunityContentScreen", m_filter.ToString()) : string.Empty;
-			string text4 = LanguageControl.Get("CommunityContentScreen", m_order.ToString());
+			string text3 = (m_filter is ExternalContentType) ? LanguageControl.Get(fName, m_filter.ToString()) : string.Empty;
+			string text4 = LanguageControl.Get(fName, m_order.ToString());
 			string cacheKey = text2 + "\n" + text3 + "\n" + text4 + "\n" + text;
 			m_moreLink = null;
 			if (string.IsNullOrEmpty(cursor))
@@ -182,7 +185,7 @@ namespace Game
 					return;
 				}
 			}
-			CancellableBusyDialog busyDialog = new CancellableBusyDialog("获取内容中...", autoHideOnCancel: false);
+			CancellableBusyDialog busyDialog = new CancellableBusyDialog(LanguageControl.Get(fName,2), autoHideOnCancel: false);
 			DialogsManager.ShowDialog(null, busyDialog);
 			CommunityContentManager.List(cursor, text2, text3, text, text4, busyDialog.Progress, delegate(List<CommunityContentEntry> list, string nextCursor)
 			{
@@ -204,14 +207,14 @@ namespace Game
 			}, delegate(Exception error)
 			{
 				DialogsManager.HideDialog(busyDialog);
-				DialogsManager.ShowDialog(null, new MessageDialog("错误", error.Message, "确定", null, null));
+				DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get("Usual", "error"), error.Message, LanguageControl.Get("Usual","ok"), null, null));
 			});
 		}
 
 		public void DownloadEntry(CommunityContentEntry entry)
 		{
 			string userId = (UserManager.ActiveUser != null) ? UserManager.ActiveUser.UniqueId : string.Empty;
-			CancellableBusyDialog busyDialog = new CancellableBusyDialog($"下载 {entry.Name}", autoHideOnCancel: false);
+			CancellableBusyDialog busyDialog = new CancellableBusyDialog(string.Format(LanguageControl.Get(fName, 1), entry.Name), autoHideOnCancel: false);
 			DialogsManager.ShowDialog(null, busyDialog);
 			CommunityContentManager.Download(entry.Address, entry.Name, entry.Type, userId, busyDialog.Progress, delegate
 			{
@@ -219,7 +222,7 @@ namespace Game
 			}, delegate(Exception error)
 			{
 				DialogsManager.HideDialog(busyDialog);
-				DialogsManager.ShowDialog(null, new MessageDialog("错误", error.Message, "确定", null, null));
+				DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get("Usual", "error"), error.Message, LanguageControl.Get("Usual", "ok"), null, null));
 			});
 		}
 
@@ -227,20 +230,20 @@ namespace Game
 		{
 			if (UserManager.ActiveUser != null)
 			{
-				DialogsManager.ShowDialog(null, new MessageDialog("你确定吗?", "这个链接将会从服务器删除", LanguageControl.Get("Usual", "yes"), LanguageControl.Get("Usual", "no"), delegate(MessageDialogButton button)
+				DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get(fName, 4), LanguageControl.Get(fName, 5), LanguageControl.Get("Usual", "yes"), LanguageControl.Get("Usual", "no"), delegate(MessageDialogButton button)
 				{
 					if (button == MessageDialogButton.Button1)
 					{
-						CancellableBusyDialog busyDialog = new CancellableBusyDialog($"Deleting {entry.Name}", autoHideOnCancel: false);
+						CancellableBusyDialog busyDialog = new CancellableBusyDialog(string.Format(LanguageControl.Get(fName,3), entry.Name), autoHideOnCancel: false);
 						DialogsManager.ShowDialog(null, busyDialog);
 						CommunityContentManager.Delete(entry.Address, UserManager.ActiveUser.UniqueId, busyDialog.Progress, delegate
 						{
 							DialogsManager.HideDialog(busyDialog);
-							DialogsManager.ShowDialog(null, new MessageDialog("链接删除", "这个链接将会从列表中消失", "确定", null, null));
+							DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get(fName, 6), LanguageControl.Get(fName, 7), LanguageControl.Get("Usual", "ok"), null, null));
 						}, delegate(Exception error)
 						{
 							DialogsManager.HideDialog(busyDialog);
-							DialogsManager.ShowDialog(null, new MessageDialog("错误", error.Message, "确定", null, null));
+							DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get("Usual", "error"), error.Message, LanguageControl.Get("Usual", "ok"), null, null));
 						});
 					}
 				}));
@@ -253,15 +256,15 @@ namespace Game
 			{
 				if (!string.IsNullOrEmpty((string)filter))
 				{
-					return "只看自己";
+					return LanguageControl.Get(fName, 8);
 				}
-				return "全部";
+				return LanguageControl.Get(fName, 9);
 			}
 			if (filter is ExternalContentType)
 			{
 				return ExternalContentManager.GetEntryTypeDescription((ExternalContentType)filter);
 			}
-			throw new InvalidOperationException("Invalid filter.");
+			throw new InvalidOperationException(LanguageControl.Get(fName, 10));
 		}
 
 		public static string GetOrderDisplayName(Order order)
@@ -269,11 +272,11 @@ namespace Game
 			switch (order)
 			{
 			case Order.ByRank:
-				return "评分最高";
+				return LanguageControl.Get(fName, 11);
 			case Order.ByTime:
-				return "最新添加";
+				return LanguageControl.Get(fName, 12);
 			default:
-				throw new InvalidOperationException("Invalid order.");
+				throw new InvalidOperationException(LanguageControl.Get(fName, 13));
 			}
 		}
 	}

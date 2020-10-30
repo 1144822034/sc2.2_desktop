@@ -33,6 +33,7 @@ namespace Game
 		public float m_digProgress;
 
 		public double m_lastHitTime;
+		public static string fName = "ComponentMiner";
 
 		public int m_lastDigFrameIndex;
 
@@ -148,7 +149,7 @@ namespace Game
 				m_digProgress = 0f;
 				if (m_subsystemTime.PeriodicGameTimeEvent(5.0, m_digStartTime + 1.0))
 				{
-					ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.getTranslate("componentminer.not_tool_level"), block2.PlayerLevelRequired, block2.GetDisplayName(m_subsystemTerrain, activeBlockValue)), Color.White, blinking: true, playNotificationSound: true);
+					ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), block2.PlayerLevelRequired, block2.GetDisplayName(m_subsystemTerrain, activeBlockValue)), Color.White, blinking: true, playNotificationSound: true);
 				}
 			}
 			bool flag = ComponentPlayer != null && !ComponentPlayer.ComponentInput.IsControlledByTouch && m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative;
@@ -256,7 +257,7 @@ namespace Game
 			Block block = BlocksManager.Blocks[num];
 			if (!CanUseTool(ActiveBlockValue))
 			{
-				ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.getTranslate("componentminer.not_tool_level"), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
+				ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
 				Poke(forceRestart: false);
 				return false;
 			}
@@ -301,7 +302,7 @@ namespace Game
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(ActiveBlockValue)];
 			if (!CanUseTool(ActiveBlockValue))
 			{
-				ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.getTranslate("componentminer.not_tool_level"), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
+				ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
 				Poke(forceRestart: false);
 				return;
 			}
@@ -335,7 +336,7 @@ namespace Game
 			}
 			else if (ComponentCreature is ComponentPlayer)
 			{
-				HitValueParticleSystem particleSystem = new HitValueParticleSystem(hitPoint + 0.75f * hitDirection, 1f * hitDirection + ComponentCreature.ComponentBody.Velocity, Color.White, "Miss");
+				HitValueParticleSystem particleSystem = new HitValueParticleSystem(hitPoint + 0.75f * hitDirection, 1f * hitDirection + ComponentCreature.ComponentBody.Velocity, Color.White, LanguageControl.Get(fName,2));
 				base.Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
 			}
 			if (ComponentCreature.PlayerStats != null)
@@ -357,7 +358,7 @@ namespace Game
 			{
 				if (!CanUseTool(ActiveBlockValue))
 				{
-					ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.getTranslate("componentminer.not_tool_level"), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
+					ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
 					Poke(forceRestart: false);
 					return true;
 				}
@@ -473,7 +474,7 @@ namespace Game
 		{
 			if (attacker != null && attacker is ComponentPlayer && target.Entity.FindComponent<ComponentPlayer>() != null && !target.Project.FindSubsystem<SubsystemGameInfo>(throwOnError: true).WorldSettings.IsFriendlyFireEnabled)
 			{
-				attacker.Entity.FindComponent<ComponentGui>(throwOnError: true).DisplaySmallMessage(LanguageControl.getTranslate("componentminer.player_attack_dis"), Color.White, blinking: true, playNotificationSound: true);
+				attacker.Entity.FindComponent<ComponentGui>(throwOnError: true).DisplaySmallMessage(LanguageControl.Get(fName,3), Color.White, blinking: true, playNotificationSound: true);
 				return;
 			}
 			if (attackPower > 0f)
@@ -497,29 +498,29 @@ namespace Game
 					{
 						string str = attacker.KillVerbs[s_random.Int(0, attacker.KillVerbs.Count - 1)];
 						string attackerName = attacker.DisplayName;
-						cause =string.Format(LanguageControl.getTranslate("componentminer.byan"),attackerName,str);
+						cause =string.Format(LanguageControl.Get(fName,4),attackerName,str);
 					}
 					else
 					{
 						switch (s_random.Int(0, 5))
 						{
 						case 0:
-							cause = LanguageControl.getTranslate("componentminer.force_majeure");
+							cause = LanguageControl.Get(fName, 5);
 							break;
 						case 1:
-							cause = LanguageControl.getTranslate("componentminer.accident");
+							cause = LanguageControl.Get(fName, 6);
 							break;
 						case 2:
-							cause = LanguageControl.getTranslate("componentminer.bad_luck");
+							cause = LanguageControl.Get(fName, 7);
 							break;
 						case 3:
-							cause = LanguageControl.getTranslate("componentminer.unknown_attacker");
+							cause = LanguageControl.Get(fName, 8);
 							break;
 						case 4:
-							cause = LanguageControl.getTranslate("componentminer.wrong_place");
+							cause = LanguageControl.Get(fName, 9);
 							break;
 						default:
-							cause = LanguageControl.getTranslate("componentminer.unlucky");
+							cause = LanguageControl.Get(fName, 10);
 							break;
 						}
 					}

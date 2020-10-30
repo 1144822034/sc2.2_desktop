@@ -16,7 +16,7 @@ namespace Game
 		}
 
 		public Random m_random = new Random();
-
+		public static string fName = "ComponentLevel";
 		public List<Factor> m_factors = new List<Factor>();
 
 		public float? m_lastLevelTextValue;
@@ -76,7 +76,7 @@ namespace Game
 				{
 					Time.QueueTimeDelayedExecution(Time.FrameStartTime + 0.5 + 0.0, delegate
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentlevel.gained_level"), Color.White, blinking: true, playNotificationSound: false);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName,1), Color.White, blinking: true, playNotificationSound: false);
 					});
 					Time.QueueTimeDelayedExecution(Time.FrameStartTime + 0.5 + 0.0, delegate
 					{
@@ -129,7 +129,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num3,
-					Description = LanguageControl.getTranslate("componentlevel.level") + MathUtils.Floor(level).ToString()
+					Description = string.Format(LanguageControl.Get(fName, 2), MathUtils.Floor(level).ToString())
 				};
 				factors.Add(item);
 			}
@@ -141,7 +141,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num5,
-					Description = string.Format(LanguageControl.getTranslate("componentlevel.stamina"),$"{stamina * 100f:0}")
+					Description = string.Format(LanguageControl.Get(fName,3),$"{stamina * 100f:0}")
 				};
 				factors.Add(item);
 			}
@@ -152,7 +152,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num7,
-					Description = (m_componentPlayer.ComponentSickness.IsSick ? LanguageControl.getTranslate("componentlevel.sickness") : LanguageControl.getTranslate("componentlevel.no_sickness"))
+					Description = (m_componentPlayer.ComponentSickness.IsSick ? LanguageControl.Get(fName,4) : LanguageControl.Get(fName,5))
 				};
 				factors.Add(item);
 			}
@@ -163,7 +163,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num9,
-					Description = (m_componentPlayer.ComponentSickness.IsPuking ? LanguageControl.getTranslate("componentlevel.vomiting") : LanguageControl.getTranslate("componentlevel.no_vomiting"))
+					Description = (m_componentPlayer.ComponentSickness.IsPuking ? LanguageControl.Get(fName,6) : LanguageControl.Get(fName,7))
 				};
 				factors.Add(item);
 			}
@@ -174,7 +174,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num11,
-					Description = (m_componentPlayer.ComponentFlu.HasFlu ? LanguageControl.getTranslate("componentlevel.flu") : LanguageControl.getTranslate("componentlevel.no_flu"))
+					Description = (m_componentPlayer.ComponentFlu.HasFlu ? LanguageControl.Get(fName,8) : LanguageControl.Get(fName,9))
 				};
 				factors.Add(item);
 			}
@@ -185,7 +185,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num13,
-					Description = (m_componentPlayer.ComponentFlu.IsCoughing ? LanguageControl.getTranslate("componentlevel.coughing") : LanguageControl.getTranslate("componentlevel.no_coughing"))
+					Description = (m_componentPlayer.ComponentFlu.IsCoughing ? LanguageControl.Get(fName,10) : LanguageControl.Get(fName,11))
 				};
 				factors.Add(item);
 			}
@@ -196,7 +196,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num15,
-					Description = m_subsystemGameInfo.WorldSettings.GameMode.ToString() + LanguageControl.getTranslate("componentlevel.mode")
+					Description = string.Format(LanguageControl.Get(fName,12), m_subsystemGameInfo.WorldSettings.GameMode.ToString())
 				};
 				factors.Add(item);
 			}
@@ -225,7 +225,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num3,
-					Description = "Level " + MathUtils.Floor(level).ToString()
+					Description = string.Format(LanguageControl.Get(fName, 2), MathUtils.Floor(level).ToString())
 				};
 				factors.Add(item);
 			}
@@ -236,7 +236,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num5,
-					Description = (m_componentPlayer.ComponentSickness.IsSick ? LanguageControl.getTranslate("componentlevel.sickness") : LanguageControl.getTranslate("componentlevel.no_sickness"))
+					Description = (m_componentPlayer.ComponentSickness.IsSick ? LanguageControl.Get(fName,4) : LanguageControl.Get(fName,5))
 				};
 				factors.Add(item);
 			}
@@ -247,7 +247,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num7,
-					Description = (m_componentPlayer.ComponentFlu.HasFlu ? LanguageControl.getTranslate("componentlevel.flu") : LanguageControl.getTranslate("componentlevel.no_flu"))
+					Description = (m_componentPlayer.ComponentFlu.HasFlu ? LanguageControl.Get(fName,8) : LanguageControl.Get(fName,9))
 				};
 				factors.Add(item);
 			}
@@ -266,7 +266,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num9,
-					Description = m_subsystemGameInfo.WorldSettings.GameMode.ToString() + LanguageControl.getTranslate("componentlevel.mode")
+					Description =string.Format(LanguageControl.Get(fName,12), m_subsystemGameInfo.WorldSettings.GameMode.ToString() )
 				};
 				factors.Add(item);
 			}
@@ -296,7 +296,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num3,
-					Description = "Level " + MathUtils.Floor(level).ToString()
+					Description =string.Format( LanguageControl.Get(fName,2), MathUtils.Floor(level).ToString())
 				};
 				factors.Add(item);
 			}
@@ -326,7 +326,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num4,
-					Description = $"{stamina * 100f:0}% Stamina"
+					Description = string.Format(LanguageControl.Get(fName,3), $"{stamina * 100f:0}")
 				};
 				factors.Add(item);
 			}
@@ -337,7 +337,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num5,
-					Description = (m_componentPlayer.ComponentSickness.IsSick ? LanguageControl.getTranslate("componentlevel.sickness") : LanguageControl.getTranslate("componentlevel.no_sickness"))
+					Description = (m_componentPlayer.ComponentSickness.IsSick ? LanguageControl.Get(fName,4) : LanguageControl.Get(fName,5))
 				};
 				factors.Add(item);
 			}
@@ -348,7 +348,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num6,
-					Description = (m_componentPlayer.ComponentSickness.IsPuking ? LanguageControl.getTranslate("componentlevel.volmiting") : LanguageControl.getTranslate("componentlevel.no_volmiting"))
+					Description = (m_componentPlayer.ComponentSickness.IsPuking ? LanguageControl.Get(fName,6) : LanguageControl.Get(fName,7))
 				};
 				factors.Add(item);
 			}
@@ -359,7 +359,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num7,
-					Description = (m_componentPlayer.ComponentFlu.HasFlu ? LanguageControl.getTranslate("componentlevel.flu") : LanguageControl.getTranslate("componentlevel.no_flu"))
+					Description = (m_componentPlayer.ComponentFlu.HasFlu ? LanguageControl.Get(fName,8) : LanguageControl.Get(fName,9))
 				};
 				factors.Add(item);
 			}
@@ -370,7 +370,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num8,
-					Description = (m_componentPlayer.ComponentFlu.IsCoughing ? LanguageControl.getTranslate("componentlevel.coughing") : LanguageControl.getTranslate("componentlevel.no_coughing"))
+					Description = (m_componentPlayer.ComponentFlu.IsCoughing ? LanguageControl.Get(fName,10) : LanguageControl.Get(fName,11))
 				};
 				factors.Add(item);
 			}
@@ -399,7 +399,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num3,
-					Description = "Level " + MathUtils.Floor(level).ToString()
+					Description = string.Format(LanguageControl.Get(fName,2), MathUtils.Floor(level).ToString())
 				};
 				factors.Add(item);
 			}
@@ -418,7 +418,7 @@ namespace Game
 				item = new Factor
 				{
 					Value = num5,
-					Description = m_subsystemGameInfo.WorldSettings.GameMode.ToString() + LanguageControl.getTranslate("componentlevel.mode")
+					Description =string.Format(LanguageControl.Get(fName,12), m_subsystemGameInfo.WorldSettings.GameMode.ToString())
 				};
 				factors.Add(item);
 			}

@@ -32,6 +32,7 @@ namespace Game
 
 		public ValuesDictionary m_originalWorldSettingsData = new ValuesDictionary();
 
+		public static string fName = "ModifyWorldScreen";
 		public ModifyWorldScreen()
 		{
 			XElement node = ContentManager.Get<XElement>("Screens/ModifyWorldScreen");
@@ -80,7 +81,7 @@ namespace Game
 			bool flag2 = WorldsManager.ValidateWorldName(m_worldSettings.Name);
 			m_nameTextBox.Text = m_worldSettings.Name;
 			m_seedLabel.Text = m_worldSettings.Seed;
-			m_gameModeButton.Text =LanguageControl.getTranslate("GameMode." + m_worldSettings.GameMode.ToString());
+			m_gameModeButton.Text =LanguageControl.Get("GameMode" , m_worldSettings.GameMode.ToString());
 			m_gameModeButton.IsEnabled = (m_worldSettings.GameMode != GameMode.Cruel);
 			m_errorLabel.IsVisible = !flag2;
 			m_descriptionLabel.IsVisible = flag2;
@@ -94,7 +95,7 @@ namespace Game
 			if (m_deleteButton.IsClicked)
 			{
 				MessageDialog dialog = null;
-				dialog = new MessageDialog(LanguageControl.getTranslate("modify.are.you.sure"), LanguageControl.getTranslate("modify.delete.tip"), LanguageControl.getTranslate("system.yes"), LanguageControl.getTranslate("system.no"), delegate(MessageDialogButton button)
+				dialog = new MessageDialog(LanguageControl.Get(fName,1), LanguageControl.Get(fName, 2), LanguageControl.Get("Usual", "yes"), LanguageControl.Get("Usual", "no"), delegate(MessageDialogButton button)
 				{
 					if (button == MessageDialogButton.Button1)
 					{
@@ -127,7 +128,7 @@ namespace Game
 			{
 				if (flag)
 				{
-					DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.getTranslate("modify.abondon"), LanguageControl.getTranslate("modify.abondon.tip"), LanguageControl.getTranslate("system.yes"), LanguageControl.getTranslate("system.no"), delegate(MessageDialogButton button)
+					DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get(fName, 3), LanguageControl.Get(fName, 4), LanguageControl.Get("Usual","yes"), LanguageControl.Get("Usual","no"), delegate(MessageDialogButton button)
 					{
 						if (button == MessageDialogButton.Button1)
 						{

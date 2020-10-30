@@ -63,7 +63,7 @@ namespace Game
 				Margin = new Vector2(0f, 10f),
 				Color = white
 			});
-			AddStat(stackPanelWidget, "游戏模式", LanguageControl.getTranslate("GameMode."+subsystemGameInfo.WorldSettings.GameMode.ToString()) + ", " +LanguageControl.getTranslate( subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode.ToString()));
+			AddStat(stackPanelWidget, "游戏模式", LanguageControl.Get("GameMode",subsystemGameInfo.WorldSettings.GameMode.ToString()) + ", " +LanguageControl.Get("EnvironmentBehaviorMode", subsystemGameInfo.WorldSettings.EnvironmentBehaviorMode.ToString()));
 			AddStat(stackPanelWidget, "地形类型", StringsManager.GetString("TerrainGenerationMode." + subsystemGameInfo.WorldSettings.TerrainGenerationMode.ToString() + ".Name"));
 			string seed = subsystemGameInfo.WorldSettings.Seed;
 			AddStat(stackPanelWidget, "世界种子", (!string.IsNullOrEmpty(seed)) ? seed : "(没有)");
@@ -228,7 +228,7 @@ namespace Game
 				{
 					list.Add(new Tuple<string, Action>("重置冒险", delegate
 					{
-						DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("重置冒险？", "冒险将重新开始", LanguageControl.getTranslate("system.yes"), LanguageControl.getTranslate("system.no"), delegate (MessageDialogButton result)
+						DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("重置冒险？", "冒险将重新开始", LanguageControl.Get("Usual","yes"), LanguageControl.Get("Usual","no"), delegate (MessageDialogButton result)
 						{
 							if (result == MessageDialogButton.Button1)
 							{

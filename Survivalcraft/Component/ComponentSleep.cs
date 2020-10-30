@@ -25,7 +25,7 @@ namespace Game
 		public float m_sleepFactor;
 
 		public bool m_allowManualWakeUp;
-
+		public static string fName = "ComponentSleep";
 		public float m_minWetness;
 
 		public float m_messageFactor;
@@ -41,22 +41,22 @@ namespace Game
 			Block block = m_componentPlayer.ComponentBody.StandingOnValue.HasValue ? BlocksManager.Blocks[Terrain.ExtractContents(m_componentPlayer.ComponentBody.StandingOnValue.Value)] : null;
 			if (block == null || m_componentPlayer.ComponentBody.ImmersionDepth > 0f)
 			{
-				reason = LanguageControl.getTranslate("componentsleep.must_dry");
+				reason = LanguageControl.Get(fName,1);
 				return false;
 			}
 			if (block != null && block.SleepSuitability == 0f)
 			{
-				reason = LanguageControl.getTranslate("componentsleep.uncomfortable");
+				reason = LanguageControl.Get(fName, 2);
 				return false;
 			}
 			if (m_componentPlayer.ComponentVitalStats.Sleep > 0.99f)
 			{
-				reason = LanguageControl.getTranslate("componentsleep.not_tired");
+				reason = LanguageControl.Get(fName, 3);
 				return false;
 			}
 			if (m_componentPlayer.ComponentVitalStats.Wetness > 0.95f)
 			{
-				reason = LanguageControl.getTranslate("componentsleep.not_wet");
+				reason = LanguageControl.Get(fName, 4);
 				return false;
 			}
 			for (int i = -1; i <= 1; i++)
@@ -67,7 +67,7 @@ namespace Game
 					Vector3 end = new Vector3(start.X, 255f, start.Z);
 					if (!m_subsystemTerrain.Raycast(start, end, useInteractionBoxes: false, skipAirBlocks: true, (int value, float distance) => Terrain.ExtractContents(value) != 0).HasValue)
 					{
-						reason = LanguageControl.getTranslate("componentsleep.need_shelter");
+						reason = LanguageControl.Get(fName, 5);
 						return false;
 					}
 				}
@@ -120,7 +120,7 @@ namespace Game
 					WakeUp();
 					m_subsystemTime.QueueGameTimeDelayedExecution(m_subsystemTime.GameTime + 1.0, delegate
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentsleep.br_wet"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 6), Color.White, blinking: true, playNotificationSound: true);
 					});
 				}
 				if (m_sleepStartTime.HasValue)
@@ -134,17 +134,17 @@ namespace Game
 							WakeUp();
 							m_subsystemTime.QueueGameTimeDelayedExecution(m_subsystemTime.GameTime + 2.0, delegate
 							{
-								m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentsleep.what_time"), Color.White, blinking: true, playNotificationSound: false);
+								m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 7), Color.White, blinking: true, playNotificationSound: false);
 							});
 						}
 						m_messageFactor = MathUtils.Min(m_messageFactor + 0.5f * Time.FrameDuration, 1f);
-						m_componentPlayer.ComponentScreenOverlays.Message = LanguageControl.getTranslate("componentsleep.wake_up");
+						m_componentPlayer.ComponentScreenOverlays.Message = LanguageControl.Get(fName, 8);
 						m_componentPlayer.ComponentScreenOverlays.MessageFactor = m_messageFactor;
 					}
 					if (!m_allowManualWakeUp && num > 5f)
 					{
 						m_messageFactor = MathUtils.Min(m_messageFactor + 1f * Time.FrameDuration, 1f);
-						m_componentPlayer.ComponentScreenOverlays.Message = LanguageControl.getTranslate("componentsleep.lack_sleep");
+						m_componentPlayer.ComponentScreenOverlays.Message = LanguageControl.Get(fName, 9);
 						m_componentPlayer.ComponentScreenOverlays.MessageFactor = m_messageFactor;
 					}
 				}
@@ -156,7 +156,7 @@ namespace Game
 			m_componentPlayer.ComponentScreenOverlays.BlackoutFactor = MathUtils.Max(m_componentPlayer.ComponentScreenOverlays.BlackoutFactor, m_sleepFactor);
 			if (m_sleepFactor > 0.01f)
 			{
-				m_componentPlayer.ComponentScreenOverlays.FloatingMessage = LanguageControl.getTranslate("componentsleep.zzz");
+				m_componentPlayer.ComponentScreenOverlays.FloatingMessage = LanguageControl.Get(fName, 10);
 				m_componentPlayer.ComponentScreenOverlays.FloatingMessageFactor = MathUtils.Saturate(10f * (m_sleepFactor - 0.9f));
 			}
 		}

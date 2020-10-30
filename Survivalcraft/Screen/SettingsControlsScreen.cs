@@ -34,6 +34,7 @@ namespace Game
 		public SliderWidget m_holdDurationSlider;
 
 		public SliderWidget m_dragDistanceSlider;
+		public static string fName = "SettingsControlsScreen";
 
 		public SettingsControlsScreen()
 		{
@@ -115,12 +116,12 @@ namespace Game
 			{
 				SettingsManager.MinimumDragDistance = m_dragDistanceSlider.Value;
 			}
-			m_moveControlModeButton.Text = LanguageControl.getTranslate("MoveControlMode." + SettingsManager.MoveControlMode.ToString());
-			m_lookControlModeButton.Text = LanguageControl.getTranslate("LookControlMode." + SettingsManager.LookControlMode.ToString());
-			m_leftHandedLayoutButton.Text = (SettingsManager.LeftHandedLayout ? LanguageControl.getTranslate("system.on") : LanguageControl.getTranslate("system.off"));
-			m_flipVerticalAxisButton.Text = (SettingsManager.FlipVerticalAxis ? LanguageControl.getTranslate("system.on") : LanguageControl.getTranslate("system.off"));
-			m_autoJumpButton.Text = (SettingsManager.AutoJump ? LanguageControl.getTranslate("system.on") : LanguageControl.getTranslate("system.off"));
-			m_horizontalCreativeFlightButton.Text = (SettingsManager.HorizontalCreativeFlight ? LanguageControl.getTranslate("system.on") : LanguageControl.getTranslate("system.off"));
+			m_moveControlModeButton.Text = LanguageControl.Get("MoveControlMode" ,SettingsManager.MoveControlMode.ToString());
+			m_lookControlModeButton.Text = LanguageControl.Get("LookControlMode" , SettingsManager.LookControlMode.ToString());
+			m_leftHandedLayoutButton.Text = (SettingsManager.LeftHandedLayout ? LanguageControl.Get("Usual","on") : LanguageControl.Get("Usual","off"));
+			m_flipVerticalAxisButton.Text = (SettingsManager.FlipVerticalAxis ? LanguageControl.Get("Usual", "on") : LanguageControl.Get("Usual", "off"));
+			m_autoJumpButton.Text = (SettingsManager.AutoJump ? LanguageControl.Get("Usual", "on") : LanguageControl.Get("Usual", "off"));
+			m_horizontalCreativeFlightButton.Text = (SettingsManager.HorizontalCreativeFlight ? LanguageControl.Get("Usual", "on") : LanguageControl.Get("Usual", "off"));
 			m_moveSensitivitySlider.Value = SettingsManager.MoveSensitivity;
 			m_moveSensitivitySlider.Text = MathUtils.Round(SettingsManager.MoveSensitivity * 10f).ToString();
 			m_lookSensitivitySlider.Value = SettingsManager.LookSensitivity;
@@ -132,11 +133,11 @@ namespace Game
 			m_creativeDigTimeSlider.Value = SettingsManager.CreativeDigTime;
 			m_creativeDigTimeSlider.Text = $"{MathUtils.Round(1000f * SettingsManager.CreativeDigTime)}ms";
 			m_creativeReachSlider.Value = SettingsManager.CreativeReach;
-			m_creativeReachSlider.Text = string.Format(LanguageControl.getTranslate("settingper.blocks"), $"{SettingsManager.CreativeReach:0.0} ");
+			m_creativeReachSlider.Text = string.Format(LanguageControl.Get(fName,1), $"{SettingsManager.CreativeReach:0.0} ");
 			m_holdDurationSlider.Value = SettingsManager.MinimumHoldDuration;
 			m_holdDurationSlider.Text = $"{MathUtils.Round(1000f * SettingsManager.MinimumHoldDuration)}ms";
 			m_dragDistanceSlider.Value = SettingsManager.MinimumDragDistance;
-			m_dragDistanceSlider.Text = $"{MathUtils.Round(SettingsManager.MinimumDragDistance)} "+LanguageControl.getTranslate("system.pix");
+			m_dragDistanceSlider.Text = $"{MathUtils.Round(SettingsManager.MinimumDragDistance)} "+LanguageControl.Get(fName,2);
 			if (base.Input.Back || base.Input.Cancel || Children.Find<ButtonWidget>("TopBar.Back").IsClicked)
 			{
 				ScreensManager.SwitchScreen(ScreensManager.PreviousScreen);

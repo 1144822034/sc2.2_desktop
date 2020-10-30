@@ -67,7 +67,7 @@ namespace Game
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int? color = GetColor(Terrain.ExtractData(value));
-			return SubsystemPalette.GetName(subsystemTerrain, color, "µçµÆ");
+			return SubsystemPalette.GetName(subsystemTerrain, color, LanguageControl.Get(fName,1));
 		}
 
 		public override string GetCategory(int value)
@@ -76,7 +76,7 @@ namespace Game
 			{
 				return base.GetCategory(value);
 			}
-			return LanguageControl.getTranslate("sccate.Painted");
+			return LanguageControl.Get("BlocksManager","Painted");
 		}
 
 		public override int GetFace(int value)

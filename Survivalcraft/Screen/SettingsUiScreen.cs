@@ -24,6 +24,8 @@ namespace Game
 
 		public ButtonWidget m_communityContentModeButton;
 
+		public static string fName = "SettingsUiScreen";
+
 		public SettingsUiScreen()
 		{
 			XElement node = ContentManager.Get<XElement>("Screens/SettingsUiScreen");
@@ -53,7 +55,7 @@ namespace Game
 			}
 			if (m_languageButton.IsClicked)
 			{
-				DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.getTranslate("modify.are.you.sure"), LanguageControl.getTranslate("language.tip"), LanguageControl.getTranslate("system.yes"), LanguageControl.getTranslate("system.no"), delegate (MessageDialogButton button)
+				DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get(fName,1), LanguageControl.Get(fName,2), LanguageControl.Get("Usual","yes"), LanguageControl.Get("Usual","no"), delegate (MessageDialogButton button)
 				{
 					if (button == MessageDialogButton.Button1)
 					{
@@ -91,15 +93,15 @@ namespace Game
 			{
 				SettingsManager.CommunityContentMode = (CommunityContentMode)((int)(SettingsManager.CommunityContentMode + 1) % EnumUtils.GetEnumValues(typeof(CommunityContentMode)).Count);
 			}
-			m_windowModeButton.Text =LanguageControl.getTranslate("WindowMode." + SettingsManager.WindowMode.ToString());
-			m_uiSizeButton.Text =LanguageControl.getTranslate("GuiSize." + SettingsManager.GuiSize.ToString());
+			m_windowModeButton.Text =LanguageControl.Get("WindowMode" ,SettingsManager.WindowMode.ToString());
+			m_uiSizeButton.Text =LanguageControl.Get("GuiSize" , SettingsManager.GuiSize.ToString());
 			m_languageButton.Text = LanguageControl.getShow(ModsManager.modSettings.languageType);
-			m_upsideDownButton.Text = (SettingsManager.UpsideDownLayout ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no"));
-			m_hideMoveLookPadsButton.Text = (SettingsManager.HideMoveLookPads ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no"));
-			m_showGuiInScreenshotsButton.Text = (SettingsManager.ShowGuiInScreenshots ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no"));
-			m_showLogoInScreenshotsButton.Text = (SettingsManager.ShowLogoInScreenshots ? LanguageControl.getTranslate("system.yes") : LanguageControl.getTranslate("system.no"));
-			m_screenshotSizeButton.Text =LanguageControl.getTranslate("ScreenshotSize." + SettingsManager.ScreenshotSize.ToString());
-			m_communityContentModeButton.Text =LanguageControl.getTranslate("CommunityContentMode." + SettingsManager.CommunityContentMode.ToString());
+			m_upsideDownButton.Text = (SettingsManager.UpsideDownLayout ? LanguageControl.Get("Usual","yes") : LanguageControl.Get("Usual", "no"));
+			m_hideMoveLookPadsButton.Text = (SettingsManager.HideMoveLookPads ? LanguageControl.Get("Usual", "yes") : LanguageControl.Get("Usual", "no"));
+			m_showGuiInScreenshotsButton.Text = (SettingsManager.ShowGuiInScreenshots ? LanguageControl.Get("Usual", "yes") : LanguageControl.Get("Usual", "no"));
+			m_showLogoInScreenshotsButton.Text = (SettingsManager.ShowLogoInScreenshots ? LanguageControl.Get("Usual", "yes") : LanguageControl.Get("Usual", "no"));
+			m_screenshotSizeButton.Text =LanguageControl.Get("ScreenshotSize" , SettingsManager.ScreenshotSize.ToString());
+			m_communityContentModeButton.Text =LanguageControl.Get("CommunityContentMode" , SettingsManager.CommunityContentMode.ToString());
 			if (base.Input.Back || base.Input.Cancel || Children.Find<ButtonWidget>("TopBar.Back").IsClicked)
 			{
 				ScreensManager.SwitchScreen(ScreensManager.PreviousScreen);

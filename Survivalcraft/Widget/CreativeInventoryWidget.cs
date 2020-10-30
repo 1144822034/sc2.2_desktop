@@ -32,6 +32,7 @@ namespace Game
 		public ButtonWidget m_categoryLeftButton;
 
 		public ButtonWidget m_categoryRightButton;
+		public static string fName = "CreativeInventoryWidget";
 
 		public ButtonWidget m_categoryButton;
 
@@ -77,17 +78,17 @@ namespace Game
 			}
 			m_categories.Add(new Category
 			{
-				Name = "家具",
+				Name = LanguageControl.Get(fName,1),
 				Panel = furnitureInventoryPanel
 			});
 			m_categories.Add(new Category
 			{
-				Name = "用户",
+				Name = LanguageControl.Get(fName,2),
 				Panel = creativeInventoryPanel
 			});
-			m_categories.First((Category c) => c.Name == LanguageControl.getTranslate("sccate.Electrics")).Color = new Color(128, 140, 255);
-			m_categories.First((Category c) => c.Name == LanguageControl.getTranslate( "sccate.Plants")).Color = new Color(64, 160, 64);
-			m_categories.First((Category c) => c.Name == LanguageControl.getTranslate( "sccate.Weapons")).Color = new Color(255, 128, 112);
+			m_categories.First((Category c) => c.Name == LanguageControl.Get("BlocksManager","Electrics")).Color = new Color(128, 140, 255);
+			m_categories.First((Category c) => c.Name == LanguageControl.Get("BlocksManger", "Plants")).Color = new Color(64, 160, 64);
+			m_categories.First((Category c) => c.Name == LanguageControl.Get("BlocksManager", "Weapons")).Color = new Color(255, 128, 112);
 		}
 
 		public string GetCategoryName(int index)

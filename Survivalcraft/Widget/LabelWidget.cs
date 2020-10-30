@@ -51,8 +51,8 @@ namespace Game
 				if (m_text != value&&value!=null) {
 					if (value.StartsWith("[") && value.EndsWith("]"))
 					{
-						string key = value.Substring(1, value.Length - 2);
-						m_text = LanguageControl.getTranslate(key);
+						string[] arr = value.Split(new string[] { ":" },StringSplitOptions.RemoveEmptyEntries);
+						m_text = LanguageControl.Get(arr[0],arr[1]);
 					}
 					else m_text = value;
 					m_linesSize = null;

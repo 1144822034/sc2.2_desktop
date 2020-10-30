@@ -24,7 +24,7 @@ namespace Game
 		public List<string> m_categories = new List<string>();
 
 		public int m_categoryIndex;
-
+		public static string fName = "RecipaediaScreen";
 		public int m_listCategoryIndex = -1;
 
 		public RecipaediaScreen()
@@ -74,7 +74,7 @@ namespace Game
 			{
 				PopulateBlocksList();
 			}
-			string arg = m_categories[m_categoryIndex] ?? LanguageControl.getTranslate("sccate.All_Blocks");
+			string arg = m_categories[m_categoryIndex] ?? LanguageControl.Get("BlocksManager","All Blocks");
 			m_categoryLabel.Text = $"{arg} ({m_blocksList.Items.Count})";
 			m_prevCategoryButton.IsEnabled = (m_categoryIndex > 0);
 			m_nextCategoryButton.IsEnabled = (m_categoryIndex < m_categories.Count - 1);
@@ -87,12 +87,12 @@ namespace Game
 			}
 			if (num > 0)
 			{
-				m_recipesButton.Text = string.Format("{0} {1}", num, (num == 1) ?LanguageControl.getTranslate("carft.Recipe") : LanguageControl.getTranslate("carft.Recipes"));
+				m_recipesButton.Text = string.Format("{0} {1}", num, (num == 1) ? LanguageControl.Get(fName,1) : LanguageControl.Get(fName,2));
 				m_recipesButton.IsEnabled = true;
 			}
 			else
 			{
-				m_recipesButton.Text = LanguageControl.getTranslate("block.No_Recipes");
+				m_recipesButton.Text = LanguageControl.Get(fName,3);
 				m_recipesButton.IsEnabled = false;
 			}
 			m_detailsButton.IsEnabled = value.HasValue;

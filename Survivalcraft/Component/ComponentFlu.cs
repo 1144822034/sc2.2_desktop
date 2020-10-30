@@ -21,6 +21,7 @@ namespace Game
 		public Random m_random = new Random();
 
 		public float m_fluOnset;
+		public static string fName = "ComponentFlu";
 
 		public float m_fluDuration;
 
@@ -116,7 +117,7 @@ namespace Game
 					if (m_subsystemTime.GameTime - m_lastMessageTime > 60.0)
 					{
 						m_lastMessageTime = m_subsystemTime.GameTime;
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentflu.will_get_flu"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName,1), Color.White, blinking: true, playNotificationSound: true);
 					}
 				}
 				if (m_fluOnset > 60f && m_subsystemTime.PeriodicGameTimeEvent(num2, -0.0099999997764825821) && m_random.Bool(0.75f))
@@ -178,7 +179,7 @@ namespace Game
 			{
 				m_subsystemTime.QueueGameTimeDelayedExecution(m_subsystemTime.GameTime + 0.75, delegate
 				{
-					m_componentPlayer.ComponentHealth.Injure(injury, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentflu.flu"));
+					m_componentPlayer.ComponentHealth.Injure(injury, null, ignoreInvulnerability: false, LanguageControl.Get(fName,4));
 				});
 			}
 			if (Time.FrameStartTime - m_lastMessageTime > 60.0)
@@ -188,11 +189,11 @@ namespace Game
 				{
 					if (m_componentPlayer.ComponentVitalStats.Temperature < 8f)
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentflu.get_flu"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 2), Color.White, blinking: true, playNotificationSound: true);
 					}
 					else
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentflu.heal_flu"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 3), Color.White, blinking: true, playNotificationSound: true);
 					}
 				});
 			}

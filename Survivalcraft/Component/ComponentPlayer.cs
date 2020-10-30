@@ -19,6 +19,7 @@ namespace Game
 		public SubsystemTerrain m_subsystemTerrain;
 
 		public bool m_aimHintIssued;
+		public static string fName = "ComponentPlayer";
 
 		public double m_lastActionTime;
 
@@ -263,7 +264,7 @@ namespace Game
 								if (!m_aimHintIssued && m_aim.HasValue && !base.ComponentBody.IsSneaking)
 								{
 									m_aimHintIssued = true;
-									ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentplayer.sneak_to_aim"), Color.White, blinking: true, playNotificationSound: true);
+									ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName,1), Color.White, blinking: true, playNotificationSound: true);
 								}
 							});
 						}

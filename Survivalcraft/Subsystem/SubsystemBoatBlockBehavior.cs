@@ -13,7 +13,7 @@ namespace Game
 		public SubsystemBodies m_subsystemBodies;
 
 		public Random m_random = new Random();
-
+		public static string fName = "SubsystemBoatBlockBehavior";
 		public override int[] HandledBlocks => new int[1]
 		{
 			178
@@ -42,7 +42,7 @@ namespace Game
 					}
 					else
 					{
-						componentMiner.ComponentPlayer?.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("systemboat.too_many"), Color.White, blinking: true, playNotificationSound: false);
+						componentMiner.ComponentPlayer?.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName,1), Color.White, blinking: true, playNotificationSound: false);
 					}
 					return true;
 				}

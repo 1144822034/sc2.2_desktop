@@ -54,6 +54,8 @@ namespace Game
 
 		public bool m_clothedTexturesValid;
 
+		public static string fName = "ComponentClothing";
+
 		public List<int> m_clothesList = new List<int>();
 
 		public Dictionary<ClothingSlot, List<int>> m_clothes = new Dictionary<ClothingSlot, List<int>>();
@@ -324,7 +326,7 @@ namespace Game
 						if ((float)clothingData.PlayerLevelRequired > m_componentPlayer.PlayerData.Level)
 						{
 							
-							m_componentGui.DisplaySmallMessage(string.Format(LanguageControl.getTranslate("componentclothing.level_not_enough"), clothingData.PlayerLevelRequired, clothingData.DisplayName), Color.White, blinking: true, playNotificationSound: true);
+							m_componentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), clothingData.PlayerLevelRequired, clothingData.DisplayName), Color.White, blinking: true, playNotificationSound: true);
 							m_subsystemPickables.AddPickable(value, 1, m_componentBody.Position, null, null);
 							m_clothesList.RemoveAt(num);
 							flag = true;
@@ -368,7 +370,7 @@ namespace Game
 							{
 								m_clothesList.RemoveAt(num4);
 								m_subsystemParticles.AddParticleSystem(new BlockDebrisParticleSystem(m_subsystemTerrain, m_componentBody.Position + m_componentBody.BoxSize / 2f, 1f, 1f, Color.White, 0));
-								m_componentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentclothing.cloth_worn_out"), Color.White, blinking: true, playNotificationSound: true);
+								m_componentGui.DisplaySmallMessage(LanguageControl.Get(fName, 2), Color.White, blinking: true, playNotificationSound: true);
 							}
 							else
 							{

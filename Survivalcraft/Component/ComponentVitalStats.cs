@@ -64,7 +64,7 @@ namespace Game
 		public float m_temperatureBlackoutFactor;
 
 		public float m_temperatureBlackoutDuration;
-
+		public static string fName = "ComponentVitalStats";
 		public float Food
 		{
 			get
@@ -137,12 +137,12 @@ namespace Game
 			{
 				if (m_componentPlayer.ComponentSickness.IsSick && sicknessProbability > 0f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.feel_sick"), Color.White, blinking: true, playNotificationSound: true);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName ,1), Color.White, blinking: true, playNotificationSound: true);
 					return false;
 				}
 				if (Food >= 0.98f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.eat_full"), Color.White, blinking: true, playNotificationSound: true);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 2), Color.White, blinking: true, playNotificationSound: true);
 					return false;
 				}
 				m_subsystemAudio.PlayRandomSound("Audio/Creatures/HumanEat", 1f, m_random.Float(-0.2f, 0.2f), m_componentPlayer.ComponentBody.Position, 2f, 0f);
@@ -160,27 +160,27 @@ namespace Game
 				}
 				else if (sicknessProbability >= 0.5f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.taste_horrible"), Color.White, blinking: true, playNotificationSound: true);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 3), Color.White, blinking: true, playNotificationSound: true);
 				}
 				else if (sicknessProbability > 0f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.taste_odd"), Color.White, blinking: true, playNotificationSound: true);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 4), Color.White, blinking: true, playNotificationSound: true);
 				}
 				else if (value2 > 2.5f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.eat_else"), Color.White, blinking: true, playNotificationSound: true);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 5), Color.White, blinking: true, playNotificationSound: true);
 				}
 				else if (value2 > 2f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.eat_ofen"), Color.White, blinking: true, playNotificationSound: true);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 6), Color.White, blinking: true, playNotificationSound: true);
 				}
 				else if (Food > 0.85f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.eat_well"), Color.White, blinking: true, playNotificationSound: true);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 7), Color.White, blinking: true, playNotificationSound: true);
 				}
 				else
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.eat_good"), Color.White, blinking: true, playNotificationSound: false);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 8), Color.White, blinking: true, playNotificationSound: false);
 				}
 				if (m_random.Bool(sicknessProbability) || value2 > 3.5f)
 				{
@@ -299,22 +299,22 @@ namespace Game
 					{
 						if (m_subsystemTime.PeriodicGameTimeEvent(50.0, 0.0))
 						{
-							m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentvital.starve_death"));
-							m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.find_food"), Color.White, blinking: true, playNotificationSound: false);
+							m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.Get(fName, 9));
+							m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 10), Color.White, blinking: true, playNotificationSound: false);
 							m_componentPlayer.ComponentGui.FoodBarWidget.Flash(10);
 						}
 					}
 					else if (Food < 0.1f && ((m_lastFood >= 0.1f) | flag3))
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.close_starve"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 11), Color.White, blinking: true, playNotificationSound: true);
 					}
 					else if (Food < 0.25f && ((m_lastFood >= 0.25f) | flag3))
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.time_to_eat"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 12), Color.White, blinking: true, playNotificationSound: true);
 					}
 					else if (Food < 0.5f && ((m_lastFood >= 0.5f) | flag3))
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.hungry"), Color.White, blinking: true, playNotificationSound: false);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 13), Color.White, blinking: true, playNotificationSound: false);
 					}
 				}
 			}
@@ -368,11 +368,11 @@ namespace Game
 				}
 				if (!flag2 && !flag && Stamina < 0.33f && m_lastStamina >= 0.33f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.panting"), Color.White, blinking: true, playNotificationSound: false);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 14), Color.White, blinking: true, playNotificationSound: false);
 				}
 				if ((flag2 | flag) && Stamina < 0.4f && m_lastStamina >= 0.4f)
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.get_out_water"), Color.White, blinking: true, playNotificationSound: true);
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 15), Color.White, blinking: true, playNotificationSound: true);
 				}
 				if (Stamina < 0.1f)
 				{
@@ -380,8 +380,8 @@ namespace Game
 					{
 						if (m_subsystemTime.PeriodicGameTimeEvent(5.0, 0.0))
 						{
-							m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentvital.drowned"));
-							m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.drowning"), Color.White, blinking: true, playNotificationSound: false);
+							m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.Get(fName, 16));
+							m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 17), Color.White, blinking: true, playNotificationSound: false);
 						}
 						if (m_random.Float(0f, 1f) < 1f * gameTimeDelta)
 						{
@@ -390,7 +390,7 @@ namespace Game
 					}
 					else if (m_subsystemTime.PeriodicGameTimeEvent(5.0, 0.0))
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.rest_a_while"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 18), Color.White, blinking: true, playNotificationSound: true);
 					}
 				}
 				m_lastStamina = Stamina;
@@ -439,21 +439,21 @@ namespace Game
 					Sleep -= gameTimeDelta / 1800f;
 					if (Sleep < 0.075f && ((m_lastSleep >= 0.075f) | flag2))
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.will_faint"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 19), Color.White, blinking: true, playNotificationSound: true);
 						m_componentPlayer.ComponentCreatureSounds.PlayMoanSound();
 					}
 					else if (Sleep < 0.2f && ((m_lastSleep >= 0.2f) | flag2))
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.fall_over"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 20), Color.White, blinking: true, playNotificationSound: true);
 						m_componentPlayer.ComponentCreatureSounds.PlayMoanSound();
 					}
 					else if (Sleep < 0.33f && ((m_lastSleep >= 0.33f) | flag2))
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.very_tired"), Color.White, blinking: true, playNotificationSound: false);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 21), Color.White, blinking: true, playNotificationSound: false);
 					}
 					else if (Sleep < 0.5f && ((m_lastSleep >= 0.5f) | flag2))
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.are_tired"), Color.White, blinking: true, playNotificationSound: false);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 22), Color.White, blinking: true, playNotificationSound: false);
 					}
 					if (Sleep < 0.075f)
 					{
@@ -468,7 +468,7 @@ namespace Game
 					if (Sleep <= 0f && !m_componentPlayer.ComponentSleep.IsSleeping)
 					{
 						m_componentPlayer.ComponentSleep.Sleep(allowManualWakeup: false);
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.can_not_go"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 23), Color.White, blinking: true, playNotificationSound: true);
 						m_componentPlayer.ComponentCreatureSounds.PlayMoanSound();
 					}
 				}
@@ -486,7 +486,7 @@ namespace Game
 				m_componentPlayer.ComponentScreenOverlays.BlackoutFactor = MathUtils.Max(m_sleepBlackoutFactor, m_componentPlayer.ComponentScreenOverlays.BlackoutFactor);
 				if ((double)m_sleepBlackoutFactor > 0.01)
 				{
-					m_componentPlayer.ComponentScreenOverlays.FloatingMessage = "Aaa...";
+					m_componentPlayer.ComponentScreenOverlays.FloatingMessage = LanguageControl.Get(fName, 24);
 					m_componentPlayer.ComponentScreenOverlays.FloatingMessageFactor = MathUtils.Saturate(10f * (m_sleepBlackoutFactor - 0.9f));
 				}
 			}
@@ -532,35 +532,35 @@ namespace Game
 			}
 			if (Temperature <= 0f)
 			{
-				m_componentPlayer.ComponentHealth.Injure(1f, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentvital.froze_death"));
+				m_componentPlayer.ComponentHealth.Injure(1f, null, ignoreInvulnerability: false, LanguageControl.Get(fName,25));
 			}
 			else if (Temperature < 3f)
 			{
 				if (m_subsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
 				{
-					m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentvital.hypothermia"));
-					string text = (Wetness > 0f) ? string.Format(LanguageControl.getTranslate("componentvital.freezing_dry"),arg) : ((!(num < 1f)) ? string.Format(LanguageControl.getTranslate("componnetvital.freezing_seek"),arg) : string.Format(LanguageControl.getTranslate("componentvital.freezing_cloth"),arg));
+					m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.Get(fName, 26));
+					string text = (Wetness > 0f) ? string.Format(LanguageControl.Get(fName, 27), arg) : ((!(num < 1f)) ? string.Format(LanguageControl.Get(fName, 28), arg) : string.Format(LanguageControl.Get(fName,29), arg));
 					m_componentPlayer.ComponentGui.DisplaySmallMessage(text, Color.White, blinking: true, playNotificationSound: false);
 					m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
 				}
 			}
 			else if (Temperature < 6f && ((m_lastTemperature >= 6f) | flag))
 			{
-				string text2 = (Wetness > 0f) ? string.Format( LanguageControl.getTranslate("componentvital.cold_dry"),arg) : ((!(num < 1f)) ? string.Format(LanguageControl.getTranslate("componentvital.cold_seek"),arg) : string.Format(LanguageControl.getTranslate("componentvital.cold_cloth"),arg));
+				string text2 = (Wetness > 0f) ? string.Format(LanguageControl.Get(fName, 30), arg) : ((!(num < 1f)) ? string.Format(LanguageControl.Get(fName, 31), arg) : string.Format(LanguageControl.Get(fName, 32), arg));
 				m_componentPlayer.ComponentGui.DisplaySmallMessage(text2, Color.White, blinking: true, playNotificationSound: true);
 				m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
 			}
 			else if (Temperature < 8f && ((m_lastTemperature >= 8f) | flag))
 			{
-				m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.a_bit_chilly"), Color.White, blinking: true, playNotificationSound: false);
+				m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 33), Color.White, blinking: true, playNotificationSound: false);
 				m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
 			}
 			if (Temperature >= 24f)
 			{
 				if (m_subsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
 				{
-					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.too_hot"), Color.White, blinking: true, playNotificationSound: false);
-					m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.getTranslate("componentvital.overheat"));
+					m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 34), Color.White, blinking: true, playNotificationSound: false);
+					m_componentPlayer.ComponentHealth.Injure(0.05f, null, ignoreInvulnerability: false, LanguageControl.Get(fName, 35));
 					m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
 				}
 				if (m_subsystemTime.PeriodicGameTimeEvent(8.0, 0.0))
@@ -571,7 +571,7 @@ namespace Game
 			}
 			else if (Temperature > 20f && m_subsystemTime.PeriodicGameTimeEvent(10.0, 0.0))
 			{
-				m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componnetvital.feel_hot"), Color.White, blinking: true, playNotificationSound: false);
+				m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 36), Color.White, blinking: true, playNotificationSound: false);
 				m_temperatureBlackoutDuration = MathUtils.Max(m_temperatureBlackoutDuration, 3f);
 				m_componentPlayer.ComponentGui.TemperatureBarWidget.Flash(10);
 				m_componentPlayer.ComponentCreatureSounds.PlayMoanSound();
@@ -584,7 +584,7 @@ namespace Game
 			m_componentPlayer.ComponentScreenOverlays.BlackoutFactor = MathUtils.Max(m_temperatureBlackoutFactor, m_componentPlayer.ComponentScreenOverlays.BlackoutFactor);
 			if ((double)m_temperatureBlackoutFactor > 0.01)
 			{
-				m_componentPlayer.ComponentScreenOverlays.FloatingMessage = LanguageControl.getTranslate("componentvital.ugh");
+				m_componentPlayer.ComponentScreenOverlays.FloatingMessage = LanguageControl.Get(fName, 37);
 				m_componentPlayer.ComponentScreenOverlays.FloatingMessageFactor = MathUtils.Saturate(10f * (m_temperatureBlackoutFactor - 0.9f));
 			}
 			if (m_environmentTemperature > 22f)
@@ -653,7 +653,7 @@ namespace Game
 				{
 					if (Wetness > 0.8f)
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.com_wet"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 38), Color.White, blinking: true, playNotificationSound: true);
 					}
 				});
 			}
@@ -663,7 +663,7 @@ namespace Game
 				{
 					if (Wetness > 0.2f && Wetness <= 0.8f && Wetness > m_lastWetness)
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.get_wet"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 39), Color.White, blinking: true, playNotificationSound: true);
 					}
 				});
 			}
@@ -673,7 +673,7 @@ namespace Game
 				{
 					if (Wetness <= 0f)
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentvital.no_wet"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName, 40), Color.White, blinking: true, playNotificationSound: true);
 					}
 				});
 			}

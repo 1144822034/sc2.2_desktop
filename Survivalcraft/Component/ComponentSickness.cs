@@ -29,7 +29,7 @@ namespace Game
 		public double? m_lastMessageTime;
 
 		public double? m_lastPukeTime;
-
+		public static string fName = "ComponentSickness";
 		public bool IsSick => m_sicknessDuration > 0f;
 
 		public bool IsPuking => m_pukeParticleSystem != null;
@@ -54,7 +54,7 @@ namespace Game
 			{
 				m_subsystemTime.QueueGameTimeDelayedExecution(m_subsystemTime.GameTime + 0.75, delegate
 				{
-					m_componentPlayer.ComponentHealth.Injure(injury, null, ignoreInvulnerability: false, "Sickness");
+					m_componentPlayer.ComponentHealth.Injure(injury, null, ignoreInvulnerability: false, LanguageControl.Get(fName,1));
 				});
 			}
 			if (m_pukeParticleSystem == null && (!m_lastPukeTime.HasValue || m_subsystemTime.GameTime - m_lastPukeTime > 50.0))
@@ -75,7 +75,7 @@ namespace Game
 					m_lastMessageTime = Time.FrameStartTime;
 					m_subsystemTime.QueueGameTimeDelayedExecution(m_subsystemTime.GameTime + 1.5, delegate
 					{
-						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.getTranslate("componentsickness.nauseous"), Color.White, blinking: true, playNotificationSound: true);
+						m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(fName,2), Color.White, blinking: true, playNotificationSound: true);
 					});
 				}
 			}

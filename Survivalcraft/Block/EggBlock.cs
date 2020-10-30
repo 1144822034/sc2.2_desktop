@@ -34,6 +34,7 @@ namespace Game
 
 			public BlockMesh BlockMesh;
 		}
+		public static string fName = "EggBlock";
 
 		public const int Index = 118;
 
@@ -110,21 +111,21 @@ namespace Game
 			bool isLaid = GetIsLaid(data);
 			if (isCooked)
 			{
-				return LanguageControl.getTranslate("block.cookied") + eggType.DisplayName;
+				return LanguageControl.Get(fName,1) + eggType.DisplayName;
 			}
 			if (!isLaid)
 			{
 				return eggType.DisplayName;
 			}
-			return LanguageControl.getTranslate("block.laid") + eggType.DisplayName;
+			return LanguageControl.Get(fName,2) + eggType.DisplayName;
 		}
         public override string GetCategory(int value)
         {
-            return LanguageControl.getTranslate("sccate.Spawner_Eggs");
+            return LanguageControl.Get("BlocksManager","Spawner Eggs");
         }
         public override string GetDescription(int value)
         {
-            return LanguageControl.getTranslate("system.generate")+GetEggType(Terrain.ExtractData(value)).TemplateName;
+            return LanguageControl.Get(fName,3)+GetEggType(Terrain.ExtractData(value)).TemplateName;
         }
         public override float GetNutritionalValue(int value)
 		{

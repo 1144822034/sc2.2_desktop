@@ -88,7 +88,7 @@ namespace Game
 			{
 				return base.GetCategory(value);
 			}
-			return LanguageControl.getTranslate("sccate.Painted");
+			return LanguageControl.Get("BlocksManager","Painted");
 		}
 
 		public int? GetPaintColor(int value)
