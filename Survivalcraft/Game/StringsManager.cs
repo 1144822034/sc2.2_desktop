@@ -6,26 +6,13 @@ namespace Game
 {
 	public static class StringsManager
 	{
-		private static Dictionary<string, string> m_strings = new Dictionary<string, string>();
-
 		public static string GetString(string name)
 		{
-			if (!m_strings.TryGetValue(name, out string value))
-			{
-				return "<Plchldr>";
-			}
-			return value;
+			return LanguageControl.Get("Strings",name);
 		}
 
 		public static void LoadStrings()
 		{
-			foreach (XElement item in ContentManager.Get<XElement>("Strings").Elements())
-			{
-				string attributeValue = XmlUtils.GetAttributeValue<string>(item, "Name");
-				string value = item.Value;
-				value = value.Replace("\\n", "\n");
-				m_strings.Add(attributeValue, value);
-			}
 		}
 	}
 }

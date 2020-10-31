@@ -1,6 +1,7 @@
 using Engine;
 using Engine.Serialization;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using TemplatesDatabase;
 
@@ -32,27 +33,6 @@ namespace Game
 			new Color(24, 24, 24)
 		};
 
-		public static readonly string[] DefaultNames = new string[16]
-		{
-			"白色",
-			"浅青色",
-			"粉红色",
-			"淡蓝色",
-			"黄色",
-			"淡绿色",
-			"鲑鱼红",
-			"浅灰色",
-			"灰色",
-			"青色",
-			"紫色",
-			"蓝色",
-			"棕色",
-			"绿色",
-			"红色",
-			"黑色"
-		};
-
-
 		public Color[] Colors;
 
 		public string[] Names;
@@ -60,7 +40,11 @@ namespace Game
 		public WorldPalette()
 		{
 			Colors = DefaultColors.ToArray();
-			Names = DefaultNames.ToArray();
+			List<string> tmp = new List<string>();
+			foreach (KeyValuePair<string, string> iyt in LanguageControl.items[GetType().Name].ToArray()) {
+				tmp.Add(iyt.Value);
+			}
+			Names = tmp.ToArray();
 		}
 
 		public WorldPalette(ValuesDictionary valuesDictionary)
@@ -76,7 +60,7 @@ namespace Game
 			{
 				throw new InvalidOperationException("Invalid color names.");
 			}
-			Names = array2.Select((string s, int i) => (!string.IsNullOrEmpty(s)) ? s : DefaultNames[i]).ToArray();
+			Names = array2.Select((string s, int i) => (!string.IsNullOrEmpty(s)) ? s : LanguageControl.Get(GetType().Name,i)).ToArray();
 			string[] names = Names;
 			int num = 0;
 			while (true)
@@ -99,7 +83,7 @@ namespace Game
 		{
 			ValuesDictionary valuesDictionary = new ValuesDictionary();
 			string value = string.Join(";", Colors.Select((Color c, int i) => (!(c == DefaultColors[i])) ? HumanReadableConverter.ConvertToString(c) : string.Empty));
-			string value2 = string.Join(";", Names.Select((string n, int i) => (!(n == DefaultNames[i])) ? n : string.Empty));
+			string value2 = string.Join(";", Names.Select((string n, int i) => (!(n == LanguageControl.Get(GetType().Name,i))) ? n : string.Empty));
 			valuesDictionary.SetValue("Colors", value);
 			valuesDictionary.SetValue("Names", value2);
 			return valuesDictionary;

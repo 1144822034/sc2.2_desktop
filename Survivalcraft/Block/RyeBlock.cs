@@ -17,15 +17,6 @@ namespace Game
 			yield return Terrain.MakeBlockValue(174, 0, SetIsWild(SetSize(0, 7), isWild: false));
 		}
 
-		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
-		{
-			if (!GetIsWild(Terrain.ExtractData(value)))
-			{
-				return "ºÚÂó";
-			}
-			return "Ò°ÉúºÚÂó";
-		}
-
 		public override void DrawBlock(PrimitivesRenderer3D primitivesRenderer, int value, Color color, float size, ref Matrix matrix, DrawBlockEnvironmentData environmentData)
 		{
 			if (GetIsWild(Terrain.ExtractData(value)))

@@ -25,7 +25,7 @@ namespace Game
 			m_topicsList = Children.Find<ListPanelWidget>("TopicsList");
 			m_recipaediaButton = Children.Find<ButtonWidget>("RecipaediaButton");
 			m_bestiaryButton = Children.Find<ButtonWidget>("BestiaryButton");
-			m_topicsList.ItemWidgetFactory = delegate(object item)
+			m_topicsList.ItemWidgetFactory = delegate (object item)
 			{
 				HelpTopic helpTopic3 = (HelpTopic)item;
 				XElement node2 = ContentManager.Get<XElement>("Widgets/HelpTopicItem");
@@ -33,7 +33,7 @@ namespace Game
 				obj.Children.Find<LabelWidget>("HelpTopicItem.Title").Text = helpTopic3.Title;
 				return obj;
 			};
-			m_topicsList.ItemClicked += delegate(object item)
+			m_topicsList.ItemClicked += delegate (object item)
 			{
 				HelpTopic helpTopic2 = item as HelpTopic;
 				if (helpTopic2 != null)
@@ -41,33 +41,42 @@ namespace Game
 					ShowTopic(helpTopic2);
 				}
 			};
-			foreach (XElement item in ContentManager.Get<XElement>("Help").Elements())
+			foreach (KeyValuePair<string, Dictionary<string, string>> item in LanguageControl.items2["Help"])
 			{
-				if (XmlUtils.GetAttributeValue(item, "DisabledPlatforms", string.Empty).Split(new string[] {"," }, StringSplitOptions.None).FirstOrDefault((string s) => s.Trim().ToLower() == VersionsManager.Platform.ToString().ToLower()) == null)
+				if (item.Value.ContainsKey("DisabledPlatforms"))
 				{
-					string attributeValue = XmlUtils.GetAttributeValue(item, "Name", string.Empty);
-					string attributeValue2 = XmlUtils.GetAttributeValue<string>(item, "Title");
-					string text = string.Empty;
-					string[] array = item.Value.Split(new string[] { "\n"}, StringSplitOptions.None);
-					foreach (string text2 in array)
-					{
-						text = text + text2.Trim() + " ";
-					}
-					text = text.Replace("\r", "");
-					text = text.Replace("’", "'");
-					text = text.Replace("\\n", "\n");
-					HelpTopic helpTopic = new HelpTopic
-					{
-						Name = attributeValue,
-						Title = attributeValue2,
-						Text = text
-					};
-					if (!string.IsNullOrEmpty(helpTopic.Name))
-					{
-						m_topics.Add(helpTopic.Name, helpTopic);
-					}
-					m_topicsList.AddItem(helpTopic);
+					item.Value.TryGetValue("DisabledPlatforms", out string displa);
+					if (displa.Split(new string[] { "," }, StringSplitOptions.None).FirstOrDefault((string s) => s.Trim().ToLower() == VersionsManager.Platform.ToString().ToLower()) == null) continue;
 				}
+				item.Value.TryGetValue("Title", out string Title);
+				item.Value.TryGetValue("Name", out string Name);
+				item.Value.TryGetValue("value", out string value);
+				if (string.IsNullOrEmpty(Title)) Title = string.Empty;
+				if (string.IsNullOrEmpty(Name)) Name = string.Empty;
+				if (string.IsNullOrEmpty(value)) value = string.Empty;
+
+				string attributeValue = Name;
+				string attributeValue2 = Title;
+				string text = string.Empty;
+				string[] array = value.Split(new string[] { "\n" }, StringSplitOptions.None);
+				foreach (string text2 in array)
+				{
+					text = text + text2.Trim() + " ";
+				}
+				text = text.Replace("\r", "");
+				text = text.Replace("’", "'");
+				text = text.Replace("\\n", "\n");
+				HelpTopic helpTopic = new HelpTopic
+				{
+					Name = attributeValue,
+					Title = attributeValue2,
+					Text = text
+				};
+				if (!string.IsNullOrEmpty(helpTopic.Name))
+				{
+					m_topics.Add(helpTopic.Name, helpTopic);
+				}
+				m_topicsList.AddItem(helpTopic);
 			}
 		}
 

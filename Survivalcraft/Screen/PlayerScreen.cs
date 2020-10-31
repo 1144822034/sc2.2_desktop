@@ -1,6 +1,7 @@
 using Engine.Graphics;
 using Engine.Input;
 using GameEntitySystem;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -145,7 +146,13 @@ namespace Game
 			m_characterSkinLabel.Text = CharacterSkinsManager.GetDisplayName(m_playerData.CharacterSkinName);
 			m_controlsLabel.Text = GetDeviceDisplayName(m_inputDevices.Where((WidgetInputDevice id) => (id & m_playerData.InputDevice) != 0).FirstOrDefault());
 			ValuesDictionary valuesDictionary = DatabaseManager.FindValuesDictionaryForComponent(DatabaseManager.FindEntityValuesDictionary(m_playerData.GetEntityTemplateName(), throwIfNotFound: true), typeof(ComponentCreature));
-			m_descriptionLabel.Text = valuesDictionary.GetValue<string>("Description");
+			string dy = valuesDictionary.GetValue<string>("Description");
+			if (dy.StartsWith("[") && dy.EndsWith("]"))
+			{
+				string[] lp = dy.Substring(1, dy.Length - 2).Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+				dy = LanguageControl.GetDatabase("Description", lp[1]);
+			}
+			m_descriptionLabel.Text = dy;
 			if (m_playerClassButton.IsClicked)
 			{
 				m_playerData.PlayerClass = ((m_playerData.PlayerClass == PlayerClass.Male) ? PlayerClass.Female : PlayerClass.Male);

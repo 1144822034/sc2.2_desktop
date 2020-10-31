@@ -38,7 +38,8 @@ namespace Game
 				}
 				craftingRecipe.RequiredHeatLevel = XmlUtils.GetAttributeValue<float>(item, "RequiredHeatLevel");
 				craftingRecipe.RequiredPlayerLevel = XmlUtils.GetAttributeValue(item, "RequiredPlayerLevel", 1f);
-				craftingRecipe.Description = XmlUtils.GetAttributeValue<string>(item, "Description");
+				craftingRecipe.Description = LanguageControl.GetBlock(attributeValue, "CRDescription");
+				//XmlUtils.GetAttributeValue<string>(item, "Description");
 				craftingRecipe.Message = XmlUtils.GetAttributeValue<string>(item, "Message", null);
 				if (craftingRecipe.ResultCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.ResultValue)].MaxStacking)
 				{

@@ -1,5 +1,6 @@
 using Engine;
 using Engine.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
@@ -40,6 +41,11 @@ namespace Game
 				if (valuesDictionary != null)
 				{
 					string value = valuesDictionary.GetValue<string>("DisplayName");
+					if (value.StartsWith("[") && value.EndsWith("]"))
+					{
+						string[] lp = value.Substring(1, value.Length - 2).Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+						value = LanguageControl.GetDatabase("DisplayName", lp[1]);
+					}
 					if (!string.IsNullOrEmpty(value))
 					{
 						int order = -1;
@@ -64,11 +70,17 @@ namespace Game
 							ValuesDictionary valuesDictionary7 = DatabaseManager.FindValuesDictionaryForComponent(entitiesValuesDictionary, typeof(ComponentHerdBehavior));
 							ValuesDictionary valuesDictionary8 = DatabaseManager.FindValuesDictionaryForComponent(entitiesValuesDictionary, typeof(ComponentMount));
 							ValuesDictionary valuesDictionary9 = DatabaseManager.FindValuesDictionaryForComponent(entitiesValuesDictionary, typeof(ComponentLoot));
+							string dy = valuesDictionary.GetValue<string>("Description");
+							if (dy.StartsWith("[") && dy.EndsWith("]"))
+							{
+								string[] lp = dy.Substring(1, dy.Length - 2).Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+								dy = LanguageControl.GetDatabase("Description", lp[1]);
+							}
 							BestiaryCreatureInfo bestiaryCreatureInfo = new BestiaryCreatureInfo
 							{
 								Order = order,
 								DisplayName = value,
-								Description = valuesDictionary.GetValue<string>("Description"),
+								Description =dy,
 								ModelName = valuesDictionary2.GetValue<string>("ModelName"),
 								TextureOverride = valuesDictionary2.GetValue<string>("TextureOverride"),
 								Mass = valuesDictionary3.GetValue<float>("Mass"),

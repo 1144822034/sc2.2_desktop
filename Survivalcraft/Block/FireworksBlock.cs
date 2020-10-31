@@ -27,18 +27,6 @@ namespace Game
 
 		public BlockMesh[] m_finsBlockMeshes = new BlockMesh[2];
 
-		public static readonly string[] ShapeDisplayNames = new string[8]
-		{
-			"小爆",
-			"大爆",
-			"圆",
-			"圆盘",
-			"球",
-			"短径",
-			"长径",
-			"平径"
-		};
-
 		public static readonly string[] HeadNames = new string[8]
 		{
 			"HeadConeSmall",
@@ -61,18 +49,6 @@ namespace Game
 			new Color(85, 255, 85),
 			new Color(255, 170, 0),
 			new Color(255, 85, 255)
-		};
-
-		public static readonly string[] FireworksColorDisplayNames = new string[8]
-		{
-			"白色",
-			"青色",
-			"红色",
-			"蓝色",
-			"黄色",
-			"绿色",
-			"橙色",
-			"紫色"
 		};
 
 		public override void Initialize()
@@ -129,7 +105,7 @@ namespace Game
 			Shape shape = GetShape(data);
 			int altitude = GetAltitude(data);
 			bool flickering = GetFlickering(data);
-			return string.Format("{0}{1}{2}{3}烟花", FireworksColorDisplayNames[color], flickering ? "闪烁 " : null, ShapeDisplayNames[(int)shape], (altitude == 0) ? "低" : "高");
+			return string.Format(LanguageControl.GetFireworks("Other","1"), LanguageControl.GetFireworks("FireworksColorDisplayNames",color.ToString()), flickering ? LanguageControl.GetFireworks("Other", "2") : null, LanguageControl.GetFireworks("ShapeDisplayNames",((int)shape).ToString()), (altitude == 0) ? LanguageControl.GetFireworks("Other", "3") : LanguageControl.GetFireworks("Other", "4"));
 		}
 
 		public override IEnumerable<int> GetCreativeValues()

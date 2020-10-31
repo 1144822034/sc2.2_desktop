@@ -102,7 +102,7 @@ namespace Game
 		{
 			if (index.HasValue)
 			{
-				string text = (subsystemTerrain == null || subsystemTerrain.SubsystemPalette == null) ? WorldPalette.DefaultNames[index.Value] : subsystemTerrain.SubsystemPalette.GetName(index.Value);
+				string text = (subsystemTerrain == null || subsystemTerrain.SubsystemPalette == null) ? LanguageControl.Get("WorldPalette", index.Value) : subsystemTerrain.SubsystemPalette.GetName(index.Value);
 				if (!string.IsNullOrEmpty(suffix))
 				{
 					return text + " " + suffix;

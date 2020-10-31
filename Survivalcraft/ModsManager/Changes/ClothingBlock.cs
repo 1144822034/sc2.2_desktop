@@ -35,7 +35,7 @@ namespace Game
 			}
 			int num = 0;
 			Dictionary<int, ClothingData> dictionary = new Dictionary<int, ClothingData>();
-			IEnumerator<XElement> enumerator = ModsManager.CombineXml(ContentManager.Get<XElement>("Clothes"), ModsManager.GetEntries(".clo"), "Index", "DisplayName", "Clothes").Elements().GetEnumerator();
+			IEnumerator<XElement> enumerator = ModsManager.CombineXml(ContentManager.Get<XElement>("Clothes"), ModsManager.GetEntries(".clo"), "Index", "Clothes").Elements().GetEnumerator();
 			while (enumerator.MoveNext())
 			{
 				XElement item = enumerator.Current;
@@ -43,7 +43,7 @@ namespace Game
 				{
 					Index = XmlUtils.GetAttributeValue<int>(item, "Index"),
 					DisplayIndex = num++,
-					DisplayName = XmlUtils.GetAttributeValue<string>(item, "DisplayName"),
+					DisplayName = LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, Index), "DisplayName"),
 					Slot = XmlUtils.GetAttributeValue<ClothingSlot>(item, "Slot"),
 					ArmorProtection = XmlUtils.GetAttributeValue<float>(item, "ArmorProtection"),
 					Sturdiness = XmlUtils.GetAttributeValue<float>(item, "Sturdiness"),
@@ -57,7 +57,7 @@ namespace Game
 					PlayerLevelRequired = XmlUtils.GetAttributeValue<int>(item, "PlayerLevelRequired"),
 					Texture = ContentManager.Get<Texture2D>(XmlUtils.GetAttributeValue<string>(item, "TextureName")),
 					ImpactSoundsFolder = XmlUtils.GetAttributeValue<string>(item, "ImpactSoundsFolder"),
-					Description = XmlUtils.GetAttributeValue<string>(item, "Description")
+					Description =LanguageControl.GetBlock(string.Format("{0}:{1}",GetType().Name,Index), "Description")
 				};
 				dictionary.Add(clothingData.Index, clothingData);
 			}
@@ -114,14 +114,15 @@ namespace Game
 			int clothingColor = GetClothingColor(data);
 			if (clothingColor != 0)
 			{
-				return SubsystemPalette.GetName(subsystemTerrain, clothingColor, clothingData.DisplayName);
+				return SubsystemPalette.GetName(subsystemTerrain, clothingColor, LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, data), "DisplayName"));
 			}
-			return clothingData.DisplayName;
+			return LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name,data), "DisplayName");
 		}
 
 		public override string GetDescription(int value)
 		{
-			return GetClothingData(Terrain.ExtractData(value)).Description;
+			int data = Terrain.ExtractData(value);
+			return LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, data), "Description");
 		}
 
 		public override string GetCategory(int value)

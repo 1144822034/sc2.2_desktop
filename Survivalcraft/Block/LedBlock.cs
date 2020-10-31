@@ -22,17 +22,6 @@ namespace Game
 			new Color(255, 0, 255)
 		};
 
-		public static readonly string[] LedColorDisplayNames = new string[8]
-		{
-			"白色",
-			"青色",
-			"红色",
-			"蓝色",
-			"黄色",
-			"绿色",
-			"橙色",
-			"紫色"
-		};
 
 		public BlockMesh[] m_standaloneBlockMeshesByColor = new BlockMesh[8];
 
@@ -104,7 +93,7 @@ namespace Game
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
 			int color = GetColor(Terrain.ExtractData(value));
-			return LedColorDisplayNames[color] + " LED";
+			return LanguageControl.Get(GetType().Name,color) + " LED";
 		}
 
 		public override IEnumerable<int> GetCreativeValues()

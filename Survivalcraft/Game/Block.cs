@@ -180,12 +180,16 @@ namespace Game
 
 		public virtual string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			return DefaultDisplayName;
+			int data = Terrain.ExtractData(value);
+			string bn = string.Format("{0}:{1}", GetType().Name, data);
+			return LanguageControl.GetBlock(bn, "DisplayName");
 		}
 
 		public virtual string GetDescription(int value)
 		{
-			return DefaultDescription;
+			int data = Terrain.ExtractData(value);
+			string bn = string.Format("{0}:{1}",GetType().Name,data);
+			return LanguageControl.GetBlock(bn,"Description");
 		}
 
 		public virtual string GetCategory(int value)

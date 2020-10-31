@@ -26,7 +26,18 @@ namespace Game
 			192,
 			224,
 			256,
-			320
+			320,
+			384,
+			448,
+			512,
+			576,
+			640,
+			704,
+			768,
+			832,
+			896,
+			960,
+			1024
 		};
 
 		public ButtonWidget m_resolutionButton;

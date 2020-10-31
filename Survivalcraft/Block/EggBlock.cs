@@ -58,11 +58,17 @@ namespace Game
 					{
 						throw new InvalidOperationException($"Duplicate creature egg data EggTypeIndex ({nestedValue}).");
 					}
+					string value = item.GetNestedValue<string>("DisplayName");
+					if (value.StartsWith("[") && value.EndsWith("]"))
+					{
+						string[] lp = value.Substring(1, value.Length - 2).Split(new string[] { ":" }, StringSplitOptions.RemoveEmptyEntries);
+						value = LanguageControl.GetDatabase("DisplayName", lp[1]);
+					}
 					dictionary.Add(nestedValue, new EggType
 					{
 						EggTypeIndex = nestedValue,
 						ShowEgg = item.GetNestedValue<bool>("ShowEgg"),
-						DisplayName = item.GetNestedValue<string>("DisplayName"),
+						DisplayName =value ,
 						TemplateName = item.NestingParent.Name,
 						NutritionalValue = item.GetNestedValue<float>("NutritionalValue"),
 						Color = item.GetNestedValue<Color>("Color"),

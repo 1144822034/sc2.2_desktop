@@ -103,7 +103,7 @@ namespace Game
 			{
 				m_labels[j].Text = m_tmpPalette.Names[j];
 				m_rectangles[j].CenterColor = m_tmpPalette.Colors[j];
-				m_resetButtons[j].IsEnabled = (m_tmpPalette.Colors[j] != WorldPalette.DefaultColors[j] || m_tmpPalette.Names[j] != WorldPalette.DefaultNames[j]);
+				m_resetButtons[j].IsEnabled = (m_tmpPalette.Colors[j] != WorldPalette.DefaultColors[j] || m_tmpPalette.Names[j] != LanguageControl.Get("WorldPalette", j));
 			}
 			for (int k = 0; k < 16; k++)
 			{
@@ -138,7 +138,7 @@ namespace Game
 				if (m_resetButtons[k].IsClicked)
 				{
 					m_tmpPalette.Colors[k] = WorldPalette.DefaultColors[k];
-					m_tmpPalette.Names[k] = WorldPalette.DefaultNames[k];
+					m_tmpPalette.Names[k] = LanguageControl.Get("WorldPalette",k);
 				}
 			}
 			if (m_okButton.IsClicked)
