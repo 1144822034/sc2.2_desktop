@@ -13,7 +13,7 @@ namespace Game
 		public List<int> m_slots = new List<int>();
 
 		public const int m_largeNumber = 9999;
-
+		public const int maxDesign = 65535;
 		public int PageIndex
 		{
 			get;
@@ -56,7 +56,7 @@ namespace Game
 		{
 			m_subsystemFurnitureBlockBehavior.GarbageCollectDesigns();
 			m_slots.Clear();
-			for (int i = 0; i < 1024; i++)
+			for (int i = 0; i < maxDesign; i++)
 			{
 				FurnitureDesign design = m_subsystemFurnitureBlockBehavior.GetDesign(i);
 				if (design != null)

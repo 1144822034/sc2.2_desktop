@@ -10,9 +10,7 @@ namespace Game
 {
 	public class SubsystemFurnitureBlockBehavior : SubsystemBlockBehavior
 	{
-		public const int MaxDesigns = 1024;
-
-		public const int MaxFurnitureSetNameLength = 20;
+		public const int MaxFurnitureSetNameLength = 64;
 
 		public SubsystemAudio m_subsystemAudio;
 
@@ -28,7 +26,7 @@ namespace Game
 
 		public List<FurnitureSet> m_furnitureSets = new List<FurnitureSet>();
 
-		public FurnitureDesign[] m_furnitureDesigns = new FurnitureDesign[1024];
+		public FurnitureDesign[] m_furnitureDesigns = new FurnitureDesign[ComponentFurnitureInventory.maxDesign];
 
 		public Dictionary<Point3, List<FireParticleSystem>> m_particleSystemsByCell = new Dictionary<Point3, List<FireParticleSystem>>();
 
@@ -234,7 +232,7 @@ namespace Game
 				Point3 delta = new Point3((point5.X - location.X) / 2, -location.Y, (point5.Z - location.Z) / 2);
 				design.Shift(delta);
 			}
-			BuildFurnitureDialog dialog = new BuildFurnitureDialog(design, furnitureDesign, delegate(bool result)
+			BuildFurnitureDialog dialog = new BuildFurnitureDialog(design, furnitureDesign, delegate (bool result)
 			{
 				if (result)
 				{
@@ -329,9 +327,9 @@ namespace Game
 
 		public FurnitureSet NewFurnitureSet(string name, string importedFrom)
 		{
-			if (name.Length > 20)
+			if (name.Length > MaxFurnitureSetNameLength)
 			{
-				name = name.Substring(0, 20);
+				name = name.Substring(0, MaxFurnitureSetNameLength);
 			}
 			int num = 0;
 			while (FurnitureSets.FirstOrDefault((FurnitureSet fs) => fs.Name == name) != null)
@@ -527,7 +525,7 @@ namespace Game
 					valuesDictionary4.SetValue("ImportedFrom", furnitureSet.ImportedFrom);
 				}
 				string value = HumanReadableConverter.ValuesListToString(';', (from d in GetFurnitureSetDesigns(furnitureSet)
-					select d.Index).ToArray());
+																			   select d.Index).ToArray());
 				valuesDictionary4.SetValue("Indices", value);
 				num++;
 			}
@@ -611,50 +609,50 @@ namespace Game
 		{
 			switch (Terrain.ExtractContents(value))
 			{
-			case 21:
-				return true;
-			case 3:
-				return true;
-			case 67:
-				return true;
-			case 7:
-				return true;
-			case 72:
-				return true;
-			case 5:
-				return true;
-			case 26:
-				return true;
-			case 4:
-				return true;
-			case 68:
-				return true;
-			case 73:
-				return true;
-			case 150:
-				return true;
-			case 71:
-				return true;
-			case 126:
-				return true;
-			case 47:
-				return true;
-			case 46:
-				return true;
-			case 15:
-				return true;
-			case 208:
-				return true;
-			case 31:
-				return true;
-			case 17:
-				return true;
-			case 18:
-				return true;
-			case 92:
-				return true;
-			default:
-				return false;
+				case 21:
+					return true;
+				case 3:
+					return true;
+				case 67:
+					return true;
+				case 7:
+					return true;
+				case 72:
+					return true;
+				case 5:
+					return true;
+				case 26:
+					return true;
+				case 4:
+					return true;
+				case 68:
+					return true;
+				case 73:
+					return true;
+				case 150:
+					return true;
+				case 71:
+					return true;
+				case 126:
+					return true;
+				case 47:
+					return true;
+				case 46:
+					return true;
+				case 15:
+					return true;
+				case 208:
+					return true;
+				case 31:
+					return true;
+				case 17:
+					return true;
+				case 18:
+					return true;
+				case 92:
+					return true;
+				default:
+					return false;
 			}
 		}
 

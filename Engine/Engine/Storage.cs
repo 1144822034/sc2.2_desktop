@@ -78,7 +78,7 @@ namespace Engine
 
 		public static void DeleteFile(string path)
 		{
-			File.Delete(ProcessPath(path, writeAccess: true, failIfApp: true));
+			File.Delete(ProcessPath(path, writeAccess: true, failIfApp: false));
 		}
 
 		public static void CopyFile(string sourcePath, string destinationPath)
@@ -94,8 +94,8 @@ namespace Engine
 
 		public static void MoveFile(string sourcePath, string destinationPath)
 		{
-			string sourceFileName = ProcessPath(sourcePath, writeAccess: true, failIfApp: true);
-			string text = ProcessPath(destinationPath, writeAccess: true, failIfApp: true);
+			string sourceFileName = ProcessPath(sourcePath, writeAccess: true, failIfApp: false);
+			string text = ProcessPath(destinationPath, writeAccess: true, failIfApp: false);
 			File.Delete(text);
 			File.Move(sourceFileName, text);
 		}
@@ -107,7 +107,7 @@ namespace Engine
 
 		public static void DeleteDirectory(string path)
 		{
-			Directory.Delete(ProcessPath(path, writeAccess: true, failIfApp: true));
+			Directory.Delete(ProcessPath(path, writeAccess: true, failIfApp: false));
 		}
 
 		public static IEnumerable<string> ListFileNames(string path)
@@ -166,7 +166,7 @@ namespace Engine
 
 		public static string GetSystemPath(string path)
 		{
-			return ProcessPath(path, writeAccess: false, failIfApp: true);
+			return ProcessPath(path, writeAccess: false, failIfApp: false);
 		}
 
 		public static string GetExtension(string path)
