@@ -95,22 +95,22 @@ namespace Game
 			base.Project.AddEntity(entity);
 			m_subsystemTime.QueueGameTimeDelayedExecution(2.0, delegate
 			{
-				m_componentPlayer.ComponentGui.DisplayLargeMessage(null, LanguageControl.Get(fName,1), 5f, 0f);
+				m_componentPlayer.ComponentGui.DisplayLargeMessage(null, LanguageControl.Get(fName, 1), 5f, 0f);
 			});
 			m_subsystemTime.QueueGameTimeDelayedExecution(7.0, delegate
 			{
 				if (isPlayerMounted)
 				{
-					m_componentPlayer.ComponentGui.DisplayLargeMessage(null, LanguageControl.Get(fName, 1), 5f, 0f);
+					m_componentPlayer.ComponentGui.DisplayLargeMessage(null, LanguageControl.Get(fName, 2), 5f, 0f);
 				}
 				else
 				{
-					m_componentPlayer.ComponentGui.DisplayLargeMessage(null, LanguageControl.Get(fName, 1), 5f, 0f);
+					m_componentPlayer.ComponentGui.DisplayLargeMessage(null, LanguageControl.Get(fName, 3), 5f, 0f);
 				}
 			});
 			m_subsystemTime.QueueGameTimeDelayedExecution(12.0, delegate
 			{
-				m_componentPlayer.ComponentGui.DisplayLargeMessage(null, LanguageControl.Get(fName, 1), 5f, 0f);
+				m_componentPlayer.ComponentGui.DisplayLargeMessage(null, LanguageControl.Get(fName, 4), 5f, 0f);
 			});
 			IntroCamera introCamera = m_componentPlayer.GameWidget.FindCamera<IntroCamera>();
 			m_componentPlayer.GameWidget.ActiveCamera = introCamera;

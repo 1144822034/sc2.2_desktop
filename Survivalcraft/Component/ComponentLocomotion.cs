@@ -574,7 +574,7 @@ namespace Game
 						}
 						if (!flag && vector2.LengthSquared() / velocity.LengthSquared() > 0.99f && WalkOrder.Value.LengthSquared() > 0.99f)
 						{
-							m_componentPlayer.ComponentGui.DisplaySmallMessage("Running barefoot is slow, wear shoes", Color.White, blinking: true, playNotificationSound: true);
+							m_componentPlayer.ComponentGui.DisplaySmallMessage(LanguageControl.Get(GetType().Name,1), Color.White, blinking: true, playNotificationSound: true);
 							m_shoesWarningTime = Time.FrameStartTime;
 						}
 					}

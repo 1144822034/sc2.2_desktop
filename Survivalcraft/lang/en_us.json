@@ -2,6 +2,28 @@
 	"ContentManager": {
 		"1": "Content \"{0}\" has type {1}, requested type was {2}"
 	},
+	"ExternalContentManager":{
+	"1":"Name empty.",
+	"2":"Name too long. Maximum 50 characters allowed.",
+	"3":"Name cannot start or end with a space.",
+	"4":"Unsupported external content type.",
+	"5":"Logging in",
+	"6":"Login Required",
+	"7":"Do you want to login to {0}?",
+	"8":"Login",
+	"9":"Select Upload Destination",
+	"10":"Uploading",
+	"11":"Cannot upload this item.",
+	"12":"Unsupported content type.",
+	"13":"Compressing world",
+	"14":"Uploading",
+	"15":"{0} uploaded.",
+	"Directory":"Directory",
+	"World":"World",
+	"Blocks Texture":"Blocks Texture",
+	"Character Skin":"Character Skin",
+	"Furniture Pack":"Furniture Pack"
+	},
 	"ComponentHealth": {
 		"1": "Burned by magma",
 		"2": "Impact with the ground",
@@ -9,6 +31,212 @@
 		"4": "Come back!",
 		"5": "Burned to death",
 		"6": "Stranded on land"
+	},
+	"PlayerWidget": {
+		"1": "{0} Controlled by {1}",
+		"2": "In game for {0} days",
+		"3": "Never spawned yet"
+	},
+	"PlayerData": {
+		"1": "Cannot change player class when player data already exists.",
+		"2": "Respawning {0} (Level {1})",
+		"3": "Your items will remain for a short time at the place of death.",
+		"4": "Spawning {0} (Level {1})",
+		"5": "Invalid spawn mode.",
+		"6": "YOU HAVE DIED",
+		"7": "{0}\n\nCannot respawn in \"{1}\" game mode",
+		"8": "{0}\n\nTap to restart adventure",
+		"9": "{0}\n\nTap to respawn",
+		"10": "More than 1 player with PlayerIndex {0} added to world.",
+		"11": "No GameWidget found for player.",
+		"12": "Unknown",
+		"13": "Cause of death: {0}"
+
+	},
+	"GameLoadingScreen": {
+		"1": "Error loading world"
+	},
+	"FurnitureDesign": {
+		"1": "Invalid name.",
+		"2": "Invalid furniture values string.",
+		"3": "resolution",
+		"4": "values",
+		"5": "{0}-state Furniture",
+		"6": "Furniture Button",
+		"7": "Furniture Switch",
+		"8": "{0}-state Connected Furniture",
+		"9": "Furniture"
+	},
+	"BuildFurnitureDialog": {
+		"1": "Complexity {0}/{1}{2}",
+		"2": " (OK)",
+		"3": "(too complex)",
+		"4": "Side View",
+		"5": "Top View",
+		"6": "Front View",
+		"7": "Rename Original Furniture",
+		"8": "Rename Modified Furniture",
+		"9": "Name Modified Furniture",
+		"10": "Rename Furniture",
+		"11": "Name Furniture"
+
+	},
+	"FurnitureInventoryPanel": {
+		"1": "{0} design(s) added. ",
+		"2": "{0} design(s) were already present in the world and were skipped. ",
+		"3": "{0} design(s) were skipped because {1} designs limit is reached.",
+		"4": "Import Successful",
+		"5": "Import Failed",
+		"6": "New",
+		"7": "Import From Content",
+		"8": "Add Furniture Set",
+		"9": "Rename",
+		"10": "Delete",
+		"11": "Move Up",
+		"12": "Move Down",
+		"13": "Export To Content",
+		"14": "Furniture Set Action",
+		"15": "Furniture Set Name",
+		"16": "New Set",
+		"17": "Furniture Set Name",
+		"18": "No Furniture Packs",
+		"19": "No furniture packs found in your content. Download some from Community Content.",
+		"20": "Select Furniture Pack",
+		"21": "Exported",
+		"22": "Furniture pack [{0}] exported to content.",
+		"23": "Export Failed",
+		"24": "Too many furniture sets",
+		"25": "Delete some furniture sets before adding a new one.",
+		"26": "All furniture in the set will become uncategorized and will be deleted if not used in the world.",
+		"27": "Delete",
+		"28": "Cancel"
+	},
+	"ExternalContentScreen": {
+		"1": "Enter",
+		"2": "Download",
+		"3": "Contents Of ",
+		"4": "Not logged in",
+		"5": "Logout",
+		"6": "Login",
+		"7": "Select Content Source",
+		"8": "Creating Link",
+		"9": "Retrieving Directory",
+		"10": "Downloading",
+		"11": " | (downloaded)",
+		"12": "Importing"
+	},
+	"FourLedBlock": {
+		"1": "Make colored 4-LEDs from copper, glass and paint"
+	},
+	"MulticoloredLedBlock": {
+		"1": "Make multicolored LEDs from copper, glass and wire"
+	},
+	"OneLedBlock": {
+		"1": "Make colored 1-LEDs from copper, glass and paint"
+	},
+	"LedBlock": {
+		"0": "White",
+		"1": "Cyan",
+		"2": "Red",
+		"3": "Blue",
+		"4": "Yellow",
+		"5": "Green",
+		"6": "Orange",
+		"7": "Purple"
+	},
+	"GameMenuDialog": {
+		"1": "Your device is fast",
+		"2": "Consider increasing visibility range or resolution for better graphics. To do so, go to performance settings.",
+		"3": "Your device is not fast enough",
+		"4": "Consider decreasing visibility range or resolution. To do so, go to performance settings.",
+		"5": "Game Statistics",
+		"6": "Game Mode",
+		"7": "Terrain Type",
+		"8": "World Seed",
+		"9": "(none)",
+		"10": "Sea Level",
+		"11": "Temperature",
+		"12": "Humidity",
+		"13": "Biome Size",
+		"14": "Furniture Designs In Use",
+		"15": "World Created In Version",
+		"16": "before 1.22",
+		"17": "Player Statistics",
+		"18": "Name",
+		"19": "Sex",
+		"20": " days ago",
+		"21": "Never spawned yet",
+		"22": "First Spawned",
+		"23": " days",
+		"24": "Never spawned yet",
+		"25": "Stayed Alive",
+		"26": "Respawned",
+		"27": " times",
+		"28": "Highest Level Attained",
+		"29": "Level {0}",
+		"30": "Location",
+		"31": "{0},{1} at altitude {2}",
+		"32": "(unavailable in {0})",
+		"33": "Combat Statistics",
+		"34": "Players Killed",
+		"35": "Land Creatures Killed",
+		"36": "Water Creatures Killed",
+		"37": "Air Creatures Killed",
+		"38": "Melee Attacks",
+		"39": "Melee Hits",
+		"40": "Ranged Attacks",
+		"41": "Ranged Hits",
+		"42": "Hits Received",
+		"43": "Work Statistics",
+		"44": "Blocks Dug",
+		"45": "Blocks Placed",
+		"46": "Blocks Interacted With",
+		"47": "Items Crafted/Smelted",
+		"48": "Furniture Made",
+		"49": "Movement Statistics",
+		"50": "Total Distance Travelled",
+		"51": "Distance Walked",
+		"52": "Distance Fallen",
+		"53": "Distance Climbed",
+		"54": "Distance Flown",
+		"55": "Distance Swum",
+		"56": "Distance Ridden",
+		"57": "Lowest Altitude",
+		"58": "Highest Altitude",
+		"59": "Deepest Dive",
+		"60": "Jumps",
+		"61": "Body Statistics",
+		"62": "Total Health Lost",
+		"63": "Food Eaten",
+		"64": " items",
+		"65": "Went To Sleep",
+		"66": " times",
+		"67": "Total Time Slept",
+		"68": " days",
+		"69": "Vomited",
+		"70": "Contracted Flu",
+		"71": "Became Sick",
+		"72": "Other Statistics",
+		"73": "Struck By Lightning",
+		"74": "Easiest Game Mode Used",
+		"75": "Death Record",
+		"76": "Morning of",
+		"77": "Afternoon of",
+		"78": "Evening of",
+		"79": "Night of",
+		"80": "{1} day {0:0}",
+		"81": "No player statistics available because world was started in an old version of the game.",
+		"82": "Restart Adventure",
+		"83": "Reset Adventure?",
+		"84": "The adventure will start from the beginning.",
+		"85": "Rate",
+		"86": "Select Content To Rate",
+		"87": "Edit Players",
+		"88": "Settings",
+		"89": "Help",
+		"90": "Keyboard Controls",
+		"91": "Gamepad Controls",
+		"92": "More Actions"
 	},
 	"BlocksManager": {
 		"1": "Block with type {0} not found.",
@@ -30,20 +258,21 @@
 		"Painted": "Painted",
 		"Dyed": "Dyed",
 		"Fireworks": "Fireworks",
-		"All Blocks": "All Blocks"
+		"All Blocks": "All Blocks",		
+		"Not Dyed":"Not Dyed"
 	},
 	"BestiaryDescriptionScreen": {
 		"1": "Can Be Ridden:\n",
 		"2": "({0}% of time)",
-		"resilience": "resilience",
-		"attack": "attack",
-		"herding": "herding",
-		"speed": "speed",
-		"jump height": "jump height",
+		"resilience": "resilience:\n",
+		"attack": "attack:\n",
+		"herding": "herding:\n",
+		"speed": "speed:\n",
+		"jump height": "jump height:\n",
 		"length unit": "meters\n",
-		"speed unit": "km/h",
+		"speed unit": "km/h\n",
 		"weight unit": "kg\n",
-		"weight": "weight",
+		"weight": "weight\n",
 		"range": "{0} to {1}"
 	},
 	"CommunityContentScreen": {
@@ -132,8 +361,16 @@
 		"SplitTouch": "SplitTouch"
 	},
 	"SettingsUiScreen": {
-		"1": "Are you sure?",
-		"2": "You need to restart the application to take effect. Are you sure you want to change it?"
+			"1": "Adjust User Interface Settings",
+			"2": "Language:",
+			"3": "Window Mode:",
+			"4": "UI Size:",
+			"5": "UI Vertical Flip:",
+			"6": "Hide Move/Look Pads:",
+			"7": "Show UI in screenshots:",
+			"8": "Show logo in screenshots:",
+			"9": "Screenshot resolution:",
+			"10": "Community Content:"
 	},
 	"EnvironmentBehaviorMode": {
 		"Living": "Living",
@@ -152,6 +389,9 @@
 		"Challenging": "Challenging",
 		"Adventure": "Adventure",
 		"Cruel": "Cruel"
+	},
+	"ComponentLocomotion": {
+		"1": "Running barefoot is slow, wear shoes"
 	},
 	"EggBlock": {
 		"1": "Cooked",
@@ -246,7 +486,11 @@
 		"37": "Ugh...",
 		"38": "You are completely wet",
 		"39": "You are getting wet",
-		"40": "You are no longer wet"
+		"40": "You are no longer wet",
+		"41": "head is",
+		"42": "chest is",
+		"43": "legs are",
+		"44": "feet are"
 	},
 	"RecipaediaScreen": {
 		"1": "recipe",
@@ -263,7 +507,20 @@
 		"7": "bad luck",
 		"8": "unknown attacker",
 		"9": "wrong place wrong time",
-		"10": "unlucky"
+		"10": "unlucky",
+		"killed": "killed",
+		"kicked": "kicked",
+		"stung": "stung",
+		"crushed": "crushed",
+		"dismembered": "dismembered",
+		"hunted": "hunted",
+		"eaten": "eaten",
+		"mauled": "mauled",
+		"trampled": "trampled",
+		"bitten": "bitten",
+		"massacred": "massacred",
+		"ripped open": "ripped open",
+		"murdered": "murdered"
 	},
 	"ComponentIntro": {
 		"1": "Cast away, boys.",
@@ -296,6 +553,14 @@
 		"8": "Tap to wake up early",
 		"9": "You fell unconscious from lack of sleep",
 		"10": "Zzz..."
+	},
+	"WorldOptionsScreen": {
+		"1": "Select World Type",
+		"2": "Select Block",
+		"3": "Select Blocks Texture",
+		"4": "Unavailable",
+		"5": "Flat terrain is only available in Creative Mode",
+		"6": "Normal"
 	},
 	"ComponentSickness": {
 		"1": "Sickness",
@@ -369,7 +634,7 @@
 		"unknown": "Unknown",
 		"yes": "Yes",
 		"no": "No",
-		"None": "None",
+		"none": "None",
 		"nothing": "Nothing",
 		"ok": "Ok",
 		"error": "Error",
@@ -381,7 +646,8 @@
 		"warning": "Warning",
 		"cancel": "Cancel",
 		"allowed": "Allowed",
-		"not allowed": "Not Allowed"
+		"not allowed": "Not Allowed",
+		"success":"Success"
 	},
 	"Blocks": {
 		"AirBlock:0": {
@@ -870,7 +1136,7 @@
 		},
 		"LitFurnaceBlock:0": {
 			"DisplayName": "Furnace",
-			"Description": "A furnace is an enclosure made from fire resistant stone, in which a high temperature is maintained by burning combustible fuel. It is an important item that allows smelting, cooking and other forms of heat processing. The best fuel for the furnace are coal chunks, but wood and even leaves can be used if coal is unavailable. Furnace can be left unattended while working. It also emits a small amount of light.",
+			"Description": "A furnace is an enclosure made from fire resistant stone, in which a high temperature is maintained by burning combustible fuel. It is an important item that allows smelting, cooking and other forms of heat processing. The best fuel for the furnace are coal chunks, but wood and even leaves can be used if coal is unavailable. Furnace can be left unattended while working. It also emits a small amount of light."
 		},
 		"ChestBlock:0": {
 			"DisplayName": "Chest",
@@ -2002,14 +2268,6 @@
 			"value": "\n The game allows you to browse a list of worlds, block textures and other items published by other Survivalcraft community members, and download them.\n \\n\\n\n Once you make something interesting, you can also publish it through this service, and it will appear on the list for anyone to download.\n \\n\\n\n To publish something, first you need to put it on the internet, so that it's accessible to everyone.\n The easiest place to use is Dropbox, although you can use any other provider.\n Once it's done, you can publish the link to it through \"Publish Link\" dialog in the game.\n \\n\\n\n Note: the server does not store your content, only the link.\n Just like a search engine.\n You are responsible for keeping the data accessible through the published link.\n Watch out for exceeding bandwidth limits of your provider, having a link near top of the list will make your content receive many thousands of downloads in a short time.\n ",
 			"Title": "Community Content"
 		}
-
-
-
-
-
-
-
-
 	},
 	"Strings": {
 		"MoveControlMode.Pad": "Touchpad",
@@ -2082,7 +2340,6 @@
 		"ScreenLayout.QuadrupleOpposite.Description": "Opposite, for sharing touch devices"
 	},
 	"ContentWidgets": {
-
 		"BestiaryDescriptionScreen": {
 			"1": "Creature Description",
 			"2": "Drops:"
@@ -2187,7 +2444,14 @@
 			"1": "Existing Worlds",
 			"2": "Play!",
 			"3": "New World",
-			"4": "..."
+			"4": "...",
+			"5": "Scanning Worlds",
+			"6": "Existing Worlds ({0})",
+			"7": "Too many worlds",
+			"8": "A maximum of {0} worlds is allowed on a device. Delete some to make space for new ones.",			
+			"9":"{0} players",
+			"10":"{0} player"
+
 		},
 		"PlayerScreen": {
 			"1": "Setup Player",
@@ -2766,18 +3030,7 @@
 			"2": "Flickering",
 			"3": "Low",
 			"4": "High"
-
 		}
-	},
-	"LedBlock": {
-		"0": "White",
-		"1": "Cyan",
-		"2": "Red",
-		"3": "Blue",
-		"4": "Yellow",
-		"5": "Green",
-		"6": "Orange",
-		"7": "Purple"
 	},
 	"WorldPalette": {
 		"0": "White",
@@ -2947,6 +3200,4 @@
 			"45": ""
 		}
 	}
-
-}
 }

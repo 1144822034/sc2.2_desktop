@@ -13,7 +13,7 @@ namespace Game
 		{
 			public int Value;
 		}
-
+		public static string fName = "FurnitureDesign";
 		public struct Subdivision
 		{
 			public int TotalVolume;
@@ -177,14 +177,14 @@ namespace Game
 				{
 					if (value[0] == ' ' || value[value.Length - 1] == ' ')
 					{
-						throw new InvalidOperationException("Invalid name.");
+						throw new InvalidOperationException(LanguageControl.Get(fName, 1));
 					}
 					string text = value;
 					foreach (char c in text)
 					{
 						if (c > '\u007f' || (!char.IsLetterOrDigit(c) && c != ' '))
 						{
-							throw new InvalidOperationException("Invalid name.");
+							throw new InvalidOperationException(LanguageControl.Get(fName, 1));
 						}
 					}
 					if (value.Length > 20)
@@ -275,10 +275,10 @@ namespace Game
 			}, StringSplitOptions.RemoveEmptyEntries);
 			for (int i = 0; i < array2.Length; i++)
 			{
-				string[] array3 = array2[i].Split(new string[] { "*"}, StringSplitOptions.None);
+				string[] array3 = array2[i].Split(new char[] { '*' }, StringSplitOptions.None);
 				if (array3.Length != 2)
 				{
-					throw new InvalidOperationException("Invalid furniture values string.");
+					throw new InvalidOperationException(LanguageControl.Get(fName, 2));
 				}
 				int num2 = int.Parse(array3[0], CultureInfo.InvariantCulture);
 				int num3 = int.Parse(array3[1], CultureInfo.InvariantCulture);
@@ -302,11 +302,11 @@ namespace Game
 		{
 			if (resolution < 2 || resolution > 16)
 			{
-				throw new ArgumentException("resolution");
+				throw new ArgumentException(LanguageControl.Get(fName, 3));
 			}
 			if (values.Length != resolution * resolution * resolution)
 			{
-				throw new ArgumentException("values");
+				throw new ArgumentException(LanguageControl.Get(fName, 4));
 			}
 			m_resolution = resolution;
 			if (m_values == null || m_values.Length != resolution * resolution * resolution)
@@ -332,29 +332,29 @@ namespace Game
 				int count = ListChain().Count;
 				if (count > 1)
 				{
-					return $"{count}-state Furniture";
+					return string.Format(LanguageControl.Get(fName, 5), count);
 				}
 			}
 			else
 			{
 				if (InteractionMode == FurnitureInteractionMode.ElectricButton)
 				{
-					return "按钮家具";
+					return LanguageControl.Get(fName, 6);
 				}
 				if (InteractionMode == FurnitureInteractionMode.ElectricSwitch)
 				{
-					return "开关家具";
+					return LanguageControl.Get(fName, 7);
 				}
 				if (InteractionMode == FurnitureInteractionMode.ConnectedMultistate)
 				{
 					int count2 = ListChain().Count;
 					if (count2 > 1)
 					{
-						return $"{count2}个已连接 家具";
+						return string.Format(LanguageControl.Get(fName, 8), count2);
 					}
 				}
 			}
-			return "家具";
+			return LanguageControl.Get(fName, 9);
 		}
 
 		public BoundingBox[] GetCollisionBoxes(int rotation)
@@ -408,7 +408,7 @@ namespace Game
 		{
 			if (resolution < 2 || resolution > 16)
 			{
-				throw new ArgumentException("resolution");
+				throw new ArgumentException(LanguageControl.Get(fName, 3));
 			}
 			if (resolution == m_resolution)
 			{

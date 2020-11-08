@@ -23,11 +23,16 @@ namespace Game
 			}
 			XElement source1 = ContentManager.Get<XElement>("CraftingRecipes");
 			ModsManager.CombineXml(source1, ModsManager.GetEntries(".cr"), "Description", "Result", "Recipes");
-			IEnumerable<XElement> source2=source1.Descendants("Recipe");
+			IEnumerable<XElement> source2 = source1.Descendants("Recipe");
 			foreach (XElement item in source2)
 			{
 				CraftingRecipe craftingRecipe = new CraftingRecipe();
 				string attributeValue = XmlUtils.GetAttributeValue<string>(item, "Result");
+				string desc = LanguageControl.GetBlock(attributeValue, "CRDescription");
+				if (item.Attribute("Description") != null)
+				{
+					desc = XmlUtils.GetAttributeValue<string>(item, "Description");
+				}
 				craftingRecipe.ResultValue = DecodeResult(attributeValue);
 				craftingRecipe.ResultCount = XmlUtils.GetAttributeValue<int>(item, "ResultCount");
 				string attributeValue2 = XmlUtils.GetAttributeValue(item, "Remains", string.Empty);
@@ -38,8 +43,7 @@ namespace Game
 				}
 				craftingRecipe.RequiredHeatLevel = XmlUtils.GetAttributeValue<float>(item, "RequiredHeatLevel");
 				craftingRecipe.RequiredPlayerLevel = XmlUtils.GetAttributeValue(item, "RequiredPlayerLevel", 1f);
-				craftingRecipe.Description = LanguageControl.GetBlock(attributeValue, "CRDescription");
-				//XmlUtils.GetAttributeValue<string>(item, "Description");
+				craftingRecipe.Description = desc;
 				craftingRecipe.Message = XmlUtils.GetAttributeValue<string>(item, "Message", null);
 				if (craftingRecipe.ResultCount > BlocksManager.Blocks[Terrain.ExtractContents(craftingRecipe.ResultValue)].MaxStacking)
 				{
@@ -51,8 +55,8 @@ namespace Game
 				}
 				Dictionary<char, string> dictionary = new Dictionary<char, string>();
 				foreach (XAttribute item2 in from a in item.Attributes()
-					where a.Name.LocalName.Length == 1 && char.IsLower(a.Name.LocalName[0])
-					select a)
+											 where a.Name.LocalName.Length == 1 && char.IsLower(a.Name.LocalName[0])
+											 select a)
 				{
 					DecodeIngredient(item2.Value, out string craftingId, out int? data);
 					if (BlocksManager.FindBlocksByCraftingId(craftingId).Length == 0)
@@ -92,7 +96,7 @@ namespace Game
 			{
 				m_recipes.AddRange(block.GetProceduralCraftingRecipes());
 			}
-			m_recipes.Sort(delegate(CraftingRecipe r1, CraftingRecipe r2)
+			m_recipes.Sort(delegate (CraftingRecipe r1, CraftingRecipe r2)
 			{
 				int y = r1.Ingredients.Count((string s) => !string.IsNullOrEmpty(s));
 				int x = r2.Ingredients.Count((string s) => !string.IsNullOrEmpty(s));

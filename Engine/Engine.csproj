@@ -39,9 +39,6 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
@@ -433,6 +430,7 @@
     <Content Include="Engine\Resources.Embedded.Lit.vsh" />
     <Content Include="Engine\Resources.Embedded.Unlit.psh" />
     <Content Include="Engine\Resources.Embedded.Unlit.vsh" />
+    <EmbeddedResource Include="Resources\icon.ico" />
     <EmbeddedResource Include="Resources\Embedded\Unlit.vsh" />
     <EmbeddedResource Include="Resources\Embedded\Unlit.psh" />
     <EmbeddedResource Include="Resources\Embedded\Lit.vsh" />

@@ -14,32 +14,31 @@ namespace Game
 
         public enum LanguageType
         {
-            zh_cn,
-            en_us
+            zh_CN,
+            en_US
         }
         public static void init(LanguageType languageType)
         {
             items = new Dictionary<string, Dictionary<string, string>>();
             items2 = new Dictionary<string, Dictionary<string, Dictionary<string, string>>>();
             Stream ssa = Storage.OpenFile("app:lang/" + languageType.ToString() + ".json", OpenFileMode.Read);
-            MemoryStream memoryStream = new MemoryStream();
-            byte[] data;
-            if (!ssa.CanSeek)
+            loadJson(ssa);
+            List<FileEntry> langs = ModsManager.GetEntries(".json");
+            foreach (FileEntry entry in langs)
             {
-                ssa.CopyTo(memoryStream);
-                data = memoryStream.ToArray();
-                ssa.Dispose();
+                string filename = Storage.GetFileName(entry.Filename);
+                if (filename.StartsWith(languageType.ToString()))
+                { //加载该语言包
+                    loadJson(entry.Stream); break;
+                }
             }
-            else
-            {
-                ssa.CopyTo(memoryStream);
-                data = memoryStream.ToArray();
-                ssa.Dispose();
-            }
-            if (data != null)
+
+        }
+        public static void loadJson(Stream stream)
+        {
+            string txt = new StreamReader(stream).ReadToEnd();
+            if (txt.Length > 0)
             {//加载原版语言包
-                string txt = System.Text.Encoding.UTF8.GetString(data);
-                txt = txt.Substring(1, txt.Length - 1);
                 JsonObject obj = (JsonObject)SimpleJson.SimpleJson.DeserializeObject(txt);
                 foreach (KeyValuePair<string, object> lla in obj)
                 {
@@ -54,49 +53,50 @@ namespace Game
                             Dictionary<string, string> values3 = new Dictionary<string, string>();
                             foreach (KeyValuePair<string, object> llc in json2)
                             {
-                                if (values3.ContainsKey(llc.Key)) values3[llc.Key] = llc.Value.ToString();
+                                if (values3.ContainsKey(llc.Key))
+                                {
+                                    values3[llc.Key] = llc.Value.ToString();
+                                }
                                 else values3.Add(llc.Key, llc.Value.ToString());
+
+                                if (items2.TryGetValue(lla.Key, out var geta))
+                                {
+                                    if (geta.TryGetValue(llb.Key, out var getb))
+                                    {
+                                        if (getb.TryGetValue(llc.Key, out var getc)) getb[llc.Key] = llc.Value.ToString();
+                                    }
+                                }
                             }
-                            if (values2.ContainsKey(llb.Key)) values2[llb.Key] = values3;
-                            else values2.Add(llb.Key, values3);
+                            if (!values2.ContainsKey(llb.Key)) values2.Add(llb.Key, values3);
                         }
                         else
                         {
-                            if (values.ContainsKey(llb.Key)) values.Add(llb.Key, llb.Value.ToString());//遇到重复自动覆盖
-                            else values[llb.Key] = llb.Value.ToString();
+                            if (!values.ContainsKey(llb.Key)) values.Add(llb.Key, llb.Value.ToString());//遇到重复自动覆盖
+                            if (items.TryGetValue(lla.Key, out var geta))
+                            {
+                                if (geta.TryGetValue(llb.Key, out var getb)) geta[llb.Key] = llb.Value.ToString();
+                            }
+
                         }
                     }
-                    if (items.ContainsKey(lla.Key)) items[lla.Key] = values;
-                    else items.Add(lla.Key, values);
+                    if (!items.ContainsKey(lla.Key)) items.Add(lla.Key, values);
+
                     if (values2.Count > 0)
                     {
-                        if (items2.ContainsKey(lla.Key)) items2[lla.Key] = values2;
-                        else items2.Add(lla.Key, values2);
-                    }
-                }
-            }
-            List<FileEntry> langs = ModsManager.GetEntries(".lang");
-            foreach (FileEntry entry in langs)
-            {
-                string filename = Storage.GetFileName(entry.Filename);
-                if (filename.StartsWith(languageType.ToString()))
-                { //加载该语言包
-                    JsonObject obj = (JsonObject)WebManager.JsonFromBytes(ModsManager.StreamToBytes(entry.Stream));
-                    foreach (KeyValuePair<string, object> lla in obj)
-                    {
-                        JsonObject json = (JsonObject)lla.Value;
-                        Dictionary<string, string> values = new Dictionary<string, string>();
-                        foreach (KeyValuePair<string, object> llb in json)
-                        {
-                            if (values.ContainsKey(llb.Key)) values.Add(llb.Key, llb.Value.ToString());//遇到重复自动覆盖
-                            else values[lla.Key] = llb.Value.ToString();
+                        if (!items2.ContainsKey(lla.Key)) items2.Add(lla.Key, values2);
+                        if (items2.TryGetValue(lla.Key, out var ma))
+                        {//有Blocks级
+                            foreach (var dn in values2)
+                            {
+                                if (!ma.TryGetValue(dn.Key, out var mb))
+                                { //不存在Blocks:0
+                                    ma.Add(dn.Key, dn.Value);
+                                }
+                            }
                         }
-                        if (items.ContainsKey(lla.Key)) items[lla.Key] = values;
-                        else items.Add(lla.Key, values);
                     }
                 }
             }
-
         }
         public static string getShow(LanguageType language)
         {
@@ -106,7 +106,7 @@ namespace Game
         }
         public static string Get(string className, int key)
         {//获得键值
-            return Get(className,key.ToString());
+            return Get(className, key.ToString());
         }
 
         public static string Get(string className, string key)
@@ -128,28 +128,37 @@ namespace Game
             {
                 if (ma.TryGetValue(name, out Dictionary<string, string> mb))
                 {
-                    if (mb.TryGetValue(prop, out string mc))return mc;
-                } else if (ma.TryGetValue(hn[0] + ":0", out Dictionary<string, string> mbc)) {
+                    if (mb.TryGetValue(prop, out string mc)) return mc;
+                }
+                else if (ma.TryGetValue(hn[0] + ":0", out Dictionary<string, string> mbc))
+                {
+                    if (hn[0] == "ClothingBlock") return "";
                     if (mbc.TryGetValue(prop, out string mc)) return mc;
                 }
 
             }
-            return string.Format("NF[Block][{0}][{1}]", name, prop);
+            return "";
         }
         public static string GetContentWidgets(string name, string prop)
         {
             if (items2.TryGetValue("ContentWidgets", out Dictionary<string, Dictionary<string, string>> ma))
             {
                 if (ma.TryGetValue(name, out Dictionary<string, string> mb))
-                    if (mb.TryGetValue(prop, out string mc))return mc;
+                    if (mb.TryGetValue(prop, out string mc)) return mc;
             }
             return string.Format("NF[CW][{0}][{1}]", name, prop);
         }
+        public static string GetContentWidgets(string name, int pos)
+        {
+            return GetContentWidgets(name, pos.ToString());
+        }
+
         public static string GetDatabase(string name, string prop)
         {
             if (items2.TryGetValue("Database", out Dictionary<string, Dictionary<string, string>> ma))
             {
-                if (ma.TryGetValue(name, out Dictionary<string, string> mb)) {
+                if (ma.TryGetValue(name, out Dictionary<string, string> mb))
+                {
                     if (mb.TryGetValue(prop, out string mc)) return mc;
                 }
             }

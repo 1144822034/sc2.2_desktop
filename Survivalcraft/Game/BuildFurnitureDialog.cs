@@ -13,6 +13,7 @@ namespace Game
 		public FurnitureDesign m_sourceDesign;
 
 		public int m_axis;
+		public static string fName = "BuildFurnitureDialog";
 
 		public Action<bool> m_handler;
 
@@ -81,7 +82,7 @@ namespace Game
 			num += m_design.Geometry.SubsetOpaqueByFace.Sum((BlockMesh b) => (b != null) ? (b.Indices.Count / 3) : 0);
 			num += m_design.Geometry.SubsetAlphaTestByFace.Sum((BlockMesh b) => (b != null) ? (b.Indices.Count / 3) : 0);
 			m_isValid = (num <= 65535);
-			m_statusLabel.Text = string.Format("复杂性 {0}/{1}{2}", num, 65535, m_isValid ? " (确定)" : " (太过复杂)");
+			m_statusLabel.Text = string.Format(LanguageControl.Get(fName, 1), num, 65535, m_isValid ? LanguageControl.Get(fName, 2) : LanguageControl.Get(fName, 3));
 			m_designWidget2d.Design = m_design;
 			m_designWidget3d.Design = m_design;
 		}
@@ -93,15 +94,15 @@ namespace Game
 			m_designWidget3d.Mode = FurnitureDesignWidget.ViewMode.Perspective;
 			if (m_designWidget2d.Mode == FurnitureDesignWidget.ViewMode.Side)
 			{
-				m_axisButton.Text = "侧视图";
+				m_axisButton.Text = LanguageControl.Get(fName, 4);
 			}
 			if (m_designWidget2d.Mode == FurnitureDesignWidget.ViewMode.Top)
 			{
-				m_axisButton.Text = "俯视图";
+				m_axisButton.Text = LanguageControl.Get(fName, 5);
 			}
 			if (m_designWidget2d.Mode == FurnitureDesignWidget.ViewMode.Front)
 			{
-				m_axisButton.Text = "正视图";
+				m_axisButton.Text = LanguageControl.Get(fName, 6);
 			}
 			m_leftButton.IsEnabled = IsShiftPossible(DirectionAxisToDelta(0, m_axis));
 			m_rightButton.IsEnabled = IsShiftPossible(DirectionAxisToDelta(1, m_axis));
@@ -116,10 +117,10 @@ namespace Game
 				List<Tuple<string, Action>> list = new List<Tuple<string, Action>>();
 				if (m_sourceDesign != null)
 				{
-					list.Add(new Tuple<string, Action>("重命名原始家具", delegate
+					list.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 7), delegate
 					{
 						Dismiss(result: false);
-						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("重命名家具", m_sourceDesign.Name, 20, delegate (string s)
+						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog(LanguageControl.Get(fName, 10), m_sourceDesign.Name, 20, delegate (string s)
 						{
 							try
 							{
@@ -130,13 +131,13 @@ namespace Game
 							}
 							catch (Exception ex3)
 							{
-								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("错误", ex3.Message, "确定", null, null));
+								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog(LanguageControl.Get("Usual", "error"), ex3.Message, LanguageControl.Get("Usual", "ok"), null, null));
 							}
 						}));
 					}));
-					list.Add(new Tuple<string, Action>("重命名修改的家具", delegate
+					list.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 8), delegate
 					{
-						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("家具名称", m_design.Name, 20, delegate (string s)
+						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog(LanguageControl.Get(fName, 11), m_design.Name, 20, delegate (string s)
 						{
 							try
 							{
@@ -147,16 +148,16 @@ namespace Game
 							}
 							catch (Exception ex2)
 							{
-								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("错误", ex2.Message, "确定", null, null));
+								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog(LanguageControl.Get("Usual", "error"), ex2.Message, LanguageControl.Get("Usual", "ok"), null, null));
 							}
 						}));
 					}));
 				}
 				else
 				{
-					list.Add(new Tuple<string, Action>("Name Modified Furniture", delegate
+					list.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 9), delegate
 					{
-						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog("家具名称", m_design.Name, 20, delegate (string s)
+						DialogsManager.ShowDialog(base.ParentWidget, new TextBoxDialog(LanguageControl.Get(fName, 11), m_design.Name, 20, delegate (string s)
 						{
 							try
 							{
@@ -167,7 +168,7 @@ namespace Game
 							}
 							catch (Exception ex)
 							{
-								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog("错误", ex.Message, "确定", null, null));
+								DialogsManager.ShowDialog(base.ParentWidget, new MessageDialog(LanguageControl.Get("Usual", "error"), ex.Message, LanguageControl.Get("Usual", "ok"), null, null));
 							}
 						}));
 					}));
@@ -178,7 +179,7 @@ namespace Game
 				}
 				else
 				{
-					DialogsManager.ShowDialog(base.ParentWidget, new ListSelectionDialog("家具名称", list, 64f, (object t) => ((Tuple<string, Action>)t).Item1, delegate (object t)
+					DialogsManager.ShowDialog(base.ParentWidget, new ListSelectionDialog(LanguageControl.Get(fName, 11), list, 64f, (object t) => ((Tuple<string, Action>)t).Item1, delegate (object t)
 					{
 						((Tuple<string, Action>)t).Item2();
 					}));

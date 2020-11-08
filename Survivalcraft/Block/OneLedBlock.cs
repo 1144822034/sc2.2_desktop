@@ -41,7 +41,7 @@ namespace Game
 				ResultCount = 4,
 				ResultValue = Terrain.MakeBlockValue(253, 0, 0),
 				RequiredHeatLevel = 0f,
-				Description = "Make colored 1-LEDs from copper, glass and paint"
+				Description = LanguageControl.Get(GetType().Name,1)
 			};
 			craftingRecipe.Ingredients[0] = "glass";
 			craftingRecipe.Ingredients[1] = "glass";

@@ -50,11 +50,6 @@ namespace Game
 				SettingsManager.MultithreadedTerrainUpdate = !SettingsManager.MultithreadedTerrainUpdate;
 				m_descriptionLabel.Text = StringsManager.GetString("Settings.Compatibility.SinglethreadedTerrainUpdate.Description");
 			}
-			//if (m_useAudioTrackCachingButton.IsClicked)
-			//{
-			//	SettingsManager.EnableAndroidAudioTrackCaching = !SettingsManager.EnableAndroidAudioTrackCaching;
-			//	m_descriptionLabel.Text = StringsManager.GetString("Settings.Compatibility.UseAudioTrackCaching.Description");
-			//}
 			if (m_useReducedZRangeButton.IsClicked)
 			{
 				SettingsManager.UseReducedZRange = !SettingsManager.UseReducedZRange;
@@ -64,15 +59,13 @@ namespace Game
 			{
 				DialogsManager.ShowDialog(null, new ViewGameLogDialog());
 			}
-			//bool flag = false;
 			if (m_resetDefaultsButton.IsClicked)
 			{
 				SettingsManager.MultithreadedTerrainUpdate = true;
 				SettingsManager.UseReducedZRange = false;
 			}
-			m_singlethreadedTerrainUpdateButton.Text = (SettingsManager.MultithreadedTerrainUpdate ? "Off" : "On");
-			//m_useAudioTrackCachingButton.Text = (SettingsManager.EnableAndroidAudioTrackCaching ? "On" : "Off");
-			m_useReducedZRangeButton.Text = (SettingsManager.UseReducedZRange ? "On" : "Off");
+			m_singlethreadedTerrainUpdateButton.Text = (SettingsManager.MultithreadedTerrainUpdate ? LanguageControl.Get("Usual", "off") : LanguageControl.Get("Usual", "on"));
+			m_useReducedZRangeButton.Text = (SettingsManager.UseReducedZRange ? LanguageControl.Get("Usual", "on") : LanguageControl.Get("Usual", "off"));
 			m_resetDefaultsButton.IsEnabled = (!SettingsManager.MultithreadedTerrainUpdate || SettingsManager.UseReducedZRange);
 			if (base.Input.Back || base.Input.Cancel || Children.Find<ButtonWidget>("TopBar.Back").IsClicked)
 			{

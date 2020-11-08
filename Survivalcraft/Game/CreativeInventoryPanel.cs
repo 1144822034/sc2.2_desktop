@@ -68,7 +68,7 @@ namespace Game
 			}
 			if (m_componentCreativeInventory.CategoryIndex != m_assignedCategoryIndex)
 			{
-				if (m_creativeInventoryWidget.GetCategoryName(m_componentCreativeInventory.CategoryIndex) == "User")
+				if (m_creativeInventoryWidget.GetCategoryName(m_componentCreativeInventory.CategoryIndex) == LanguageControl.Get("CreativeInventoryWidget", 2))
 				{
 					m_slotIndices = new List<int>(Enumerable.Range(10, m_componentCreativeInventory.OpenSlotsCount - 10));
 				}

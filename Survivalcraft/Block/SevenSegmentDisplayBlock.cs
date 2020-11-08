@@ -74,8 +74,9 @@ namespace Game
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			int color = GetColor(Terrain.ExtractData(value));
-			return LanguageControl.Get(GetType().Name, color) + " 7¶ÎÏÔÊ¾Æ÷";
+			int data = Terrain.ExtractData(value);
+			int color = GetColor(data);
+			return LanguageControl.Get("WorldPalette", color) + LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, data.ToString()), "DisplayName");
 		}
 
 		public override IEnumerable<int> GetCreativeValues()

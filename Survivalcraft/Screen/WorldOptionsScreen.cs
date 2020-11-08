@@ -7,6 +7,7 @@ namespace Game
 {
 	public class WorldOptionsScreen : Screen
 	{
+		public static string fName = "WorldOptionsScreen";
 		public Widget m_newWorldOnlyPanel;
 
 		public ButtonWidget m_terrainGenerationButton;
@@ -164,7 +165,7 @@ namespace Game
 			{
 				return ((value >= 0f) ? "+" : "") + value.ToString();
 			}
-			return "正常";
+			return LanguageControl.Get(fName, 6);
 		}
 
 		public override void Enter(object[] parameters)
@@ -184,11 +185,11 @@ namespace Game
 			if (m_terrainGenerationButton.IsClicked && !m_isExistingWorld)
 			{
 				IList<int> enumValues = EnumUtils.GetEnumValues(typeof(TerrainGenerationMode));
-				DialogsManager.ShowDialog(null, new ListSelectionDialog("选择世界类型", enumValues, 56f, (object e) => StringsManager.GetString("TerrainGenerationMode." + ((TerrainGenerationMode)e).ToString() + ".Name"), delegate(object e)
+				DialogsManager.ShowDialog(null, new ListSelectionDialog(LanguageControl.Get(fName, 1), enumValues, 56f, (object e) => StringsManager.GetString("TerrainGenerationMode." + ((TerrainGenerationMode)e).ToString() + ".Name"), delegate (object e)
 				{
 					if (m_worldSettings.GameMode != 0 && ((TerrainGenerationMode)e == TerrainGenerationMode.FlatContinent || (TerrainGenerationMode)e == TerrainGenerationMode.FlatIsland))
 					{
-						DialogsManager.ShowDialog(null, new MessageDialog("不可用的", "平坦地形只在创造模式可用", "确定", null, null));
+						DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get(fName, 4), LanguageControl.Get(fName, 5), LanguageControl.Get("Usual", "ok"), null, null));
 					}
 					else
 					{
@@ -239,14 +240,14 @@ namespace Game
 					71,
 					1
 				};
-				DialogsManager.ShowDialog(null, new ListSelectionDialog("Select Block", items, 72f, delegate(object index)
+				DialogsManager.ShowDialog(null, new ListSelectionDialog(LanguageControl.Get(fName, 2), items, 72f, delegate (object index)
 				{
 					XElement node2 = ContentManager.Get<XElement>("Widgets/SelectBlockItem");
 					ContainerWidget obj2 = (ContainerWidget)Widget.LoadWidget(null, node2, null);
 					obj2.Children.Find<BlockIconWidget>("SelectBlockItem.Block").Contents = (int)index;
 					obj2.Children.Find<LabelWidget>("SelectBlockItem.Text").Text = BlocksManager.Blocks[(int)index].GetDisplayName(null, Terrain.MakeBlockValue((int)index));
 					return obj2;
-				}, delegate(object index)
+				}, delegate (object index)
 				{
 					m_worldSettings.TerrainBlockIndex = (int)index;
 				}));
@@ -279,7 +280,7 @@ namespace Game
 			if (m_blocksTextureButton.IsClicked)
 			{
 				BlocksTexturesManager.UpdateBlocksTexturesList();
-				ListSelectionDialog dialog = new ListSelectionDialog("选择方块材质", BlocksTexturesManager.BlockTexturesNames, 64f, delegate(object item)
+				ListSelectionDialog dialog = new ListSelectionDialog(LanguageControl.Get(fName, 3), BlocksTexturesManager.BlockTexturesNames, 64f, delegate (object item)
 				{
 					XElement node = ContentManager.Get<XElement>("Widgets/BlocksTextureItem");
 					ContainerWidget obj = (ContainerWidget)Widget.LoadWidget(this, node, null);
@@ -288,7 +289,7 @@ namespace Game
 					obj.Children.Find<LabelWidget>("BlocksTextureItem.Details").Text = $"{texture2.Width}x{texture2.Height}";
 					obj.Children.Find<RectangleWidget>("BlocksTextureItem.Icon").Subtexture = new Subtexture(texture2, Vector2.Zero, Vector2.One);
 					return obj;
-				}, delegate(object item)
+				}, delegate (object item)
 				{
 					m_worldSettings.BlocksTextureName = (string)item;
 				});
@@ -366,10 +367,10 @@ namespace Game
 			m_humidityOffsetSlider.Text = FormatOffset(m_worldSettings.HumidityOffset);
 			m_biomeSizeSlider.Value = FindNearestIndex(m_biomeSizes, m_worldSettings.BiomeSize);
 			m_biomeSizeSlider.Text = m_worldSettings.BiomeSize.ToString() + "x";
-			m_environmentBehaviorButton.Text =LanguageControl.Get("EnvironmentBehaviorMode", m_worldSettings.EnvironmentBehaviorMode.ToString());
+			m_environmentBehaviorButton.Text = LanguageControl.Get("EnvironmentBehaviorMode", m_worldSettings.EnvironmentBehaviorMode.ToString());
 			m_timeOfDayButton.Text = LanguageControl.Get("TimeOfDayMode", m_worldSettings.TimeOfDayMode.ToString());
-			m_weatherEffectsButton.Text = (m_worldSettings.AreWeatherEffectsEnabled ? LanguageControl.Get("Usual","enable") : LanguageControl.Get("Usual", "disable"));
-			m_adventureRespawnButton.Text = (m_worldSettings.IsAdventureRespawnAllowed ? LanguageControl.Get("Usual", "allowed") : LanguageControl.Get("Usual","not allowed"));
+			m_weatherEffectsButton.Text = (m_worldSettings.AreWeatherEffectsEnabled ? LanguageControl.Get("Usual", "enable") : LanguageControl.Get("Usual", "disable"));
+			m_adventureRespawnButton.Text = (m_worldSettings.IsAdventureRespawnAllowed ? LanguageControl.Get("Usual", "allowed") : LanguageControl.Get("Usual", "not allowed"));
 			m_adventureSurvivalMechanicsButton.Text = (m_worldSettings.AreAdventureSurvivalMechanicsEnabled ? LanguageControl.Get("Usual", "enable") : LanguageControl.Get("Usual", "disable"));
 			m_supernaturalCreaturesButton.Text = (m_worldSettings.AreSupernaturalCreaturesEnabled ? LanguageControl.Get("Usual", "enable") : LanguageControl.Get("Usual", "disable"));
 			m_friendlyFireButton.Text = (m_worldSettings.IsFriendlyFireEnabled ? LanguageControl.Get("Usual", "allowed") : LanguageControl.Get("Usual", "not allowed"));

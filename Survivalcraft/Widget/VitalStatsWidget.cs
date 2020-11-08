@@ -112,32 +112,32 @@ namespace Game
 			if (m_healthLink.IsClicked)
 			{
 				HelpTopic topic = ScreensManager.FindScreen<HelpScreen>("Help").GetTopic("Health");
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic.Title, topic.Text, "确定", null, new Vector2(700f, 360f), null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic.Title, topic.Text, LanguageControl.Get("Usual","ok"), null, new Vector2(700f, 360f), null));
 			}
 			if (m_staminaLink.IsClicked)
 			{
 				HelpTopic topic2 = ScreensManager.FindScreen<HelpScreen>("Help").GetTopic("Stamina");
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic2.Title, topic2.Text, "确定", null, new Vector2(700f, 360f), null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic2.Title, topic2.Text, LanguageControl.Get("Usual", "ok"), null, new Vector2(700f, 360f), null));
 			}
 			if (m_foodLink.IsClicked)
 			{
 				HelpTopic topic3 = ScreensManager.FindScreen<HelpScreen>("Help").GetTopic("Hunger");
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic3.Title, topic3.Text, "确定", null, new Vector2(700f, 360f), null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic3.Title, topic3.Text, LanguageControl.Get("Usual", "ok"), null, new Vector2(700f, 360f), null));
 			}
 			if (m_sleepLink.IsClicked)
 			{
 				HelpTopic topic4 = ScreensManager.FindScreen<HelpScreen>("Help").GetTopic("Sleep");
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic4.Title, topic4.Text, "确定", null, new Vector2(700f, 360f), null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic4.Title, topic4.Text, LanguageControl.Get("Usual", "ok"), null, new Vector2(700f, 360f), null));
 			}
 			if (m_temperatureLink.IsClicked)
 			{
 				HelpTopic topic5 = ScreensManager.FindScreen<HelpScreen>("Help").GetTopic("Temperature");
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic5.Title, topic5.Text, "确定", null, new Vector2(700f, 360f), null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic5.Title, topic5.Text, LanguageControl.Get("Usual", "ok"), null, new Vector2(700f, 360f), null));
 			}
 			if (m_wetnessLink.IsClicked)
 			{
 				HelpTopic topic6 = ScreensManager.FindScreen<HelpScreen>("Help").GetTopic("Wetness");
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic6.Title, topic6.Text, "确定", null, new Vector2(700f, 360f), null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic6.Title, topic6.Text, LanguageControl.Get("Usual", "ok"), null, new Vector2(700f, 360f), null));
 			}
 			if (m_strengthLink.IsClicked)
 			{
@@ -166,12 +166,12 @@ namespace Game
 			if (m_experienceLink.IsClicked)
 			{
 				HelpTopic topic7 = ScreensManager.FindScreen<HelpScreen>("Help").GetTopic("Levels");
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic7.Title, topic7.Text, "确定", null, new Vector2(700f, 360f), null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic7.Title, topic7.Text, LanguageControl.Get("Usual", "ok"), null, new Vector2(700f, 360f), null));
 			}
 			if (m_insulationLink.IsClicked)
 			{
 				HelpTopic topic8 = ScreensManager.FindScreen<HelpScreen>("Help").GetTopic("Clothing");
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic8.Title, topic8.Text, "确定", null, new Vector2(700f, 360f), null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(topic8.Title, topic8.Text, LanguageControl.Get("Usual", "ok"), null, new Vector2(700f, 360f), null));
 			}
 			if (m_chokeButton.IsClicked)
 			{

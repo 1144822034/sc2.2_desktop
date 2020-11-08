@@ -61,7 +61,7 @@ public static class ModsManager
 	public static ModSettings modSettings;
 	public static Dictionary<string, ZipArchive> zip_filelist;
 	public static List<FileEntry> quickAddModsFileList = new List<FileEntry>();
-	public static string[] acceptTypes = new string[] {".dll",".csv",".xdb",".clo",".cr" };
+	public static string[] acceptTypes = new string[] {".dll",".csv",".xdb",".clo",".cr" ,".json"};
 	public static XElement CombineXml(XElement node, IEnumerable<FileEntry> files, string attr1 = null, string attr2 = null, string type = null)
 	{
 		Func<XElement, IEnumerable<FileEntry>, string, string, string, XElement> combineXml = CombineXml1;
@@ -113,7 +113,7 @@ public static class ModsManager
 		}
 		else
 		{
-			mmodSettings.languageType = LanguageControl.LanguageType.zh_cn;
+			mmodSettings.languageType = LanguageControl.LanguageType.zh_CN;
 		}
 		modSettings = mmodSettings;
 

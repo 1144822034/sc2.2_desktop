@@ -38,7 +38,6 @@ namespace Game
 		public int m_lastDigFrameIndex;
 
 		public float m_lastPokingPhase;
-		public static Action<TerrainRaycastResult> Dig1;
 		public ComponentCreature ComponentCreature
 		{
 			get;
@@ -112,9 +111,22 @@ namespace Game
 		}
 
 		public UpdateOrder UpdateOrder => UpdateOrder.Default;
+		public static Func<TerrainRaycastResult, bool> Dig1;
+		public static Action<bool> Poke1;
+		public static Func<TerrainRaycastResult, bool> Place1;
+		public static Func<TerrainRaycastResult, int, bool> Place2;
+		public static Func<Ray3, bool> Use1;
+		public static Func<TerrainRaycastResult, bool> Interact1;
+		public static Action<ComponentBody, Vector3, Vector3> Hit1;
+
 
 		public void Poke(bool forceRestart)
 		{
+			if (Poke1 != null)
+			{
+				Poke1.Invoke(forceRestart);
+				return;
+			}
 			if (forceRestart)
 			{
 				PokingPhase = 0.0001f;
@@ -127,7 +139,11 @@ namespace Game
 
 		public bool Dig(TerrainRaycastResult raycastResult)
 		{
-			Dig1?.Invoke(raycastResult);
+			if (Dig1 != null)
+			{
+				return Dig1(raycastResult);
+			}
+
 			bool result = false;
 			m_lastDigFrameIndex = Time.FrameIndex;
 			CellFace cellFace = raycastResult.CellFace;
@@ -149,7 +165,7 @@ namespace Game
 				m_digProgress = 0f;
 				if (m_subsystemTime.PeriodicGameTimeEvent(5.0, m_digStartTime + 1.0))
 				{
-					ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), block2.PlayerLevelRequired, block2.GetDisplayName(m_subsystemTerrain, activeBlockValue)), Color.White, blinking: true, playNotificationSound: true);
+					ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName, 1), block2.PlayerLevelRequired, block2.GetDisplayName(m_subsystemTerrain, activeBlockValue)), Color.White, blinking: true, playNotificationSound: true);
 				}
 			}
 			bool flag = ComponentPlayer != null && !ComponentPlayer.ComponentInput.IsControlledByTouch && m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Creative;
@@ -184,6 +200,7 @@ namespace Game
 
 		public bool Place(TerrainRaycastResult raycastResult)
 		{
+			if (Place1 != null) return Place1(raycastResult);
 			if (Place(raycastResult, ActiveBlockValue))
 			{
 				if (Inventory != null)
@@ -197,6 +214,8 @@ namespace Game
 
 		public bool Place(TerrainRaycastResult raycastResult, int value)
 		{
+			if (Place2 != null) return Place2(raycastResult, value);
+
 			int num = Terrain.ExtractContents(value);
 			if (BlocksManager.Blocks[num].IsPlaceable)
 			{
@@ -253,11 +272,12 @@ namespace Game
 
 		public bool Use(Ray3 ray)
 		{
+			if (Use1 != null) return Use1(ray);
 			int num = Terrain.ExtractContents(ActiveBlockValue);
 			Block block = BlocksManager.Blocks[num];
 			if (!CanUseTool(ActiveBlockValue))
 			{
-				ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
+				ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName, 1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
 				Poke(forceRestart: false);
 				return false;
 			}
@@ -275,6 +295,7 @@ namespace Game
 
 		public bool Interact(TerrainRaycastResult raycastResult)
 		{
+			if (Interact1 != null) return Interact1(raycastResult);
 			int cellContents = m_subsystemTerrain.Terrain.GetCellContents(raycastResult.CellFace.X, raycastResult.CellFace.Y, raycastResult.CellFace.Z);
 			SubsystemBlockBehavior[] blockBehaviors = m_subsystemBlockBehaviors.GetBlockBehaviors(cellContents);
 			for (int i = 0; i < blockBehaviors.Length; i++)
@@ -294,6 +315,7 @@ namespace Game
 
 		public void Hit(ComponentBody componentBody, Vector3 hitPoint, Vector3 hitDirection)
 		{
+			if (Hit1 != null) { Hit1(componentBody, hitPoint, hitDirection); return; }
 			if (!(m_subsystemTime.GameTime - m_lastHitTime > 0.6600000262260437))
 			{
 				return;
@@ -302,7 +324,7 @@ namespace Game
 			Block block = BlocksManager.Blocks[Terrain.ExtractContents(ActiveBlockValue)];
 			if (!CanUseTool(ActiveBlockValue))
 			{
-				ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
+				ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName, 1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
 				Poke(forceRestart: false);
 				return;
 			}
@@ -336,7 +358,7 @@ namespace Game
 			}
 			else if (ComponentCreature is ComponentPlayer)
 			{
-				HitValueParticleSystem particleSystem = new HitValueParticleSystem(hitPoint + 0.75f * hitDirection, 1f * hitDirection + ComponentCreature.ComponentBody.Velocity, Color.White, LanguageControl.Get(fName,2));
+				HitValueParticleSystem particleSystem = new HitValueParticleSystem(hitPoint + 0.75f * hitDirection, 1f * hitDirection + ComponentCreature.ComponentBody.Velocity, Color.White, LanguageControl.Get(fName, 2));
 				base.Project.FindSubsystem<SubsystemParticles>(throwOnError: true).AddParticleSystem(particleSystem);
 			}
 			if (ComponentCreature.PlayerStats != null)
@@ -358,7 +380,7 @@ namespace Game
 			{
 				if (!CanUseTool(ActiveBlockValue))
 				{
-					ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName,1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
+					ComponentPlayer?.ComponentGui.DisplaySmallMessage(string.Format(LanguageControl.Get(fName, 1), block.PlayerLevelRequired, block.GetDisplayName(m_subsystemTerrain, ActiveBlockValue)), Color.White, blinking: true, playNotificationSound: true);
 					Poke(forceRestart: false);
 					return true;
 				}
@@ -384,7 +406,7 @@ namespace Game
 			Point3 startCell = Terrain.ToCell(start);
 			BodyRaycastResult? bodyRaycastResult = m_subsystemBodies.Raycast(start, end, 0.35f, (ComponentBody body, float distance) => (Vector3.DistanceSquared(start + distance * direction, creaturePosition) <= reach * reach && body.Entity != base.Entity && !body.IsChildOfBody(ComponentCreature.ComponentBody) && !ComponentCreature.ComponentBody.IsChildOfBody(body) && Vector3.Dot(Vector3.Normalize(body.BoundingBox.Center() - start), direction) > 0.7f) ? true : false);
 			MovingBlocksRaycastResult? movingBlocksRaycastResult = m_subsystemMovingBlocks.Raycast(start, end, extendToFillCells: true);
-			TerrainRaycastResult? terrainRaycastResult = m_subsystemTerrain.Raycast(start, end, useInteractionBoxes: true, skipAirBlocks: true, delegate(int value, float distance)
+			TerrainRaycastResult? terrainRaycastResult = m_subsystemTerrain.Raycast(start, end, useInteractionBoxes: true, skipAirBlocks: true, delegate (int value, float distance)
 			{
 				if (Vector3.DistanceSquared(start + distance * direction, creaturePosition) <= reach * reach)
 				{
@@ -474,7 +496,7 @@ namespace Game
 		{
 			if (attacker != null && attacker is ComponentPlayer && target.Entity.FindComponent<ComponentPlayer>() != null && !target.Project.FindSubsystem<SubsystemGameInfo>(throwOnError: true).WorldSettings.IsFriendlyFireEnabled)
 			{
-				attacker.Entity.FindComponent<ComponentGui>(throwOnError: true).DisplaySmallMessage(LanguageControl.Get(fName,3), Color.White, blinking: true, playNotificationSound: true);
+				attacker.Entity.FindComponent<ComponentGui>(throwOnError: true).DisplaySmallMessage(LanguageControl.Get(fName, 3), Color.White, blinking: true, playNotificationSound: true);
 				return;
 			}
 			if (attackPower > 0f)
@@ -498,30 +520,30 @@ namespace Game
 					{
 						string str = attacker.KillVerbs[s_random.Int(0, attacker.KillVerbs.Count - 1)];
 						string attackerName = attacker.DisplayName;
-						cause =string.Format(LanguageControl.Get(fName,4),attackerName,str);
+						cause = string.Format(LanguageControl.Get(fName, 4), attackerName, LanguageControl.Get(fName, str));
 					}
 					else
 					{
 						switch (s_random.Int(0, 5))
 						{
-						case 0:
-							cause = LanguageControl.Get(fName, 5);
-							break;
-						case 1:
-							cause = LanguageControl.Get(fName, 6);
-							break;
-						case 2:
-							cause = LanguageControl.Get(fName, 7);
-							break;
-						case 3:
-							cause = LanguageControl.Get(fName, 8);
-							break;
-						case 4:
-							cause = LanguageControl.Get(fName, 9);
-							break;
-						default:
-							cause = LanguageControl.Get(fName, 10);
-							break;
+							case 0:
+								cause = LanguageControl.Get(fName, 5);
+								break;
+							case 1:
+								cause = LanguageControl.Get(fName, 6);
+								break;
+							case 2:
+								cause = LanguageControl.Get(fName, 7);
+								break;
+							case 3:
+								cause = LanguageControl.Get(fName, 8);
+								break;
+							case 4:
+								cause = LanguageControl.Get(fName, 9);
+								break;
+							default:
+								cause = LanguageControl.Get(fName, 10);
+								break;
 						}
 					}
 					float health = componentHealth.Health;

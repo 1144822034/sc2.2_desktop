@@ -10,7 +10,7 @@ namespace Game
 		public string m_worldSnapshotName;
 
 		public StateMachine m_stateMachine = new StateMachine();
-
+		public static string fName = "GameLoadingScreen";
 		public GameLoadingScreen()
 		{
 			XElement node = ContentManager.Get<XElement>("Screens/GameLoadingScreen");
@@ -52,7 +52,7 @@ namespace Game
 			catch (Exception e)
 			{
 				ScreensManager.SwitchScreen(ScreensManager.PreviousScreen);
-				DialogsManager.ShowDialog(null, new MessageDialog("Error loading world", ExceptionManager.MakeFullErrorMessage(e), "È·¶¨", null, null));
+				DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.Get(fName, 1), ExceptionManager.MakeFullErrorMessage(e), LanguageControl.Get("Usual", "ok"), null, null));
 			}
 		}
 

@@ -8,42 +8,42 @@ namespace Game
 {
 	public class FurnitureInventoryPanel : CanvasWidget
 	{
-		private CreativeInventoryWidget m_creativeInventoryWidget;
+		public CreativeInventoryWidget m_creativeInventoryWidget;
 
-		private ComponentPlayer m_componentPlayer;
+		public ComponentPlayer m_componentPlayer;
 
-		private ListPanelWidget m_furnitureSetList;
+		public ListPanelWidget m_furnitureSetList;
 
-		private GridPanelWidget m_inventoryGrid;
+		public GridPanelWidget m_inventoryGrid;
 
-		private ButtonWidget m_addButton;
+		public ButtonWidget m_addButton;
 
-		private ButtonWidget m_moreButton;
+		public ButtonWidget m_moreButton;
 
-		private int m_pagesCount;
+		public int m_pagesCount;
 
-		private int m_assignedPage;
+		public int m_assignedPage;
 
-		private bool m_ignoreSelectionChanged;
+		public bool m_ignoreSelectionChanged;
 
-		private bool m_populateNeeded;
-
+		public bool m_populateNeeded;
+		public static string fName = "FurnitureInventoryPanel";
 		public SubsystemTerrain SubsystemTerrain
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public SubsystemFurnitureBlockBehavior SubsystemFurnitureBlockBehavior
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public ComponentFurnitureInventory ComponentFurnitureInventory
 		{
 			get;
-			private set;
+			set;
 		}
 
 		public FurnitureInventoryPanel(CreativeInventoryWidget creativeInventoryWidget)
@@ -117,7 +117,7 @@ namespace Game
 			if (m_addButton.IsClicked)
 			{
 				List<Tuple<string, Action>> list = new List<Tuple<string, Action>>();
-				list.Add(new Tuple<string, Action>("New", delegate
+				list.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 6), delegate
 				{
 					if (SubsystemFurnitureBlockBehavior.FurnitureSets.Count < 32)
 					{
@@ -125,14 +125,14 @@ namespace Game
 					}
 					else
 					{
-						DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog("Too many furniture sets", "Delete some furniture sets before adding a new one.", "OK", null, null));
+						DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(LanguageControl.Get(fName, 24), LanguageControl.Get(fName, 25), LanguageControl.Get("Usual", "ok"), null, null));
 					}
 				}));
-				list.Add(new Tuple<string, Action>("Import From Content", delegate
+				list.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 7), delegate
 				{
 					ImportFurnitureSet(SubsystemTerrain);
 				}));
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new ListSelectionDialog("Add Furniture Set", list, 64f, (object t) => ((Tuple<string, Action>)t).Item1, delegate(object t)
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new ListSelectionDialog(LanguageControl.Get(fName, 8), list, 64f, (object t) => ((Tuple<string, Action>)t).Item1, delegate (object t)
 				{
 					((Tuple<string, Action>)t).Item2();
 				}));
@@ -140,15 +140,15 @@ namespace Game
 			if (m_moreButton.IsClicked && ComponentFurnitureInventory.FurnitureSet != null)
 			{
 				List<Tuple<string, Action>> list2 = new List<Tuple<string, Action>>();
-				list2.Add(new Tuple<string, Action>("Rename", delegate
+				list2.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 9), delegate
 				{
 					RenameFurnitureSet();
 				}));
-				list2.Add(new Tuple<string, Action>("Delete", delegate
+				list2.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 28), delegate
 				{
 					if (SubsystemFurnitureBlockBehavior.GetFurnitureSetDesigns(ComponentFurnitureInventory.FurnitureSet).Count() > 0)
 					{
-						DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog("Warning", "All furniture in the set will become uncategorized and will be deleted if not used in the world.", "Delete", "Cancel", delegate(MessageDialogButton b)
+						DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(LanguageControl.Get("Usual", "warning"), LanguageControl.Get(fName, 26), LanguageControl.Get(fName, 27), LanguageControl.Get(fName, 28), delegate (MessageDialogButton b)
 						{
 							if (b == MessageDialogButton.Button1)
 							{
@@ -161,19 +161,19 @@ namespace Game
 						DeleteFurnitureSet();
 					}
 				}));
-				list2.Add(new Tuple<string, Action>("Move Up", delegate
+				list2.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 11), delegate
 				{
 					MoveFurnitureSet(-1);
 				}));
-				list2.Add(new Tuple<string, Action>("Move Down", delegate
+				list2.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 12), delegate
 				{
 					MoveFurnitureSet(1);
 				}));
-				list2.Add(new Tuple<string, Action>("Export To Content", delegate
+				list2.Add(new Tuple<string, Action>(LanguageControl.Get(fName, 13), delegate
 				{
 					ExportFurnitureSet();
 				}));
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new ListSelectionDialog("Furniture Set Action", list2, 64f, (object t) => ((Tuple<string, Action>)t).Item1, delegate(object t)
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new ListSelectionDialog(LanguageControl.Get(fName, 14), list2, 64f, (object t) => ((Tuple<string, Action>)t).Item1, delegate (object t)
 				{
 					((Tuple<string, Action>)t).Item2();
 				}));
@@ -192,7 +192,7 @@ namespace Game
 			m_populateNeeded = true;
 		}
 
-		private void Populate()
+		public void Populate()
 		{
 			ComponentFurnitureInventory.FillSlots();
 			try
@@ -213,7 +213,7 @@ namespace Game
 			AssignInventorySlots();
 		}
 
-		private void AssignInventorySlots()
+		public void AssignInventorySlots()
 		{
 			List<int> list = new List<int>();
 			for (int i = 0; i < ComponentFurnitureInventory.SlotsCount; i++)
@@ -231,9 +231,9 @@ namespace Game
 				}
 			}
 			List<InventorySlotWidget> list2 = new List<InventorySlotWidget>((from w in m_inventoryGrid.Children
-				select w as InventorySlotWidget into w
-				where w != null
-				select w).Cast<InventorySlotWidget>());
+																			 select w as InventorySlotWidget into w
+																			 where w != null
+																			 select w).Cast<InventorySlotWidget>());
 			int num = ComponentFurnitureInventory.PageIndex * list2.Count;
 			for (int j = 0; j < list2.Count; j++)
 			{
@@ -251,10 +251,10 @@ namespace Game
 			m_assignedPage = ComponentFurnitureInventory.PageIndex;
 		}
 
-		private void NewFurnitureSet()
+		public void NewFurnitureSet()
 		{
 			ComponentPlayer componentPlayer = ComponentFurnitureInventory.Entity.FindComponent<ComponentPlayer>(throwOnError: true);
-			base.Input.EnterText(componentPlayer.GuiWidget, "Furniture Set Name", "New Set", 20, delegate(string s)
+			base.Input.EnterText(componentPlayer.GuiWidget, LanguageControl.Get(fName, 15), LanguageControl.Get(fName, 16), 20, delegate (string s)
 			{
 				if (s != null)
 				{
@@ -266,7 +266,7 @@ namespace Game
 			});
 		}
 
-		private void DeleteFurnitureSet()
+		public void DeleteFurnitureSet()
 		{
 			FurnitureSet furnitureSet = m_furnitureSetList.SelectedItem as FurnitureSet;
 			if (furnitureSet != null)
@@ -279,13 +279,13 @@ namespace Game
 			}
 		}
 
-		private void RenameFurnitureSet()
+		public void RenameFurnitureSet()
 		{
 			FurnitureSet furnitureSet = m_furnitureSetList.SelectedItem as FurnitureSet;
 			if (furnitureSet != null)
 			{
 				ComponentPlayer componentPlayer = ComponentFurnitureInventory.Entity.FindComponent<ComponentPlayer>(throwOnError: true);
-				base.Input.EnterText(componentPlayer.GuiWidget, "Furniture Set Name", furnitureSet.Name, 20, delegate(string s)
+				base.Input.EnterText(componentPlayer.GuiWidget, LanguageControl.Get(fName, 17), furnitureSet.Name, 20, delegate (string s)
 				{
 					if (s != null)
 					{
@@ -296,7 +296,7 @@ namespace Game
 			}
 		}
 
-		private void MoveFurnitureSet(int move)
+		public void MoveFurnitureSet(int move)
 		{
 			FurnitureSet furnitureSet = m_furnitureSetList.SelectedItem as FurnitureSet;
 			if (furnitureSet != null)
@@ -306,16 +306,16 @@ namespace Game
 			}
 		}
 
-		private void ImportFurnitureSet(SubsystemTerrain subsystemTerrain)
+		public void ImportFurnitureSet(SubsystemTerrain subsystemTerrain)
 		{
 			FurniturePacksManager.UpdateFurniturePacksList();
 			if (FurniturePacksManager.FurniturePackNames.Count() == 0)
 			{
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog("No Furniture Packs", "No furniture packs found in your content. Download some from Community Content.", "OK", null, null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(LanguageControl.Get(fName, 18), LanguageControl.Get(fName, 19), LanguageControl.Get("Usual", "ok"), null, null));
 			}
 			else
 			{
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new ListSelectionDialog("Select Furniture Pack", FurniturePacksManager.FurniturePackNames, 64f, (object s) => FurniturePacksManager.GetDisplayName((string)s), delegate(object s)
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new ListSelectionDialog(LanguageControl.Get(fName, 20), FurniturePacksManager.FurniturePackNames, 64f, (object s) => FurniturePacksManager.GetDisplayName((string)s), delegate (object s)
 				{
 					try
 					{
@@ -351,36 +351,36 @@ namespace Game
 							ComponentFurnitureInventory.FurnitureSet = furnitureSet;
 						}
 						Invalidate();
-						string text2 = $"{list2.Count} design(s) added. ";
+						string text2 = string.Format(LanguageControl.Get(fName, 1), list2.Count);
 						if (num > 0)
 						{
-							text2 += $"{num} design(s) were already present in the world and were skipped. ";
+							text2 += string.Format(LanguageControl.Get(fName, 2), num);
 						}
 						if (num2 > 0)
 						{
-							text2 += $"{num2} design(s) were skipped because {1024} designs limit is reached. ";
+							text2 += string.Format(LanguageControl.Get(fName, 3), num2, 65535);
 						}
-						DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog("Import Successful", text2.Trim(), "OK", null, null));
+						DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(LanguageControl.Get(fName, 4), text2.Trim(), LanguageControl.Get("Usual", "ok"), null, null));
 					}
 					catch (Exception ex)
 					{
-						DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog("Import Failed", ex.Message, "OK", null, null));
+						DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(LanguageControl.Get(fName, 5), ex.Message, LanguageControl.Get("Usual", "ok"), null, null));
 					}
 				}));
 			}
 		}
 
-		private void ExportFurnitureSet()
+		public void ExportFurnitureSet()
 		{
 			try
 			{
 				FurnitureDesign[] designs = SubsystemFurnitureBlockBehavior.GetFurnitureSetDesigns(ComponentFurnitureInventory.FurnitureSet).ToArray();
 				string displayName = FurniturePacksManager.GetDisplayName(FurniturePacksManager.CreateFurniturePack(ComponentFurnitureInventory.FurnitureSet.Name, designs));
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog("Exported", $"Furniture pack \"{displayName}\" exported to content.", "OK", null, null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(LanguageControl.Get(fName, 21), string.Format(LanguageControl.Get(fName, 22), displayName), LanguageControl.Get("Usual", "ok"), null, null));
 			}
 			catch (Exception ex)
 			{
-				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog("Export Failed", ex.Message, "OK", null, null));
+				DialogsManager.ShowDialog(m_componentPlayer.GuiWidget, new MessageDialog(LanguageControl.Get(fName, 23), ex.Message, LanguageControl.Get("Usual", "ok"), null, null));
 			}
 		}
 	}

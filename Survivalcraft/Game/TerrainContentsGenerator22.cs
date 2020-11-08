@@ -1,11 +1,12 @@
 using Engine;
+using System;
 using System.Collections.Generic;
 
 namespace Game
 {
 	public class TerrainContentsGenerator22 : ITerrainContentsGenerator
 	{
-		private class CavePoint
+		public class CavePoint
 		{
 			public Vector3 Position;
 
@@ -18,13 +19,13 @@ namespace Game
 			public int StepsTaken;
 		}
 
-		private class Grid2d
+		public class Grid2d
 		{
-			private int m_sizeX;
+			public int m_sizeX;
 
-			private int m_sizeY;
+			public int m_sizeY;
 
-			private float[] m_data;
+			public float[] m_data;
 
 			public int SizeX => m_sizeX;
 
@@ -65,17 +66,17 @@ namespace Game
 			}
 		}
 
-		private class Grid3d
+		public class Grid3d
 		{
-			private int m_sizeX;
+			public int m_sizeX;
 
-			private int m_sizeY;
+			public int m_sizeY;
 
-			private int m_sizeZ;
+			public int m_sizeZ;
 
-			private int m_sizeXY;
+			public int m_sizeXY;
 
-			private float[] m_data;
+			public float[] m_data;
 
 			public int SizeX => m_sizeX;
 
@@ -144,59 +145,63 @@ namespace Game
 			}
 		}
 
-		private static List<TerrainBrush> m_coalBrushes;
+		public static List<TerrainBrush> m_coalBrushes;
 
-		private static List<TerrainBrush> m_ironBrushes;
+		public static List<TerrainBrush> m_ironBrushes;
 
-		private static List<TerrainBrush> m_copperBrushes;
+		public static List<TerrainBrush> m_copperBrushes;
 
-		private static List<TerrainBrush> m_saltpeterBrushes;
+		public static List<TerrainBrush> m_saltpeterBrushes;
 
-		private static List<TerrainBrush> m_sulphurBrushes;
+		public static List<TerrainBrush> m_sulphurBrushes;
 
-		private static List<TerrainBrush> m_diamondBrushes;
+		public static List<TerrainBrush> m_diamondBrushes;
 
-		private static List<TerrainBrush> m_germaniumBrushes;
+		public static List<TerrainBrush> m_germaniumBrushes;
 
-		private static List<TerrainBrush> m_dirtPocketBrushes;
+		public static List<TerrainBrush> m_dirtPocketBrushes;
 
-		private static List<TerrainBrush> m_gravelPocketBrushes;
+		public static List<TerrainBrush> m_gravelPocketBrushes;
 
-		private static List<TerrainBrush> m_limestonePocketBrushes;
+		public static List<TerrainBrush> m_limestonePocketBrushes;
 
-		private static List<TerrainBrush> m_sandPocketBrushes;
+		public static List<TerrainBrush> m_sandPocketBrushes;
 
-		private static List<TerrainBrush> m_basaltPocketBrushes;
+		public static List<TerrainBrush> m_basaltPocketBrushes;
 
-		private static List<TerrainBrush> m_granitePocketBrushes;
+		public static List<TerrainBrush> m_granitePocketBrushes;
 
-		private static List<TerrainBrush> m_clayPocketBrushes;
+		public static List<TerrainBrush> m_clayPocketBrushes;
 
-		private static List<TerrainBrush> m_waterPocketBrushes;
+		public static List<TerrainBrush> m_waterPocketBrushes;
 
-		private static List<TerrainBrush> m_magmaPocketBrushes;
+		public static List<TerrainBrush> m_magmaPocketBrushes;
 
-		private static List<List<TerrainBrush>> m_caveBrushesByType;
+		public static Action<TerrainChunk> GenerateMinerals1;
 
-		private SubsystemTerrain m_subsystemTerrain;
+		public static Action<TerrainChunk> GenerateMinerals2;
 
-		private SubsystemBottomSuckerBlockBehavior m_subsystemBottomSuckerBlockBehavior;
+		public static List<List<TerrainBrush>> m_caveBrushesByType;
 
-		private WorldSettings m_worldSettings;
+		public SubsystemTerrain m_subsystemTerrain;
 
-		private int m_seed;
+		public SubsystemBottomSuckerBlockBehavior m_subsystemBottomSuckerBlockBehavior;
 
-		private Vector2? m_islandSize;
+		public WorldSettings m_worldSettings;
 
-		private Vector2 m_oceanCorner;
+		public int m_seed;
 
-		private Vector2 m_temperatureOffset;
+		public Vector2? m_islandSize;
 
-		private Vector2 m_humidityOffset;
+		public Vector2 m_oceanCorner;
 
-		private Vector2 m_mountainsOffset;
+		public Vector2 m_temperatureOffset;
 
-		private Vector2 m_riversOffset;
+		public Vector2 m_humidityOffset;
+
+		public Vector2 m_mountainsOffset;
+
+		public Vector2 m_riversOffset;
 
 		public float TGBiomeScaling;
 
@@ -230,11 +235,11 @@ namespace Game
 
 		public float TGMountainsPercentage;
 
-		private static float TGMountainsDetailFreq;
+		public static float TGMountainsDetailFreq;
 
-		private static int TGMountainsDetailOctaves;
+		public static int TGMountainsDetailOctaves;
 
-		private static float TGMountainsDetailPersistence;
+		public static float TGMountainsDetailPersistence;
 
 		public float TGRiversStrength;
 
@@ -246,11 +251,11 @@ namespace Game
 
 		public float TGTurbulencePersistence;
 
-		private float TGMinTurbulence;
+		public float TGMinTurbulence;
 
-		private float TGTurbulenceZero;
+		public float TGTurbulenceZero;
 
-		private static float TGSurfaceMultiplier;
+		public static float TGSurfaceMultiplier;
 
 		public bool TGWater;
 
@@ -291,7 +296,7 @@ namespace Game
 			m_seed = subsystemGameInfo.WorldSeed;
 			m_islandSize = ((m_worldSettings.TerrainGenerationMode == TerrainGenerationMode.Island) ? new Vector2?(m_worldSettings.IslandSize) : null);
 			Random random = new Random(m_seed);
-			float num = m_islandSize.HasValue ? MathUtils.Min(m_islandSize.Value.X, m_islandSize.Value.Y) : 3.40282347E+38f;
+			float num = m_islandSize.HasValue ? MathUtils.Min(m_islandSize.Value.X, m_islandSize.Value.Y) : float.MaxValue;
 			m_oceanCorner = new Vector2(-200f, -200f);
 			m_temperatureOffset = new Vector2(random.Float(-3000f, 3000f), random.Float(-3000f, 3000f));
 			m_humidityOffset = new Vector2(random.Float(-3000f, 3000f), random.Float(-3000f, 3000f));
@@ -332,7 +337,7 @@ namespace Game
 		public Vector3 FindCoarseSpawnPosition()
 		{
 			Vector2 vector = Vector2.Zero;
-			float num = -3.40282347E+38f;
+			float num = float.MinValue;
 			for (int i = 0; i < 800; i += 5)
 			{
 				for (int j = 0; j <= 12; j += 4)
@@ -380,6 +385,7 @@ namespace Game
 			GenerateCaves(chunk);
 			GeneratePockets(chunk);
 			GenerateMinerals(chunk);
+			GenerateMinerals2?.Invoke(chunk);
 			GenerateSurface(chunk);
 			PropagateFluidsDownwards(chunk);
 		}
@@ -461,22 +467,22 @@ namespace Game
 			return MathUtils.Clamp((int)(MathUtils.Saturate(3f * SimplexNoise.OctavedNoise(x + m_humidityOffset.X, z + m_humidityOffset.Y, 0.0012f / TGBiomeScaling, 5, 2f, 0.6f) - 0.9f + m_worldSettings.HumidityOffset / 16f) * 16f), 0, 15);
 		}
 
-		private static float Squish(float v, float zero, float one)
+		public static float Squish(float v, float zero, float one)
 		{
 			return MathUtils.Saturate((v - zero) / (one - zero));
 		}
 
-		private float CalculateOceanShoreX(float z)
+		public float CalculateOceanShoreX(float z)
 		{
 			return m_oceanCorner.X + TGShoreFluctuations * SimplexNoise.OctavedNoise(z, 0f, 0.005f / TGShoreFluctuationsScaling, 4, 1.95f, 1f);
 		}
 
-		private float CalculateOceanShoreZ(float x)
+		public float CalculateOceanShoreZ(float x)
 		{
 			return m_oceanCorner.Y + TGShoreFluctuations * SimplexNoise.OctavedNoise(0f, x, 0.005f / TGShoreFluctuationsScaling, 4, 1.95f, 1f);
 		}
 
-		private float ScoreSpawnPosition(int x, int z)
+		public float ScoreSpawnPosition(int x, int z)
 		{
 			int num = CalculateTemperature(x, z);
 			int num2 = CalculateHumidity(x, z);
@@ -516,89 +522,89 @@ namespace Game
 			}
 			switch (m_subsystemTerrain.SubsystemGameInfo.WorldSettings.StartingPositionMode)
 			{
-			case StartingPositionMode.Easy:
-				if (num < 9)
-				{
-					num8 -= 0.5f;
-				}
-				if (num < 7)
-				{
-					num8 -= 1f;
-				}
-				if (num2 > 2 && num2 < 10)
-				{
-					num8 -= 0.5f;
-				}
-				if (num6 > 75f)
-				{
-					num8 -= 1f;
-				}
-				if (num7 > 5f)
-				{
-					num8 -= 1f;
-				}
-				break;
-			case StartingPositionMode.Medium:
-				if (num < 3)
-				{
-					num8 -= 0.5f;
-				}
-				if (num > 6)
-				{
-					num8 -= 1f;
-				}
-				if (num2 > 3 && num2 < 8)
-				{
-					num8 -= 0.5f;
-				}
-				if (num2 > 10)
-				{
-					num8 -= 0.5f;
-				}
-				if (num6 > 80f)
-				{
-					num8 -= 1f;
-				}
-				if (num7 > 10f)
-				{
-					num8 -= 1f;
-				}
-				break;
-			default:
-				if (num > 0)
-				{
-					num8 -= 0.5f;
-				}
-				if (num > 2)
-				{
-					num8 -= 1f;
-				}
-				if (num2 > 6)
-				{
-					num8 -= 0.5f;
-				}
-				if (num2 > 8)
-				{
-					num8 -= 1f;
-				}
-				if (num6 > 85f)
-				{
-					num8 -= 1f;
-				}
-				if (num7 > 15f)
-				{
-					num8 -= 1f;
-				}
-				if (num7 < 5f)
-				{
-					num8 -= 0.5f;
-				}
-				break;
+				case StartingPositionMode.Easy:
+					if (num < 9)
+					{
+						num8 -= 0.5f;
+					}
+					if (num < 7)
+					{
+						num8 -= 1f;
+					}
+					if (num2 > 2 && num2 < 10)
+					{
+						num8 -= 0.5f;
+					}
+					if (num6 > 75f)
+					{
+						num8 -= 1f;
+					}
+					if (num7 > 5f)
+					{
+						num8 -= 1f;
+					}
+					break;
+				case StartingPositionMode.Medium:
+					if (num < 3)
+					{
+						num8 -= 0.5f;
+					}
+					if (num > 6)
+					{
+						num8 -= 1f;
+					}
+					if (num2 > 3 && num2 < 8)
+					{
+						num8 -= 0.5f;
+					}
+					if (num2 > 10)
+					{
+						num8 -= 0.5f;
+					}
+					if (num6 > 80f)
+					{
+						num8 -= 1f;
+					}
+					if (num7 > 10f)
+					{
+						num8 -= 1f;
+					}
+					break;
+				default:
+					if (num > 0)
+					{
+						num8 -= 0.5f;
+					}
+					if (num > 2)
+					{
+						num8 -= 1f;
+					}
+					if (num2 > 6)
+					{
+						num8 -= 0.5f;
+					}
+					if (num2 > 8)
+					{
+						num8 -= 1f;
+					}
+					if (num6 > 85f)
+					{
+						num8 -= 1f;
+					}
+					if (num7 > 15f)
+					{
+						num8 -= 1f;
+					}
+					if (num7 < 5f)
+					{
+						num8 -= 0.5f;
+					}
+					break;
 			}
 			return num8;
 		}
 
-		private void GenerateSurfaceParameters(TerrainChunk chunk, int x1, int z1, int x2, int z2)
+		public void GenerateSurfaceParameters(TerrainChunk chunk, int x1, int z1, int x2, int z2)
 		{
 			for (int i = x1; i < x2; i++)
 			{
@@ -614,7 +620,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateTerrain(TerrainChunk chunk, int x1, int z1, int x2, int z2)
+		public void GenerateTerrain(TerrainChunk chunk, int x1, int z1, int x2, int z2)
 		{
 			int num = x2 - x1;
 			int num2 = z2 - z1;
@@ -722,7 +728,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateSurface(TerrainChunk chunk)
+		public void GenerateSurface(TerrainChunk chunk)
 		{
 			Terrain terrain = m_subsystemTerrain.Terrain;
 			Random random = new Random(m_seed + chunk.Coords.X + 101 * chunk.Coords.Y);
@@ -784,12 +790,17 @@ namespace Game
 			}
 		}
 
-		private void GenerateMinerals(TerrainChunk chunk)
+		public void GenerateMinerals(TerrainChunk chunk)
 		{
 			if (!TGCavesAndPockets)
 			{
 				return;
 			}
+			if (GenerateMinerals1 != null)
+			{
+				GenerateMinerals1(chunk); return;
+			}
+
 			int x = chunk.Coords.X;
 			int y = chunk.Coords.Y;
 			for (int i = x - 1; i <= x + 1; i++)
@@ -863,7 +874,7 @@ namespace Game
 			}
 		}
 
-		private void GeneratePockets(TerrainChunk chunk)
+		public void GeneratePockets(TerrainChunk chunk)
 		{
 			if (!TGCavesAndPockets)
 			{
@@ -972,7 +983,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateCaves(TerrainChunk chunk)
+		public void GenerateCaves(TerrainChunk chunk)
 		{
 			if (!TGCavesAndPockets)
 			{
@@ -1092,7 +1103,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateTreesAndLogs(TerrainChunk chunk)
+		public void GenerateTreesAndLogs(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1268,7 +1279,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateBedrockAndAir(TerrainChunk chunk)
+		public void GenerateBedrockAndAir(TerrainChunk chunk)
 		{
 			int value = Terrain.MakeBlockValue(1);
 			for (int i = 0; i < 16; i++)
@@ -1287,7 +1298,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateGrassAndPlants(TerrainChunk chunk)
+		public void GenerateGrassAndPlants(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1325,7 +1336,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateBottomSuckers(TerrainChunk chunk)
+		public void GenerateBottomSuckers(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1415,7 +1426,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateCacti(TerrainChunk chunk)
+		public void GenerateCacti(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1447,16 +1458,16 @@ namespace Game
 					{
 						switch (Terrain.ExtractContents(chunk.GetCellValueFast(num4, num6, num5)))
 						{
-						case 7:
-						{
-							for (int k = num6 + 1; k <= num6 + 3 && chunk.GetCellContentsFast(num4 + 1, k, num5) == 0 && chunk.GetCellContentsFast(num4 - 1, k, num5) == 0 && chunk.GetCellContentsFast(num4, k, num5 + 1) == 0 && chunk.GetCellContentsFast(num4, k, num5 - 1) == 0; k++)
-							{
-								chunk.SetCellValueFast(num4, k, num5, Terrain.MakeBlockValue(127));
-							}
-							break;
-						}
-						case 0:
-							continue;
+							case 7:
+								{
+									for (int k = num6 + 1; k <= num6 + 3 && chunk.GetCellContentsFast(num4 + 1, k, num5) == 0 && chunk.GetCellContentsFast(num4 - 1, k, num5) == 0 && chunk.GetCellContentsFast(num4, k, num5 + 1) == 0 && chunk.GetCellContentsFast(num4, k, num5 - 1) == 0; k++)
+									{
+										chunk.SetCellValueFast(num4, k, num5, Terrain.MakeBlockValue(127));
+									}
+									break;
+								}
+							case 0:
+								continue;
 						}
 						break;
 					}
@@ -1464,7 +1475,7 @@ namespace Game
 			}
 		}
 
-		private void GeneratePumpkins(TerrainChunk chunk)
+		public void GeneratePumpkins(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1496,11 +1507,11 @@ namespace Game
 					{
 						switch (Terrain.ExtractContents(chunk.GetCellValueFast(x2, num4, z)))
 						{
-						case 8:
-							chunk.SetCellValueFast(x2, num4 + 1, z, random.Bool(0.25f) ? Terrain.MakeBlockValue(244) : Terrain.MakeBlockValue(131));
-							break;
-						case 0:
-							continue;
+							case 8:
+								chunk.SetCellValueFast(x2, num4 + 1, z, random.Bool(0.25f) ? Terrain.MakeBlockValue(244) : Terrain.MakeBlockValue(131));
+								break;
+							case 0:
+								continue;
 						}
 						break;
 					}
@@ -1508,7 +1519,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateKelp(TerrainChunk chunk)
+		public void GenerateKelp(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1590,7 +1601,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateSeagrass(TerrainChunk chunk)
+		public void GenerateSeagrass(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1617,26 +1628,26 @@ namespace Game
 						int num8 = Terrain.ExtractContents(chunk.GetCellValueFast(x2, num7, z));
 						switch (num8)
 						{
-						case 18:
-							num6++;
-							if (num6 <= 16)
-							{
-								continue;
-							}
-							break;
-						default:
-							if (num6 > 1 && (num8 == 2 || num8 == 7 || num8 == 72 || num8 == 3))
-							{
-								int x3 = (!random.Bool(0.1f)) ? 1 : 2;
-								x3 = (flag ? MathUtils.Min(x3, num6 - 1) : MathUtils.Min(x3, num6));
-								for (int k = 0; k < x3; k++)
+							case 18:
+								num6++;
+								if (num6 <= 16)
 								{
-									chunk.SetCellValueFast(x2, num7 + 1 + k, z, Terrain.MakeBlockValue(233));
+									continue;
 								}
-							}
-							break;
-						case 0:
-							continue;
+								break;
+							default:
+								if (num6 > 1 && (num8 == 2 || num8 == 7 || num8 == 72 || num8 == 3))
+								{
+									int x3 = (!random.Bool(0.1f)) ? 1 : 2;
+									x3 = (flag ? MathUtils.Min(x3, num6 - 1) : MathUtils.Min(x3, num6));
+									for (int k = 0; k < x3; k++)
+									{
+										chunk.SetCellValueFast(x2, num7 + 1 + k, z, Terrain.MakeBlockValue(233));
+									}
+								}
+								break;
+							case 0:
+								continue;
 						}
 						break;
 					}
@@ -1644,7 +1655,7 @@ namespace Game
 			}
 		}
 
-		private void GenerateIvy(TerrainChunk chunk)
+		public void GenerateIvy(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1670,53 +1681,53 @@ namespace Game
 					int num7 = num3 + random.Int(-3, 3);
 					switch (Terrain.ExtractContents(chunk.GetCellValueFast(num5, num6, num7)))
 					{
-					case 2:
-					case 3:
-					case 8:
-					case 9:
-					case 12:
-					case 66:
-					case 67:
-					{
-						int num8 = random.Int(0, 3);
-						for (int k = 0; k < 4; k++)
-						{
-							int face = (k + num8) % 4;
-							Point3 point = CellFace.FaceToPoint3(face);
-							if (chunk.GetCellContentsFast(num5 + point.X, num6, num7 + point.Z) != 0)
+						case 2:
+						case 3:
+						case 8:
+						case 9:
+						case 12:
+						case 66:
+						case 67:
 							{
-								continue;
-							}
-							int num9 = num6 - 1;
-							while (num9 >= 1 && chunk.GetCellContentsFast(num5 + point.X, num9, num7 + point.Z) == 0 && chunk.GetCellContentsFast(num5, num9, num7) != 0)
-							{
-								num9--;
-							}
-							if (chunk.GetCellContentsFast(num5 + point.X, num9, num7 + point.Z) != 0)
-							{
-								break;
-							}
-							num9++;
-							int value = Terrain.MakeBlockValue(197, 0, IvyBlock.SetFace(0, CellFace.OppositeFace(face)));
-							while (num9 >= 1 && chunk.GetCellContentsFast(num5 + point.X, num9, num7 + point.Z) == 0)
-							{
-								chunk.SetCellValueFast(num5 + point.X, num9, num7 + point.Z, value);
-								if (IvyBlock.IsGrowthStopCell(num5 + point.X, num9, num7 + point.Z))
+								int num8 = random.Int(0, 3);
+								for (int k = 0; k < 4; k++)
 								{
+									int face = (k + num8) % 4;
+									Point3 point = CellFace.FaceToPoint3(face);
+									if (chunk.GetCellContentsFast(num5 + point.X, num6, num7 + point.Z) != 0)
+									{
+										continue;
+									}
+									int num9 = num6 - 1;
+									while (num9 >= 1 && chunk.GetCellContentsFast(num5 + point.X, num9, num7 + point.Z) == 0 && chunk.GetCellContentsFast(num5, num9, num7) != 0)
+									{
+										num9--;
+									}
+									if (chunk.GetCellContentsFast(num5 + point.X, num9, num7 + point.Z) != 0)
+									{
+										break;
+									}
+									num9++;
+									int value = Terrain.MakeBlockValue(197, 0, IvyBlock.SetFace(0, CellFace.OppositeFace(face)));
+									while (num9 >= 1 && chunk.GetCellContentsFast(num5 + point.X, num9, num7 + point.Z) == 0)
+									{
+										chunk.SetCellValueFast(num5 + point.X, num9, num7 + point.Z, value);
+										if (IvyBlock.IsGrowthStopCell(num5 + point.X, num9, num7 + point.Z))
+										{
+											break;
+										}
+										num9--;
+									}
 									break;
 								}
-								num9--;
+								break;
 							}
-							break;
-						}
-						break;
-					}
 					}
 				}
 			}
 		}
 
-		private void GenerateTraps(TerrainChunk chunk)
+		public void GenerateTraps(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1788,13 +1799,13 @@ namespace Game
 					}
 					break;
 					continue;
-					end_IL_019b:
+				end_IL_019b:
 					break;
 				}
 			}
 		}
 
-		private void GenerateGraves(TerrainChunk chunk)
+		public void GenerateGraves(TerrainChunk chunk)
 		{
 			if (!TGExtras)
 			{
@@ -1982,13 +1993,13 @@ namespace Game
 							}
 						}
 						break;
-						IL_06ac:;
+					IL_06ac:;
 					}
 				}
 			}
 		}
 
-		private void GenerateSnowAndIce(TerrainChunk chunk)
+		public void GenerateSnowAndIce(TerrainChunk chunk)
 		{
 			for (int i = 0; i < 16; i++)
 			{
@@ -2043,7 +2054,7 @@ namespace Game
 			}
 		}
 
-		private void PropagateFluidsDownwards(TerrainChunk chunk)
+		public void PropagateFluidsDownwards(TerrainChunk chunk)
 		{
 			for (int i = 0; i < 16; i++)
 			{
@@ -2068,7 +2079,7 @@ namespace Game
 			}
 		}
 
-		private void UpdateFluidIsTop(TerrainChunk chunk)
+		public void UpdateFluidIsTop(TerrainChunk chunk)
 		{
 			for (int i = 0; i < 16; i++)
 			{
@@ -2094,7 +2105,7 @@ namespace Game
 			}
 		}
 
-		private static void CreateBrushes()
+		public static void CreateBrushes()
 		{
 			Random random = new Random(17);
 			for (int i = 0; i < 16; i++)

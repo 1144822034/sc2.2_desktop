@@ -39,11 +39,18 @@ namespace Game
 			while (enumerator.MoveNext())
 			{
 				XElement item = enumerator.Current;
+				string newDescription = LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, Index), "Description");
+				string newDisplayName = LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, Index), "DisplayName");
+				if (item.Attribute("DisplayName") != null && item.Attribute("Description") != null)
+				{
+					newDisplayName = XmlUtils.GetAttributeValue<string>(item, "DisplayName");
+					newDescription = XmlUtils.GetAttributeValue<string>(item, "Description");
+				}
 				ClothingData clothingData = new ClothingData
 				{
 					Index = XmlUtils.GetAttributeValue<int>(item, "Index"),
 					DisplayIndex = num++,
-					DisplayName = LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, Index), "DisplayName"),
+					DisplayName = newDisplayName,
 					Slot = XmlUtils.GetAttributeValue<ClothingSlot>(item, "Slot"),
 					ArmorProtection = XmlUtils.GetAttributeValue<float>(item, "ArmorProtection"),
 					Sturdiness = XmlUtils.GetAttributeValue<float>(item, "Sturdiness"),
@@ -57,7 +64,7 @@ namespace Game
 					PlayerLevelRequired = XmlUtils.GetAttributeValue<int>(item, "PlayerLevelRequired"),
 					Texture = ContentManager.Get<Texture2D>(XmlUtils.GetAttributeValue<string>(item, "TextureName")),
 					ImpactSoundsFolder = XmlUtils.GetAttributeValue<string>(item, "ImpactSoundsFolder"),
-					Description =LanguageControl.GetBlock(string.Format("{0}:{1}",GetType().Name,Index), "Description")
+					Description = newDescription
 				};
 				dictionary.Add(clothingData.Index, clothingData);
 			}
@@ -112,17 +119,22 @@ namespace Game
 			int data = Terrain.ExtractData(value);
 			ClothingData clothingData = GetClothingData(data);
 			int clothingColor = GetClothingColor(data);
+			string displayName = LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, data), "DisplayName");
+			if (string.IsNullOrEmpty(displayName)) displayName = clothingData.DisplayName;
 			if (clothingColor != 0)
 			{
-				return SubsystemPalette.GetName(subsystemTerrain, clothingColor, LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, data), "DisplayName"));
+				return SubsystemPalette.GetName(subsystemTerrain, clothingColor, displayName);
 			}
-			return LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name,data), "DisplayName");
+			return displayName;
 		}
 
 		public override string GetDescription(int value)
 		{
 			int data = Terrain.ExtractData(value);
-			return LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, data), "Description");
+			ClothingData clothingData = GetClothingData(data);
+			string desc = LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, data), "Description");
+			if (string.IsNullOrEmpty(desc)) desc = clothingData.Description;
+			return desc;
 		}
 
 		public override string GetCategory(int value)
@@ -131,7 +143,7 @@ namespace Game
 			{
 				return base.GetCategory(value);
 			}
-			return LanguageControl.Get("BlocksManager","Dyed");
+			return LanguageControl.Get("BlocksManager", "Dyed");
 		}
 
 		public override int GetDamage(int value)
@@ -216,7 +228,7 @@ namespace Game
 							RemainsCount = 1,
 							RemainsValue = BlocksManager.DamageItem(Terrain.MakeBlockValue(129, 0, color), damage2 + MathUtils.Max(block.Durability / 4, 1)),
 							RequiredHeatLevel = 1f,
-							Description = $"染色衣服 {SubsystemPalette.GetName(terrain, color, null)}",
+							Description = $"{LanguageControl.Get("BlocksManager", "Dyed")} {SubsystemPalette.GetName(terrain, color, null)}",
 							Ingredients = (string[])ingredients.Clone()
 						};
 					}
@@ -244,7 +256,7 @@ namespace Game
 							RemainsCount = 1,
 							RemainsValue = BlocksManager.DamageItem(Terrain.MakeBlockValue(128, 0, 0), damage4 + MathUtils.Max(block3.Durability / 4, 1)),
 							RequiredHeatLevel = 1f,
-							Description = "未染色的衣服",
+							Description = LanguageControl.Get("BlocksManager", "Not Dyed") + " " + LanguageControl.Get("BlocksManager", "Clothes"),
 							Ingredients = (string[])ingredients.Clone()
 						};
 					}

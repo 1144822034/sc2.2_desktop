@@ -47,7 +47,7 @@ namespace Game
 					RemainsCount = 1,
 					RemainsValue = Terrain.MakeBlockValue(90),
 					RequiredHeatLevel = 0f,
-					Description = "用铜、玻璃和颜料制作4-Led灯"
+					Description = LanguageControl.Get(GetType().Name,1)
 				};
 				craftingRecipe.Ingredients[0] = "glass";
 				craftingRecipe.Ingredients[1] = "glass";
@@ -75,8 +75,9 @@ namespace Game
 
 		public override string GetDisplayName(SubsystemTerrain subsystemTerrain, int value)
 		{
-			int color = GetColor(Terrain.ExtractData(value));
-			return LanguageControl.Get(GetType().Name, color) + " 4-LED";
+			int data = Terrain.ExtractData(value);
+			int color = GetColor(data);
+			return LanguageControl.Get("LedBlock", color) + LanguageControl.GetBlock(string.Format("{0}:{1}", GetType().Name, data.ToString()), "DisplayName");
 		}
 
 		public override IEnumerable<int> GetCreativeValues()

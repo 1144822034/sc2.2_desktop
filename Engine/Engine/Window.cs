@@ -6,6 +6,7 @@ using OpenTK.Graphics;
 using OpenTK.Graphics.ES20;
 using System;
 using System.Drawing;
+using System.Reflection;
 
 namespace Engine
 {
@@ -224,6 +225,7 @@ namespace Engine
 			};
 			GraphicsMode mode = new GraphicsMode(new OpenTK.Graphics.ColorFormat(24), 16, 0, 0, OpenTK.Graphics.ColorFormat.Empty, 2);
 			m_gameWindow = new GameWindow(400, 300, mode, title, GameWindowFlags.Default, DisplayDevice.Default, 2, 0, GraphicsContextFlags.Default);
+			m_gameWindow.Icon = new Icon(typeof(Window).GetTypeInfo().Assembly.GetManifestResourceStream("Engine.Resources.icon.ico"),new Size(32,32));
 			m_dpiScale = (float)m_gameWindow.ClientSize.Width / 400f;
 			width = ((width == 0) ? (ScreenSize.X * 3 / 4) : width);
 			height = ((height == 0) ? (ScreenSize.Y * 3 / 4) : height);

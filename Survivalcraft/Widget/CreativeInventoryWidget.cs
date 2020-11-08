@@ -78,18 +78,30 @@ namespace Game
 			}
 			m_categories.Add(new Category
 			{
-				Name = LanguageControl.Get(fName,1),
+				Name = LanguageControl.Get(fName, 1),
 				Panel = furnitureInventoryPanel
 			});
 			m_categories.Add(new Category
 			{
-				Name = LanguageControl.Get(fName,2),
+				Name = LanguageControl.Get(fName, 2),
 				Panel = creativeInventoryPanel
 			});
-			m_categories.First((Category c) => c.Name == LanguageControl.Get("BlocksManager","Electrics")).Color = new Color(128, 140, 255);
-			m_categories.First((Category c) => c.Name == LanguageControl.Get("BlocksManger", "Plants")).Color = new Color(64, 160, 64);
-			m_categories.First((Category c) => c.Name == LanguageControl.Get("BlocksManager", "Weapons")).Color = new Color(255, 128, 112);
-		}
+			for (int i = 0; i < m_categories.Count; i++)
+			{
+				if (m_categories[i].Name == LanguageControl.Get("BlocksManager", "Electrics"))
+				{
+					m_categories[i].Color = new Color(128, 140, 255);
+				}
+				if (m_categories[i].Name == LanguageControl.Get("BlocksManager", "Plants"))
+				{
+					m_categories[i].Color = new Color(64, 160, 64);
+				}
+				if (m_categories[i].Name == LanguageControl.Get("BlocksManager", "Weapons"))
+				{
+					m_categories[i].Color = new Color(255, 128, 112);
+				}
+			}		
+	}
 
 		public string GetCategoryName(int index)
 		{
@@ -117,7 +129,7 @@ namespace Game
 						Color = ((Category)c).Color,
 						HorizontalAlignment = WidgetAlignment.Center,
 						VerticalAlignment = WidgetAlignment.Center
-					}, delegate(object c)
+					}, delegate (object c)
 					{
 						if (c != null)
 						{

@@ -15,7 +15,7 @@ namespace Game
 			InitialNoIntro,
 			Respawn
 		}
-
+		public static string fName = "PlayerData";
 		public Project m_project;
 
 		public SubsystemTerrain m_subsystemTerrain;
@@ -41,7 +41,6 @@ namespace Game
 		public SpawnDialog m_spawnDialog;
 
 		public float m_progress;
-
 		public int PlayerIndex
 		{
 			get;
@@ -82,7 +81,7 @@ namespace Game
 					}
 					if (m_gameWidget == null)
 					{
-						throw new InvalidOperationException("没有对应的游戏玩家视图");
+						throw new InvalidOperationException(LanguageControl.Get(fName, 11));
 					}
 				}
 				return m_gameWidget;
@@ -145,7 +144,7 @@ namespace Game
 			{
 				if (SubsystemPlayers.PlayersData.Contains(this))
 				{
-					throw new InvalidOperationException("当玩家数据已经存在时不能改变玩家类");
+					throw new InvalidOperationException(LanguageControl.Get(fName, 1));
 				}
 				m_playerClass = value;
 			}
@@ -200,7 +199,7 @@ namespace Game
 			{
 				if (ComponentPlayer != null)
 				{
-					UpdateSpawnDialog($"生成{Name}的世界中...(等级 {MathUtils.Floor(Level)})", null, 0f, resetProgress: true);
+					UpdateSpawnDialog(string.Format(LanguageControl.Get(fName, 4), Name, MathUtils.Floor(Level)), null, 0f, resetProgress: true);
 					m_stateMachine.TransitionTo("WaitForTerrain");
 				}
 				else
@@ -247,11 +246,11 @@ namespace Game
 				}
 				if (m_spawnMode == SpawnMode.Respawn)
 				{
-					UpdateSpawnDialog($"{Name}重生中... (等级 {MathUtils.Floor(Level)})", "你的物品将会在你死亡后保留一段时间", 0f, resetProgress: true);
+					UpdateSpawnDialog(string.Format(LanguageControl.Get(fName, 2), Name, MathUtils.Floor(Level)), LanguageControl.Get(fName, 3), 0f, resetProgress: true);
 				}
 				else
 				{
-					UpdateSpawnDialog($"生成{Name}的世界中... (等级 {MathUtils.Floor(Level)})", null, 0f, resetProgress: true);
+					UpdateSpawnDialog(string.Format(LanguageControl.Get(fName, 4), Name, MathUtils.Floor(Level)), null, 0f, resetProgress: true);
 				}
 				m_subsystemTerrain.TerrainUpdater.SetUpdateLocation(PlayerIndex, SpawnPosition.XZ, 0f, 64f);
 				m_terrainWaitStartTime = Time.FrameStartTime;
@@ -275,7 +274,7 @@ namespace Game
 								SpawnPosition = FindNoIntroSpawnPosition(SpawnPosition, respawn: true);
 								break;
 							default:
-								throw new InvalidOperationException("Invalid spawn mode.");
+								throw new InvalidOperationException(LanguageControl.Get(fName, 5));
 						}
 						m_stateMachine.TransitionTo("WaitForTerrain");
 					}
@@ -328,20 +327,20 @@ namespace Game
 					string text = ComponentPlayer.ComponentHealth.CauseOfDeath;
 					if (string.IsNullOrEmpty(text))
 					{
-						text = "未知";
+						text = LanguageControl.Get(fName, 12);
 					}
-					string arg = $"死亡原因: {text}";
+					string arg = string.Format(LanguageControl.Get(fName, 13), text);
 					if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Cruel)
 					{
-						ComponentPlayer.ComponentGui.DisplayLargeMessage("你已死亡", $"{arg}\n\n不能在\"{m_subsystemGameInfo.WorldSettings.GameMode.ToString()}\"模式下重生", 30f, 1.5f);
+						ComponentPlayer.ComponentGui.DisplayLargeMessage(LanguageControl.Get(fName, 6), string.Format(LanguageControl.Get(fName, 7), arg, LanguageControl.Get("GameMode", m_subsystemGameInfo.WorldSettings.GameMode.ToString())), 30f, 1.5f);
 					}
 					else if (m_subsystemGameInfo.WorldSettings.GameMode == GameMode.Adventure && !m_subsystemGameInfo.WorldSettings.IsAdventureRespawnAllowed)
 					{
-						ComponentPlayer.ComponentGui.DisplayLargeMessage("你已死亡", $"{arg}\n\n点击重新开始冒险", 30f, 1.5f);
+						ComponentPlayer.ComponentGui.DisplayLargeMessage(LanguageControl.Get(fName, 6), string.Format(LanguageControl.Get(fName, 8), arg), 30f, 1.5f);
 					}
 					else
 					{
-						ComponentPlayer.ComponentGui.DisplayLargeMessage("你已死亡", $"{arg}\n\n点击重新开始", 30f, 1.5f);
+						ComponentPlayer.ComponentGui.DisplayLargeMessage(LanguageControl.Get(fName, 6), string.Format(LanguageControl.Get(fName, 9), arg), 30f, 1.5f);
 					}
 				}
 				Level = MathUtils.Max(MathUtils.Floor(Level / 2f), 1f);
@@ -446,7 +445,7 @@ namespace Game
 			{
 				if (ComponentPlayer != null)
 				{
-					throw new InvalidOperationException($"More than 1 player with PlayerIndex {PlayerIndex} added to world.");
+					throw new InvalidOperationException(string.Format(LanguageControl.Get(fName, 10), PlayerIndex));
 				}
 				ComponentPlayer = componentPlayer;
 				GameWidget.ActiveCamera = GameWidget.FindCamera<FppCamera>();

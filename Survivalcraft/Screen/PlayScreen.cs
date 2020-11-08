@@ -11,13 +11,14 @@ namespace Game
 	{
 		public ListPanelWidget m_worldsListWidget;
 		public static int MaxWorlds = 300;
+		public static string fName = "PlayScreen";
 		public PlayScreen()
 		{
 			XElement node = ContentManager.Get<XElement>("Screens/PlayScreen");
 			LoadContents(this, node);
 			m_worldsListWidget = Children.Find<ListPanelWidget>("WorldsList");
 			ListPanelWidget worldsListWidget = m_worldsListWidget;
-			worldsListWidget.ItemWidgetFactory = (Func<object, Widget>)Delegate.Combine(worldsListWidget.ItemWidgetFactory, (Func<object, Widget>)delegate(object item)
+			worldsListWidget.ItemWidgetFactory = (Func<object, Widget>)Delegate.Combine(worldsListWidget.ItemWidgetFactory, (Func<object, Widget>)delegate (object item)
 			{
 				WorldInfo worldInfo = (WorldInfo)item;
 				XElement node2 = ContentManager.Get<XElement>("Widgets/SavedWorldItem");
@@ -26,16 +27,20 @@ namespace Game
 				LabelWidget labelWidget2 = containerWidget.Children.Find<LabelWidget>("WorldItem.Details");
 				containerWidget.Tag = worldInfo;
 				labelWidget.Text = worldInfo.WorldSettings.Name;
-				labelWidget2.Text = string.Format("{0} | {1:dd MMM yyyy HH:mm} | {2} | {3} | {4}", DataSizeFormatter.Format(worldInfo.Size), worldInfo.LastSaveTime.ToLocalTime(), (worldInfo.PlayerInfos.Count > 1) ? $"{worldInfo.PlayerInfos.Count} players" : "1 player", worldInfo.WorldSettings.GameMode.ToString(), worldInfo.WorldSettings.EnvironmentBehaviorMode.ToString());
+				labelWidget2.Text = string.Format("{0} | {1:dd MMM yyyy HH:mm} | {2} | {3} | {4}", DataSizeFormatter.Format(worldInfo.Size),
+					worldInfo.LastSaveTime.ToLocalTime(),
+					(worldInfo.PlayerInfos.Count > 1) ? string.Format(LanguageControl.GetContentWidgets(fName, 9), worldInfo.PlayerInfos.Count) : string.Format(LanguageControl.GetContentWidgets(fName, 10), 1),
+					LanguageControl.Get("GameMode", worldInfo.WorldSettings.GameMode.ToString()),
+					LanguageControl.Get("EnvironmentBehaviorMode", worldInfo.WorldSettings.EnvironmentBehaviorMode.ToString()));
 				if (worldInfo.SerializationVersion != VersionsManager.SerializationVersion)
 				{
-					labelWidget2.Text = labelWidget2.Text + " | " + (string.IsNullOrEmpty(worldInfo.SerializationVersion) ? "未知" : ("(" + worldInfo.SerializationVersion + ")"));
+					labelWidget2.Text = labelWidget2.Text + " | " + (string.IsNullOrEmpty(worldInfo.SerializationVersion) ? LanguageControl.GetContentWidgets("Usual", "Unknown") : ("(" + worldInfo.SerializationVersion + ")"));
 				}
 				return containerWidget;
 			});
 			m_worldsListWidget.ScrollPosition = 0f;
 			m_worldsListWidget.ScrollSpeed = 0f;
-			m_worldsListWidget.ItemClicked += delegate(object item)
+			m_worldsListWidget.ItemClicked += delegate (object item)
 			{
 				if (item != null && m_worldsListWidget.SelectedItem == item)
 				{
@@ -46,7 +51,7 @@ namespace Game
 
 		public override void Enter(object[] parameters)
 		{
-			BusyDialog dialog = new BusyDialog("读取世界列表中...", null);
+			BusyDialog dialog = new BusyDialog(LanguageControl.GetContentWidgets(fName, 5), null);
 			DialogsManager.ShowDialog(null, dialog);
 			Task.Run(delegate
 			{
@@ -76,7 +81,7 @@ namespace Game
 			{
 				m_worldsListWidget.SelectedItem = null;
 			}
-			Children.Find<LabelWidget>("TopBar.Label").Text = $"存在的世界 ({m_worldsListWidget.Items.Count})";
+			Children.Find<LabelWidget>("TopBar.Label").Text = string.Format(LanguageControl.GetContentWidgets(fName, 6), m_worldsListWidget.Items.Count);
 			Children.Find("Play").IsEnabled = (m_worldsListWidget.SelectedItem != null);
 			Children.Find("Properties").IsEnabled = (m_worldsListWidget.SelectedItem != null);
 			if (Children.Find<ButtonWidget>("Play").IsClicked && m_worldsListWidget.SelectedItem != null)
@@ -87,7 +92,7 @@ namespace Game
 			{
 				if (WorldsManager.WorldInfos.Count >= MaxWorlds)
 				{
-					DialogsManager.ShowDialog(null, new MessageDialog("太多的世界了", $"这个设备最多只允许创建{MaxWorlds}个世界，请先删除一些世界", "确定", null, null));
+					DialogsManager.ShowDialog(null, new MessageDialog(LanguageControl.GetContentWidgets(fName, 7), string.Format(LanguageControl.GetContentWidgets(fName, 8), MaxWorlds), LanguageControl.GetContentWidgets("Usual", "ok"), null, null));
 				}
 				else
 				{
